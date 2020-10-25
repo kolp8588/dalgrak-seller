@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import PropTypes from "prop-types";
 import Profile from "./presenter";
 import ActionSheet from "react-native-actionsheet";
@@ -34,7 +34,7 @@ class Container extends Component {
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor:"blue" }}>
         <Profile
           {...this.props}
           {...this.state}

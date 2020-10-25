@@ -25,7 +25,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
         const iconName = {
           Home: "home",
-          Dalgrak: "play-circle",
+          Call: "play-circle-outline",
           Profile: "account-circle",
         };
         const isFocused = state.index === index;
@@ -38,8 +38,8 @@ function MyTabBar({ state, descriptors, navigation }) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            if (route.name === "Dalgrak") {
-              navigation.navigate("UploadDalgrak");
+            if (route.name === "Call") {
+              navigation.navigate("dalgrakCall");
             } else {
               navigation.setOptions({
                 title: label,
@@ -65,7 +65,6 @@ function MyTabBar({ state, descriptors, navigation }) {
               name={iconName[label]}
               size={30}
               color={isFocused ? COLORS.DALGRAK : "gray"}
-              borderRadius={10}
               style={{
                 marginVertical: 10,
               }}
@@ -81,7 +80,7 @@ function TabsNavigation({ navigation, route }) {
   return (
     <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeRoute} />
-      <Tab.Screen name="Dalgrak" component={View} />
+      <Tab.Screen name="Call" component={View} />
       <Tab.Screen name="Profile" component={ProfileRoute} />
     </Tab.Navigator>
   );

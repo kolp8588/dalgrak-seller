@@ -8,6 +8,7 @@ import { actionCreators as userActions } from "./user";
 const SET_CATEGORY = "SET_CATEGORY";
 const REFRESH_STATES = "REFRESH_STATES";
 const SET_FEED = "SET_FEED";
+const SET_BIDDINGS = "SET_BIDDINGS";
 
 // Action Creators
 
@@ -27,6 +28,13 @@ function setFeed(feed) {
   return {
     type: SET_FEED,
     feed,
+  };
+}
+
+function setBiddings(biddings) {
+  return {
+    type: SET_BIDDINGS,
+    biddings,
   };
 }
 
@@ -57,6 +65,59 @@ function getFeed() {
     }
   };
 }
+
+// API Actions
+async function getDalgrak(id) {
+  try {
+    const dalgrak = await secondaryApp
+      .firestore()
+      .collection("dalgraks")
+      .doc(id)
+      .get();
+    if (dalgrak != null) {
+      const item = dalgrak.data();
+      return item;
+    } else {
+      console.log("NO DATA");
+    }
+  } catch (error) {
+    console.error("ERROR : ", error.message);
+  }
+  return null;
+}
+
+// API Actions
+function getBiddings() {
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState();
+    try {
+      const result = [];
+      const collection = await secondaryApp
+        .firestore()
+        .collection("biddings")
+        .where("userId", "==", token)
+        .get();
+      if (!collection.empty) {
+        for (let bidding of collection.docs) {
+          const item = bidding.data();
+          item.id = bidding.id;
+          const dalgrak = await getDalgrak(item.dalgrakId);
+          item.dalgrak = dalgrak;
+
+          result.push(item);
+        }
+      } else {
+        console.log("No Biddings");
+      }
+      dispatch(setBiddings(result));
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+    }
+  };
+}
+
 function getCategories(parent) {
   return async (dispatch) => {
     if (parent.depth === 2 && parent.name !== "") {
@@ -96,28 +157,53 @@ function getCategories(parent) {
     }
   };
 }
-function submitDalgrak(dalgrak) {
+
+function submitBidding(bidding) {
   return async (dispatch, getState) => {
     const {
-      dalgraks: { category },
       user: { token },
     } = getState();
-    dalgrak.userId = token;
-    dalgrak.category = category.name;
-    dalgrak.imageUrl = category.imageUrl;
-    dalgrak.participants = 0;
-    const response = await firebase
+    bidding.userId = token;
+    const response = await secondaryApp
       .firestore()
-      .collection("dalgraks")
-      .add(dalgrak);
+      .collection("biddings")
+      .add(bidding);
     if (response) {
-      dispatch(getFeed());
+      dispatch(getBiddings());
       return true;
     } else {
       return false;
     }
   };
 }
+
+function submitBiddingImages(images) {
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState();
+    var isSuccess = true;
+    for (var i = 0; i < images.length; i++) {
+      var res = await fetch(images[i]);
+      var blob = await res.blob();
+
+      var image = images[i].split("/");
+      var imageName = image[image.length - 1];
+
+      const response = await secondaryApp
+        .storage()
+        .ref()
+        .child(`images/biddings/${token}/${imageName}`)
+        .put(blob);
+      if (!response) {
+        isSuccess = false;
+      }
+    }
+
+    return isSuccess;
+  };
+}
+
 // Initial State
 
 const initialState = {};
@@ -128,6 +214,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_FEED:
       return applySetFeed(state, action);
+    case SET_BIDDINGS:
+      return applySetBiddings(state, action);
     case SET_CATEGORY:
       return applySetCategory(state, action);
     case REFRESH_STATES:
@@ -143,6 +231,14 @@ function applySetFeed(state, action) {
   return {
     ...state,
     feed,
+  };
+}
+
+function applySetBiddings(state, action) {
+  const { biddings } = action;
+  return {
+    ...state,
+    biddings,
   };
 }
 
@@ -164,9 +260,11 @@ function applyRefreshStates(state) {
 
 const actionCreators = {
   getFeed,
+  getBiddings,
   getCategories,
   refreshStates,
-  submitDalgrak,
+  submitBidding,
+  submitBiddingImages,
 };
 
 export { actionCreators };

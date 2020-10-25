@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, Image, View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import FeedNavigation from "../navigation/FeedNavigation";
-import DalgrakScreen from "../screens/DalgrakScreen"
+
 import { COLORS } from "../constants";
 
 const Stack = createStackNavigator();
@@ -37,15 +37,6 @@ class HomeRoute extends Component {
                 />
               </TouchableWithoutFeedback>
             ),
-          }}
-        />
-        <Stack.Screen
-          name="dalgrak"
-          component={DalgrakScreen}
-          options={{
-            headerTitle: false,
-            headerBackTitleVisible: false,
-            headerTintColor: "black"
           }}
         />
       </Stack.Navigator>

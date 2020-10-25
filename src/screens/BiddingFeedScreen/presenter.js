@@ -8,10 +8,10 @@ import {
   RefreshControl,
   StyleSheet,
 } from "react-native";
-import Dalgrak from "../../components/Dalgrak";
+import Bidding from "../../components/Bidding";
 import { COLORS } from "../../constants";
 
-const FeedScreen = (props) => (
+const BiddingFeedScreen = (props) => (
   <ScrollView
     style={{ flex: 1, backgroundColor: "white" }}
     refreshControl={
@@ -22,11 +22,18 @@ const FeedScreen = (props) => (
       />
     }
   >
+    <StatusBar
+      translucent
+      animated={false}
+      hidden={false}
+      backgroundColor={COLORS.DALGRAK} //Android
+      barStyle="light-content" // IOS
+    />
     <View style={styles.container}>
-      {props.feed &&
-        props.feed.map((dalgrak, index) => {
-          dalgrak.idx = index;
-          return <Dalgrak {...dalgrak} key={dalgrak.id} />;
+      {props.biddings &&
+        props.biddings.map((bidding, index) => {
+          bidding.idx = index;
+          return <Bidding bidding={bidding} key={bidding.id} />;
         })}
     </View>
   </ScrollView>
@@ -41,10 +48,10 @@ const styles = StyleSheet.create({
   },
 });
 
-FeedScreen.propTypes = {
+BiddingFeedScreen.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
-  feed: PropTypes.array,
+  biddings: PropTypes.array,
 };
 
-export default FeedScreen;
+export default BiddingFeedScreen;

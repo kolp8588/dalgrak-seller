@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "dalgrak-seller",
+    "name": "달그락 for 판매자",
     "slug": "dalgrak-seller",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/farmer.png",
     "splash": {
       "image": "./assets/images/loading.png",
       "resizeMode": "contain",
@@ -13,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "androidStatusBar": {
       "backgroundColor": "#23344E",
       "barStyle": "light-content",
@@ -24,6 +26,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
