@@ -93,7 +93,7 @@ class Profile extends Component {
             marginVertical: 10,
           }}
         />
-          <Text>
+          <Text style={styles.headerText}>
             상품 간편 등록
           </Text>
           <Text>
@@ -106,7 +106,7 @@ class Profile extends Component {
             marginVertical: 10,
           }}
         />
-          <Text>
+          <Text style={styles.headerText}>
             구매자 리뷰
           </Text>          
         </View>
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   headerText: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    fontSize: FONTS.SIZE.H1,
+    marginBottom: 10,
   },
   name: {
     fontWeight: "600",
