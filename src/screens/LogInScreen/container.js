@@ -15,6 +15,7 @@ class Container extends Component {
   render() {
     return (
       <LogInScreen
+        navigation={this.props.navigation}
         {...this.state}
         changeUsername={this._changeUsername}
         changePassword={this._changePassword}
