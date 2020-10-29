@@ -15,7 +15,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../constants";
 const { width, height } = Dimensions.get("window");
 
-const LogInScreen = (props) => (
+const LogInScreen = (props) => (  
   <View style={styles.container}>
     <View style={styles.header}>
       <Image
@@ -50,6 +50,14 @@ const LogInScreen = (props) => (
           ) : (
             <Text style={styles.btnText}>Log In</Text>
           )}
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.touchable}
+        onPress={() => props.navigation.navigate("SignUp")}
+      >
+        <View style={styles.button}>
+          <Text style={styles.btnText}>Sign Up</Text>
         </View>
       </TouchableOpacity>
     </View>
