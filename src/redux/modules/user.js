@@ -63,6 +63,33 @@ function login(username, password) {
   };
 }
 
+function signUp(username, password) {
+  return async (dispatch) => {
+    try {
+      const response = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(username, password)
+      if (response && response.user) {
+        dispatch(setLogIn(response.user.uid));
+        dispatch(setUser(response.user));
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      let errorCode = error.code;
+      if (errorCode == 'auth/invalid-email') {
+        console.log("Email을 확인해 주세요")
+        Alert.alert("Email을 확인하세요.");
+      } else if (errorCode == 'auth/weak-password') {
+        console.log("비밀번호를 확인해 주세요(6자리 이상)")
+        Alert.alert("비밀번호를 확인하세요(6자리 이상");
+      }
+      return false;
+    }
+  };
+}
+
 function getNotifications() {
   return (dispatch, getState) => {
     const {
@@ -205,6 +232,7 @@ function applySetNotifications(state, action) {
 
 const actionCreators = {
   login,
+  signUp,
   logOut,
   getNotifications,
   getOwnProfile,
