@@ -90,6 +90,9 @@ function signUp(username, password) {
   };
 }
 
+function checkDup(username, password) {
+}
+
 function getNotifications() {
   return (dispatch, getState) => {
     const {

@@ -1,15 +1,16 @@
-import React from "react";
-import { AppLoading } from "expo";
-import { Asset } from "expo-asset";
-import * as Font from "expo-font";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import React from 'react';
+import { Image, Dimensions, View, StyleSheet } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import { Asset } from 'expo-asset';
 import { YellowBox } from "react-native";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";
 import configureStore from "./src/redux/configureStore";
 import AppContainer from "./src/components/AppContainer";
+import { COLORS } from "./src/constants"
 
 const { persistor, store } = configureStore();
+const { width, height } = Dimensions.get("window");
 
 YellowBox.ignoreWarnings([
   "Setting a timer",
@@ -18,21 +19,30 @@ YellowBox.ignoreWarnings([
   "Animated: `useNativeDriver`",
 ]);
 
-class App extends React.Component {
+
+export default class App extends React.Component {
   state = {
-    isLoadingComplete: false,
+    isReady: false,
   };
+
+  componentDidMount() {
+    SplashScreen.preventAutoHideAsync();
+  }
+
   render() {
-    const { isLoadingComplete } = this.state;
-    if (!isLoadingComplete) {
+    if (!this.state.isReady) {
       return (
-        <AppLoading
-          startAsync={this._loadAssetsAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
+        <View style={{ flex: 1, alignItems:"center", justifyContent: "center", backgroundColor: COLORS.DALGRAK }}>
+          <Image
+            source={require('./assets/images/Logo.gif')}
+            onLoad={this._cacheResourcesAsync}
+            resizeMode="stretch"
+            style={styles.logo}
+          />
+        </View>
       );
     }
+
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -41,27 +51,37 @@ class App extends React.Component {
       </Provider>
     );
   }
-  _loadAssetsAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([
-        require("./assets/images/logo.png"),
-        require("./assets/images/logo_login.png"),
-        require("./assets/images/loading.png"),
-      ]),
-      Font.loadAsync({
-        ...Ionicons.font,
-        ...MaterialIcons.font,
-      }),
-    ]);
+
+  _cacheSplashResourcesAsync = async () => {
+    const gif = require('./assets/images/Logo.gif');
+    return Asset.fromModule(gif).downloadAsync();
   };
-  _handleLoadingError = (error) => {
-    console.error(error);
-  };
-  _handleFinishLoading = async () => {
-    this.setState({
-      isLoadingComplete: true,
-    });
+
+  _cacheResourcesAsync = async () => {
+    SplashScreen.hideAsync();
+
+    try {
+      const images = [
+        require('./assets/images/farmer.png'),
+        require('./assets/images/loading.png'),
+      ];
+
+      const cacheImages = images.map(image => {
+        return Asset.fromModule(image).downloadAsync();
+      });
+
+      await Promise.all(cacheImages);
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      // this.setState({ isReady: true });
+      setTimeout(() => {this.setState({isReady: true})},2500);
+    }
   };
 }
-
-export default App;
+const styles = StyleSheet.create({
+logo: {
+    width: width,
+    resizeMode: "contain",
+  },
+})

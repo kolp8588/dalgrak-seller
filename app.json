@@ -5,11 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/farmer.png",
-    "splash": {
-      "image": "./assets/images/loading.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#23344E"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

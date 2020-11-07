@@ -26,7 +26,7 @@ const LogInScreen = (props) => (
     </View>
     <View style={styles.content}>
       <TextInput
-        placeholder="Email"
+        placeholder="이메일"
         style={styles.textInput}
         autoCapitalize={"none"}
         autoCorrect={false}
@@ -34,7 +34,7 @@ const LogInScreen = (props) => (
         onChangeText={props.changeUsername}
       />
       <TextInput
-        placeholder="Password"
+        placeholder="비밀번호"
         style={styles.textInput}
         autoCapitalize={"none"}
         secureTextEntry={true}
@@ -54,7 +54,7 @@ const LogInScreen = (props) => (
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.touchable}
-        onPress={() => props.navigation.navigate("SignUp")}
+        onPress={() => props.navigation.navigate("StoreInfo")}
       >
         <View style={styles.button}>
           <Text style={styles.btnText}>Sign Up</Text>

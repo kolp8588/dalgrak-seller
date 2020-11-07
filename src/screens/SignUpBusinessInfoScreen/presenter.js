@@ -14,72 +14,40 @@ import { ProgressBar } from 'react-native-paper';
 import { COLORS, FONTS } from "../../constants";
 const { width, height } = Dimensions.get("window");
 
-const SignUpScreen = (props) => (
+const SignUpBusinessInfoScreen = (props) => (
   <View style={styles.container}>
-    <ProgressBar progress={0.33} style={{height: 8}} color={COLORS.DALGRAK} />
-
+    <ProgressBar progress={0.66} style={{height: 8}} color={COLORS.DALGRAK} />
     <View style={styles.content}>
-    <View style={[styles.inputBox, {
-          borderColor: props.usernameErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+      <View style={[styles.inputBox, {
+            borderColor: props.businessIdErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
-        <TextInput
-          placeholder="아이디"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          autoCorrect={false}
-          value={props.username}
-          onChangeText={props.changeUsername}
-          maxLength={20}
-        />
+      <TextInput
+        placeholder="사업자번호"
+        style={styles.textInput}
+        autoCapitalize={"none"}
+        autoCorrect={false}
+        keyboardType='numeric'
+        maxLength={10}
+        value={props.businessId}
+        onChangeText={props.changeBusinessId}
+      />
+      {props.businessIdErrorMsg != "" && 
+        (<Text style={styles.errorText}>{props.businessIdErrorMsg}</Text>)}
       </View>
       <View style={[styles.inputBox, {
-          borderColor: props.emailErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+            borderColor: props.phoneNumberErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
-        <TextInput
-          placeholder="이메일"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          autoCorrect={false}
-          value={props.email}
-          onChangeText={props.changeEmail}
-          maxLength={30}
-        />
-        {props.emailErrorMsg != "" && 
-        (<Text style={styles.errorText}>{props.emailErrorMsg}</Text>)}
-      </View>
-      <View style={[styles.inputBox, {
-          borderColor: props.passwordErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
-        }]}>
-        <TextInput
-          placeholder="비밀번호"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          secureTextEntry={true}
-          value={props.password}
-          onChangeText={props.changePassword}
-          returnKeyType={"send"}
-          onSubmitEditing={props.submit}
-          maxLength={16}
-        />
-        {props.passwordErrorMsg != "" && 
-        (<Text style={styles.errorText}>{props.passwordErrorMsg}</Text>)}
-      </View>
-      <View style={[styles.inputBox, {
-          borderColor: props.passwordCheckErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
-        }]}>
-        <TextInput
-          placeholder="비밀번호 확인"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          secureTextEntry={true}
-          value={props.passwordCheck}
-          onChangeText={props.changePasswordCheck}
-          returnKeyType={"send"}
-          onSubmitEditing={props.submit}
-          maxLength={16}
-        />
-        {props.passwordCheckErrorMsg != "" && 
-          (<Text style={styles.errorText}>{props.passwordCheckErrorMsg}</Text>)}
+      <TextInput
+        placeholder="사업자 핸드폰"
+        style={styles.textInput}
+        keyboardType='numeric'
+        maxLength={11}
+        autoCapitalize={"none"}
+        value={props.phoneNumber}
+        onChangeText={props.changePhoneNumber}
+      />
+      {props.phoneNumberErrorMsg != "" && 
+        (<Text style={styles.errorText}>{props.phoneNumberErrorMsg}</Text>)}
       </View>
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity style={styles.touchable} onPressOut={props.goBack}>
@@ -99,21 +67,17 @@ const SignUpScreen = (props) => (
             }]}>
               <Text style={styles.btnText}>다음</Text>
           </View>
-        </TouchableOpacity>      
-      </View>
+        </TouchableOpacity>     
+      </View> 
     </View>
   </View>
 );
 
-SignUpScreen.propTypes = {
-  username: PropTypes.string.isRequired,
-  usernameErrorMsg: PropTypes.string,
-  email: PropTypes.string.isRequired,
-  emailErrorMsg: PropTypes.string,
-  password: PropTypes.string.isRequired,
-  passwordErrorMsg: PropTypes.string,
-  passwordCheck: PropTypes.string.isRequired,
-  passwordCheckErrorMsg: PropTypes.string,
+SignUpBusinessInfoScreen.propTypes = {
+  businessId: PropTypes.string.isRequired,
+  businessIdErrorMsg: PropTypes.string,
+  phoneNumber: PropTypes.string.isRequired,
+  phoneNumberErrorMsg: PropTypes.string,
   isComplete: PropTypes.bool.isRequired,
   goBack: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
@@ -192,4 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default SignUpBusinessInfoScreen;
