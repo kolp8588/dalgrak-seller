@@ -32,7 +32,6 @@ class Container extends Component {
     );
   }
   componentDidUpdate = () => {
-    console.log(this.props)
     const { 
       username, 
       usernameErrorMsg,
