@@ -18,7 +18,6 @@ class Container extends Component {
   };
 
   componentDidUpdate = () => {
-    console.log("HELLO")
     const { 
       businessId, 
       businessIdErrorMsg,
@@ -83,8 +82,8 @@ class Container extends Component {
           phoneNumber: phoneNumber,
         }
         this.props.navigation.navigate("StoreInfo", {
-          userInfo: this.props.userInfo,
-          businessInfo: this.props.businessInfo,
+          userInfo: this.props.route.params.userInfo,
+          businessInfo: businessInfo,
         })
       } else {
         Alert.alert("필수 정보를 입력해주세요.");
