@@ -22,7 +22,7 @@
     "expo-image-picker": "~8.3.0",
     "expo-image-picker-multiple": "^1.2.3",
     "expo-media-library": "^9.2.1",
-    "expo-permissions": "^9.3.0",
+    "expo-permissions": "~9.0.1",
     "expo-screen-orientation": "^2.0.0",
     "expo-splash-screen": "^0.5.0",
     "expo-status-bar": "^1.0.2",
@@ -53,7 +53,9 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-persist": "^5.4.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "expo-constants": "~9.1.1",
+    "expo-notifications": "~0.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
