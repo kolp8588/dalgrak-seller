@@ -9,6 +9,7 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
+import PropTypes from "prop-types";
 import { ProgressBar } from 'react-native-paper';
 import Postcode from 'react-native-daum-postcode';
 
@@ -41,40 +42,69 @@ const SignUpStoreInfoScreen = (props) => (
     </Modal>
     <ProgressBar progress={1} style={{height: 8}} color={COLORS.DALGRAK} />
     <View style={styles.content}>
-      <TextInput
-        placeholder="상호명"
-        style={styles.textInput}
-        autoCapitalize={"none"}
-        autoCorrect={false}
-        value={props.username}
-        onChangeText={props.changeUsername}
-      />
-      <TextInput
-        placeholder="상점 전화번호"
-        style={styles.textInput}
-        autoCapitalize={"none"}
-        autoCorrect={false}
-        value={props.username}
-        onChangeText={props.changeUsername}
-      />
-      <TextInput
-        placeholder="Password Check"
-        style={styles.textInput}
-        autoCapitalize={"none"}
-        secureTextEntry={true}
-        value={props.passwordCheck}
-        onChangeText={props.changePasswordCheck}
-        returnKeyType={"send"}
-        onSubmitEditing={props.submit}
-      />
-      <TouchableOpacity style={styles.touchable} 
-        onPress={() => {
-            props.onChangeModalVisibility(true);
-        }}>
-        <View style={styles.button}>
-          <Text style={styles.btnText}>주소</Text>
+      <View style={[styles.inputBox, {
+            borderColor: props.storeNameErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+        }]}>
+        <TextInput
+          placeholder="상호명"
+          style={styles.textInput}
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          value={props.storeName}
+          onChangeText={props.changeStoreName}
+        />
+        {props.storeNameErrorMsg != "" && 
+          (<Text style={styles.errorText}>{props.storeNameErrorMsg}</Text>)}
+      </View>
+      <View style={[styles.inputBox, {
+            borderColor: props.phoneNumberErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+        }]}>
+        <TextInput
+          placeholder="상점 전화번호"
+          style={styles.textInput}
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          value={props.phoneNumber}
+          onChangeText={props.changePhoneNumber}
+        />
+        {props.phoneNumberErrorMsg != "" && 
+            (<Text style={styles.errorText}>{props.phoneNumberErrorMsg}</Text>)}
+      </View>
+      <View style={{flexDirection: "row", flex: 1}}>
+        <View style={[styles.inputBox, {
+              borderColor: props.addressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR,
+              marginRight: 10
+          }]}>
+          <TextInput
+              placeholder="주소"
+              style={[styles.textInput, {width: width - 150}]}
+              value={props.address}
+              editable={false}
+            />
+          {props.addressErrorMsg != "" && 
+            (<Text style={styles.errorText}>{props.addressErrorMsg}</Text>)}
         </View>
+        <TouchableOpacity style={{width: 100}} 
+          onPress={() => {
+              props.onChangeModalVisibility(true);
+          }}>
+            <View style={styles.button}>
+              <Text style={styles.btnText}>검색</Text>
+            </View>
         </TouchableOpacity>     
+      </View>
+      <View style={[styles.inputBox, {
+              borderColor: props.detailAddressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+          }]}>
+          <TextInput
+              placeholder="상세주소"
+              style={styles.textInput}
+              value={props.detailAddress}
+              onChangeText={props.changeDetailAddress}
+            />
+          {props.detailAddressErrorMsg != "" && 
+            (<Text style={styles.errorText}>{props.detailAddressErrorMsg}</Text>)}
+        </View>
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity style={styles.touchable} onPressOut={props.goBack}>
           <View style={styles.button}>
@@ -82,8 +112,15 @@ const SignUpStoreInfoScreen = (props) => (
           </View>
         </TouchableOpacity>      
 
-        <TouchableOpacity style={styles.touchable} onPressOut={props.submit}>
-        <View style={styles.button}>
+        <TouchableOpacity style={styles.touchable} 
+          onPressOut={props.submit}
+          disabled={!props.isComplete}>
+        <View style={[styles.button, {
+              backgroundColor:
+                props.isComplete
+                  ? COLORS.DALGRAK
+                  : COLORS.MINOR,
+            }]}>
           {props.isSubmitting ? (
             <ActivityIndicator size="small" color="white" />
           ) : (
@@ -97,7 +134,21 @@ const SignUpStoreInfoScreen = (props) => (
   </View>
 );
 
-SignUpStoreInfoScreen.propTypes = {};
+SignUpStoreInfoScreen.propTypes = {
+  storeName: PropTypes.string.isRequired,
+  storeNameErrorMsg: PropTypes.string,
+  phoneNumber: PropTypes.string.isRequired,
+  phoneNumberErrorMsg: PropTypes.string,
+  address: PropTypes.string.isRequired,
+  addressErrorMsg: PropTypes.string,
+  detailAddress: PropTypes.string.isRequired,
+  detailAddressErrorMsg: PropTypes.string,
+  isComplete: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  isModalVisible: PropTypes.bool.isRequired,
+  goBack: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -169,13 +220,12 @@ const styles = StyleSheet.create({
     height: 50,
     width: width - 40,
     paddingHorizontal: 15,
-    backgroundColor: "#FAFAFA",
-    fontSize: 14,
+    fontSize: FONTS.SIZE.CONTENTS,
   },
   touchable: {
     borderRadius: 5,
     backgroundColor: "#3E99EE",
-    width: width / 2 - 40,
+    width: width / 2 - 30,
     marginHorizontal: 10,
     marginTop: 25,
   },
