@@ -68,6 +68,7 @@ export default class App extends React.Component {
         return;
       }
       const token = (await Notifications.getExpoPushTokenAsync()).data;
+      
       console.log(token);
       this.setState({ expoPushToken: token });
     } else {
