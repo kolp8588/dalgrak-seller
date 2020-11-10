@@ -27,12 +27,15 @@ class Container extends Component {
       phoneNumberErrorMsg,
       address, 
       addressErrorMsg,
+      detailAddress, 
+      detailAddressErrorMsg,
       isComplete,
     } = this.state;
 
     let newStatus = false
-    if (storeName && phoneNumber 
-      && storeNameErrorMsg == "" && phoneNumberErrorMsg == "" && addressErrorMsg == "") {
+    if (storeName && phoneNumber && address && detailAddress
+      && storeNameErrorMsg == "" && phoneNumberErrorMsg == "" 
+      && addressErrorMsg == "" && detailAddressErrorMsg == "") {
       newStatus = true
     }
     if (isComplete != newStatus) {
@@ -67,9 +70,9 @@ class Container extends Component {
       phoneNumberErrorMsg: error,
     });
   };
-  _selectAddress = (text) => {
+  _selectAddress = (result) => {
     this.setState({
-      address: text,
+      address: result.address,
       isModalVisible: false,
     });
   };
@@ -98,13 +101,18 @@ class Container extends Component {
         this.setState({
           isSubmitting: true,
         });
-        const result = await signUp(userInfo, businessInfo, storeInfo);
+        const request = {
+          userInfo: userInfo,
+          businessInfo: businessInfo,
+          storeInfo: storeInfo
+        }
+        const result = await signUp(request);
         if (!result) {
           console.log(result)
           this.setState({ isSubmitting: false });
         } else {
-          Alert.alert("달그락 입점을 축하드립니다. 로그인해 주세요.");
-          console.log("달그락 입점을 축하드립니다. 로그인해 주세요.");
+          Alert.alert("달그락 입점을 축하드립니다!");
+          console.log("달그락 입점을 축하드립니다!");
           this.props.navigation.navigate("LogIn");
         }
       } 

@@ -12,6 +12,7 @@ import {
 import PropTypes from "prop-types";
 import { ProgressBar } from 'react-native-paper';
 import Postcode from 'react-native-daum-postcode';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { COLORS, FONTS } from "../../constants";
 const { width, height } = Dimensions.get("window");
@@ -27,7 +28,7 @@ const SignUpStoreInfoScreen = (props) => (
         <View style={styles.modalView}>
           <Postcode
             jsOptions={{ animated: true }}
-            onSelected={(data) => props.selectAddress(JSON.stringify(data))}
+            onSelected={(data) => props.selectAddress(data)}
           />
           <TouchableOpacity style={{margin: 10 }} 
             onPress={() => {
@@ -65,33 +66,36 @@ const SignUpStoreInfoScreen = (props) => (
           autoCapitalize={"none"}
           autoCorrect={false}
           value={props.phoneNumber}
+          maxLength={11}
           onChangeText={props.changePhoneNumber}
         />
         {props.phoneNumberErrorMsg != "" && 
             (<Text style={styles.errorText}>{props.phoneNumberErrorMsg}</Text>)}
       </View>
-      <View style={{flexDirection: "row", flex: 1}}>
-        <View style={[styles.inputBox, {
-              borderColor: props.addressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR,
-              marginRight: 10
-          }]}>
+      
+      <View style={[styles.inputBox, {
+        borderColor: props.addressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR,
+        }]}>
+        <View style={{flexDirection: "row"}}>
           <TextInput
               placeholder="주소"
-              style={[styles.textInput, {width: width - 150}]}
+              style={[styles.textInput, {width : width - 80, paddingLeft: 15}]}
               value={props.address}
               editable={false}
             />
-          {props.addressErrorMsg != "" && 
-            (<Text style={styles.errorText}>{props.addressErrorMsg}</Text>)}
+          <TouchableOpacity style={{width: 40, justifyContent: "center", alignItems: "center"}} 
+            onPress={() => {
+                props.onChangeModalVisibility(true);
+            }}>
+              <MaterialCommunityIcons
+                  name={"map-search-outline"}
+                  size={30}
+                  style={{ color: COLORS.DALGRAK }}
+                />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{width: 100}} 
-          onPress={() => {
-              props.onChangeModalVisibility(true);
-          }}>
-            <View style={styles.button}>
-              <Text style={styles.btnText}>검색</Text>
-            </View>
-        </TouchableOpacity>     
+        {props.addressErrorMsg != "" && 
+          (<Text style={styles.errorText}>{props.addressErrorMsg}</Text>)}
       </View>
       <View style={[styles.inputBox, {
               borderColor: props.detailAddressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR

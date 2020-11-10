@@ -37,7 +37,7 @@ class Profile extends Component {
             />
           </TouchableOpacity>
           <Text>
-            돌깡패
+            {this.props.username}
           </Text>
           </View>
           <View style={styles.headerColumn}>

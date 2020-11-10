@@ -63,10 +63,10 @@ export default class App extends React.Component {
         const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
         finalStatus = status;
       }
-      // if (finalStatus !== 'granted') {
-      //   alert('Failed to get push token for push notification!');
-      //   return;
-      // }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
       const token = (await Notifications.getExpoPushTokenAsync()).data;
       console.log(token);
       this.setState({ expoPushToken: token });

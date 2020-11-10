@@ -18,6 +18,8 @@ class Container extends Component {
     isFetching: true,
   };
   componentDidMount = () => {
+    console.log("HELLO")
+    console.log(this.props)
     const { profileObject } = this.props;
     if (profileObject) {
       this.setState({

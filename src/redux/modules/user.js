@@ -1,8 +1,10 @@
 // Imports
 
+import { sellerApp, secondaryApp } from "../../firebase";
+import firebase from "firebase";
+
 import { Alert, AsyncStorage } from "react-native";
 import { Permissions, Notifications } from "expo";
-import firebase from "firebase";
 
 // Actions
 
@@ -43,39 +45,46 @@ function setNotifications(notifications) {
 function login(username, password) {
   return async (dispatch) => {
     try {
-      const response = await firebase
+      const response = await sellerApp
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(function () {
-          return firebase.auth().signInWithEmailAndPassword(username, password);
+          return sellerApp.auth().signInWithEmailAndPassword(username, password);
         });
       if (response && response.user) {
-        dispatch(setLogIn(response.user.uid));
-        dispatch(setUser(response.user));
-        return true;
-      } else {
-        return false;
+        const profile = await getProfile(response.user.uid)
+        if (profile != null) {
+          response.user.profile = profile;
+          dispatch(setLogIn(response.user.uid));
+          dispatch(setUser(response.user));
+          return true;
+        }
       }
     } catch (error) {
       console.log(error.message);
-      return false;
     }
+    return false;
   };
 }
 
-function signUp(userInfo, businessInfo, storeInfo) {
+function signUp(request) {
+  const {userInfo, businessInfo, storeInfo} = request
+  console.log(userInfo)
   return async (dispatch) => {
     try {
-      const response = await firebase
+      const response = await sellerApp
         .auth()
         .createUserWithEmailAndPassword(userInfo.email, userInfo.password)
       if (response && response.user) {
-        dispatch(setLogIn(response.user.uid));
-        dispatch(setUser(response.user));
-        return true;
-      } else {
-        return false;
-      }
+        request.userId = response.user.uid;
+        delete request.userInfo.password;
+        if (addProfile(request)) {
+          response.user.profile = request;
+          dispatch(setLogIn(response.user.uid));
+          dispatch(setUser(response.user));
+          return true;
+        }
+      } 
     } catch (error) {
       let errorCode = error.code;
       if (errorCode == 'auth/invalid-email') {
@@ -88,9 +97,50 @@ function signUp(userInfo, businessInfo, storeInfo) {
         Alert.alert("에러가 발생했습니다. 다시 시도해 주세요.");
         console.log(error)
       }
+    }
+    return false;
+  };
+}
+// API Actions
+async function addProfile(request) {
+  try {
+    const response = await sellerApp
+      .firestore()
+      .collection("users")
+      .add(request);
+    if (response) {
+      return true;
+    } else {
       return false;
     }
-  };
+  } catch (error) {
+    console.error("ERROR : ", error.message);
+  }
+  return false;
+}
+
+async function getProfile(userId) {
+  try {
+    console.log(userId)
+    const collection = await sellerApp
+      .firestore()
+      .collection("users")
+      .where("userId", "==", userId)
+      .get();
+    if (collection != null) {
+      for (let profile of collection.docs) {
+        const item = profile.data();
+        item.id = profile.id;
+        return item
+      }
+    } else {
+      console.log("NO DATA");
+      return null;
+    }
+  } catch (error) {
+    console.error("ERROR : ", error.message);
+  }
+  return null;
 }
 
 function checkDup(username, password) {
@@ -118,26 +168,21 @@ function getNotifications() {
 }
 
 function getOwnProfile() {
-  return (dispatch, getState) => {
-    const {
-      user: {
-        token,
-        profile: { username },
-      },
-    } = getState();
-    fetch(`${API_URL}/users/${username}/`, {
-      headers: {
-        Authorization: `JWT ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 401) {
-          dispatch(logOut());
-        } else {
-          return response.json();
-        }
-      })
-      .then((json) => dispatch(setUser(json)));
+  return async (dispatch) => {
+    try {
+      const profile = await getProfile(response.user.uid)
+      if (profile != null) {
+        console.log("PROFILE : ")
+        console.log(profile)
+        response.user.profile = profile;
+        dispatch(setLogIn(response.user.uid));
+        dispatch(setUser(response.user));
+        return true;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    return false;
   };
 }
 
