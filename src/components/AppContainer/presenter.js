@@ -14,12 +14,12 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { isLoggedIn, profile } = this.props;
+    const { isLoggedIn, user } = this.props;
     return (
       <Fragment>
         <View style={styles.container}>
-          {isLoggedIn && profile ? (
-            <RootNavigation screenProps={{ username: profile.username }} />
+          {isLoggedIn && user ? (
+            <RootNavigation screenProps={{ username: user.username }} />
           ) : (
             <LoggedOutNavigation />
           )}
