@@ -17,6 +17,8 @@ import { COLORS, FONTS} from "../../constants"
 const width = Dimensions.get("window").width;
 class Profile extends Component {
   render() {
+    console.log("Refresh?")
+    console.log(this.props)
     return (
       <View style={styles.container}>
         <ScrollView
@@ -24,6 +26,8 @@ class Profile extends Component {
         <RefreshControl
           tintColor={"black"}
           titleColor={"black"}
+          refreshing={this.props.isFetching}
+          onRefresh={this.props.refresh}
         />
       }
     >
@@ -37,7 +41,7 @@ class Profile extends Component {
             />
           </TouchableOpacity>
           <Text>
-            {this.props.username}
+            {this.props.profile.userInfo.username}
           </Text>
           </View>
           <View style={styles.headerColumn}>
