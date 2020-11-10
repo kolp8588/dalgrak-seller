@@ -11,6 +11,7 @@ import { Permissions, Notifications } from "expo";
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 const SET_USER = "SET_USER";
+const SET_PROFILE = "SET_PROFILE";
 const SET_NOTIFICATIONS = "SET_NOTIFICATIONS";
 
 // Action Creators
@@ -26,6 +27,13 @@ function setUser(user) {
   return {
     type: SET_USER,
     user,
+  };
+}
+
+function setProfile(profile) {
+  return {
+    type: SET_PROFILE,
+    profile,
   };
 }
 
@@ -54,9 +62,9 @@ function login(username, password) {
       if (response && response.user) {
         const profile = await getProfile(response.user.uid)
         if (profile != null) {
-          response.user.profile = profile;
           dispatch(setLogIn(response.user.uid));
           dispatch(setUser(response.user));
+          dispatch(setProfile(profile));
           return true;
         }
       }
@@ -69,7 +77,6 @@ function login(username, password) {
 
 function signUp(request) {
   const {userInfo, businessInfo, storeInfo} = request
-  console.log(userInfo)
   return async (dispatch) => {
     try {
       const response = await sellerApp
@@ -78,10 +85,11 @@ function signUp(request) {
       if (response && response.user) {
         request.userId = response.user.uid;
         delete request.userInfo.password;
+        
         if (addProfile(request)) {
-          response.user.profile = request;
           dispatch(setLogIn(response.user.uid));
           dispatch(setUser(response.user));
+          dispatch(setProfile(request));
           return true;
         }
       } 
@@ -121,14 +129,13 @@ async function addProfile(request) {
 
 async function getProfile(userId) {
   try {
-    console.log(userId)
     const collection = await sellerApp
       .firestore()
       .collection("users")
       .where("userId", "==", userId)
       .get();
     if (collection != null) {
-      for (let profile of collection.docs) {
+      for (let profile of collection.docs) {        
         const item = profile.data();
         item.id = profile.id;
         return item
@@ -172,11 +179,7 @@ function getOwnProfile() {
     try {
       const profile = await getProfile(response.user.uid)
       if (profile != null) {
-        console.log("PROFILE : ")
-        console.log(profile)
-        response.user.profile = profile;
-        dispatch(setLogIn(response.user.uid));
-        dispatch(setUser(response.user));
+        dispatch(setProfile(profile));
         return true;
       }
     } catch (error) {
@@ -236,6 +239,8 @@ function reducer(state = initialState, action) {
       return applyLogOut(state, action);
     case SET_USER:
       return applySetUser(state, action);
+    case SET_PROFILE:
+      return applySetProfile(state, action);
     case SET_NOTIFICATIONS:
       return applySetNotifications(state, action);
     default:
@@ -267,7 +272,15 @@ function applySetUser(state, action) {
   const { user } = action;
   return {
     ...state,
-    profile: user,
+    user: user,
+  };
+}
+
+function applySetProfile(state, action) {
+  const { profile } = action;
+  return {
+    ...state,
+    profile: profile,
   };
 }
 
