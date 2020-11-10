@@ -10,7 +10,7 @@ const DESTRUCTIVE_INDEX = 1;
 
 class Container extends Component {
   static propTypes = {
-    profileObject: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
     logOut: PropTypes.func.isRequired,
   };
@@ -18,17 +18,15 @@ class Container extends Component {
     isFetching: true,
   };
   componentDidMount = () => {
-    console.log("HELLO")
-    console.log(this.props)
-    const { profileObject } = this.props;
-    if (profileObject) {
+    const { profile, user } = this.props;
+    if (profile && user) {
       this.setState({
         isFetching: false,
       });
     }
   };
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.profileObject) {
+    if (nextProps.profile) {
       this.setState({
         isFetching: false,
       });
