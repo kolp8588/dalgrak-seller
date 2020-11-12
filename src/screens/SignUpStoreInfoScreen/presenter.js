@@ -65,6 +65,7 @@ const SignUpStoreInfoScreen = (props) => (
           style={styles.textInput}
           autoCapitalize={"none"}
           autoCorrect={false}
+          keyboardType='numeric'
           value={props.phoneNumber}
           maxLength={11}
           onChangeText={props.changePhoneNumber}

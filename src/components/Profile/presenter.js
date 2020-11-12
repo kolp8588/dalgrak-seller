@@ -17,8 +17,6 @@ import { COLORS, FONTS} from "../../constants"
 const width = Dimensions.get("window").width;
 class Profile extends Component {
   render() {
-    console.log("Refresh?")
-    console.log(this.props)
     return (
       <View style={styles.container}>
         <ScrollView
@@ -114,6 +112,9 @@ class Profile extends Component {
             구매자 리뷰
           </Text>          
         </View>
+        <TouchableOpacity onPressOut={this.props.push}>
+            <Text>Push</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );

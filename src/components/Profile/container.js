@@ -38,6 +38,7 @@ class Container extends Component {
         <Profile
           {...this.props}
           {...this.state}
+          push={this._push}
           showAS={this._showActionSheet}
         />
         <ActionSheet
@@ -59,6 +60,21 @@ class Container extends Component {
       logOut();
     }
   };
+  _push = () => {
+    let response = fetch(`https://exp.host/--/api/v2/push/send`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to:'ExponentPushToken[iy9JdiG4gSubCuy8si6F2P]',
+        sound: 'default',
+        title: 'Test',
+        body: 'Test Notification',
+      }),
+    });
+  }
 }
 
 export default Container;

@@ -108,7 +108,6 @@ class Container extends Component {
         }
         const result = await signUp(request);
         if (!result) {
-          console.log(result)
           this.setState({ isSubmitting: false });
         } else {
           Alert.alert("달그락 입점을 축하드립니다!");
