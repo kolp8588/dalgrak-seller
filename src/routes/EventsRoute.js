@@ -1,11 +1,22 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { COLORS } from "../constants"
+import EventsScreen from "../screens/EventsScreen";
 
+const Stack = createStackNavigator();
 function EventsRoute() {
   return (
-    <View>
-      <Text>HELLO EVENTS ROUTE</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Events"
+        component={EventsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.DALGRAK,
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 

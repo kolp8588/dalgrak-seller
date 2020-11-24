@@ -82,9 +82,28 @@ class Profile extends Component {
             marginVertical: 10,
           }}
         />
-          <Text style={styles.headerText}>
-            관심 카테고리
-          </Text>
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+            <Text style={styles.headerText}>
+              관심 카테고리
+            </Text>
+            <TouchableOpacity
+              onPress={() => this.props.pickCategory()}
+              >
+              <View
+                style={[
+                  styles.button,
+                  { backgroundColor: "white" },
+                  { marginHorizontal: 10 },
+                  { borderColor: "black" },
+                  { borderWidth: StyleSheet.hairlineWidth}
+                ]}
+              >
+                <Text style={[styles.text, { color: "black" }]}>
+                  등록
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
           <Text>
             관심 카테고리를 등록하시면 신규 입찰 등록시 알림을 받을 수 있습니다.
           </Text>

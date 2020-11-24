@@ -11,8 +11,27 @@ class Container extends Component {
 
   render() {
     const { user, profile, getOwnProfile } = this.props;
-    return <Profile user={user} profile={profile} refresh={getOwnProfile} />;
+    return <Profile user={user} profile={profile} 
+    refresh={getOwnProfile} pickCategory={this._pickCategory} />;
   }
+
+  _pickCategory = async () => {
+    const parent = {
+      depth: -1,
+      name: "root",
+    };
+    const { getCategories } = this.props;
+    const result = await getCategories(parent);
+    if (result !== null) {
+      const {
+        navigation: { navigate },
+      } = this.props;
+
+      this.props.navigation.navigate("Category", {
+        categories: result,
+      });
+    }
+  };
 }
 
 export default Container;

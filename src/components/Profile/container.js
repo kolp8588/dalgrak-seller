@@ -51,6 +51,7 @@ class Container extends Component {
       </View>
     );
   }
+  
   _showActionSheet = () => {
     this.actionSheet.show();
   };
@@ -60,7 +61,7 @@ class Container extends Component {
       logOut();
     }
   };
-  _push = () => {
+  _push = (title, body) => {
     let response = fetch(`https://exp.host/--/api/v2/push/send`, {
       method: 'POST',
       headers: {
@@ -70,8 +71,8 @@ class Container extends Component {
       body: JSON.stringify({
         to:'ExponentPushToken[iy9JdiG4gSubCuy8si6F2P]',
         sound: 'default',
-        title: 'Test',
-        body: 'Test Notification',
+        title: title,
+        body: body,
       }),
     });
   }

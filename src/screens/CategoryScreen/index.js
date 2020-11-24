@@ -1,24 +1,23 @@
 import { connect } from "react-redux";
-import { actionCreators as userActions } from "../../redux/modules/user";
+import Container from "./container";
 import { actionCreators as dalgrakActions } from "../../redux/modules/dalgrak";
 
-import Container from "./container";
-
 const mapStateToProps = (state, ownProps) => {
-  const { user } = state;
+  const {
+    dalgraks: { category },
+  } = state;
+
   return {
-    user: user.user,
-    profile: user.profile,
+    category,
   };
 };
-
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getOwnProfile: () => {
-      dispatch(userActions.getOwnProfile());
-    },
     getCategories: (parent) => {
       return dispatch(dalgrakActions.getCategories(parent));
+    },
+    addCategory: (categoty) => {
+      return dispatch(dalgrakActions.addCategory(categoty));
     },
   };
 };

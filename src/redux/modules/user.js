@@ -4,7 +4,10 @@ import { sellerApp, secondaryApp } from "../../firebase";
 import firebase from "firebase";
 
 import { Alert, AsyncStorage } from "react-native";
-import { Permissions, Notifications } from "expo";
+
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 // Actions
 
@@ -85,6 +88,25 @@ function signUp(request) {
       if (response && response.user) {
         request.userId = response.user.uid;
         delete request.userInfo.password;
+
+        if (Constants.isDevice) {
+          const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+          let finalStatus = existingStatus;
+          if (existingStatus !== 'granted') {
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+          }
+          if (finalStatus !== 'granted') {
+            alert('Failed to get push token for push notification!');
+            return;
+          }
+          const token = (await Notifications.getExpoPushTokenAsync()).data;
+          console.log(token);
+          request.token = token;
+          
+        } else {
+          alert('Must use physical device for Push Notifications');
+        }
         
         if (addProfile(request)) {
           dispatch(setLogIn(response.user.uid));
@@ -135,9 +157,21 @@ async function getProfile(userId) {
       .where("userId", "==", userId)
       .get();
     if (collection != null) {
-      for (let profile of collection.docs) {        
+      for (let profile of collection.docs) {     
         const item = profile.data();
+        const likes = await secondaryApp
+          .firestore()
+          .collection("likes")
+          .where("userId", "==", userId)
+          .get(); 
+        const likesData = []
+        if (likes != null) {
+          for (let like of likes.docs) {
+            likesData.push(like.data())
+          }  
+        }
         item.id = profile.id;
+        item.likes = likesData;
         return item
       }
     } else {
@@ -154,24 +188,32 @@ function checkDup(username, password) {
 }
 
 function getNotifications() {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const {
       user: { token },
     } = getState();
-    fetch(`${API_URL}/notifications/`, {
-      headers: {
-        Authorization: `JWT ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 401) {
-          dispatch(logOut());
-        } else {
-          return response.json();
+
+    try {
+      const result = [];
+      const collection = await secondaryApp
+        .firestore()
+        .collection("messages")
+        .where("userId", "==", token)
+        .get();
+      if (!collection.empty) {
+        for (let message of collection.docs) {
+          const item = message.data();
+          item.id = message.id;
+          result.push(item);
         }
-      })
-      .then((json) => dispatch(setNotifications(json)));
-  };
+      } else {
+        console.log("No Messages");
+      }
+      dispatch(setNotifications(result));
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+    }
+  }; 
 }
 
 function getOwnProfile() {

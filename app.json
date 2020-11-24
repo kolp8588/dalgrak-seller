@@ -20,8 +20,13 @@
       "supportsTablet": true
     },
     "android": {
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "package": "com.kolp.dalgrak_seller",
+      "googleServicesFile": "./google-services.json"
     },
+    "notification": { 
+      "icon": "./assets/images/noti.png" 
+    }, 
     "web": {
       "favicon": "./assets/images/favicon.png"
     },

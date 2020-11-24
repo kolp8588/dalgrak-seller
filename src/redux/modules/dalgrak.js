@@ -118,6 +118,35 @@ function getBiddings() {
   };
 }
 
+// API Actions
+function addCategory(category) {
+  return async (dispatch, getState) => {
+    const {
+      user: { token, profile },
+    } = getState();
+    try {
+      const request = {
+        ...category,
+        userId: token,
+        token: profile.token,
+      }
+      await secondaryApp
+        .firestore()
+        .collection("likes")
+        .doc(token + "+" + request.id)
+        .set(request);
+      
+      await userActions.getOwnProfile(token);
+      return true;
+
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+      return false;
+    }
+  };
+}
+
+
 function getCategories(parent) {
   return async (dispatch) => {
     if (parent.depth === 2 && parent.name !== "") {
@@ -126,7 +155,7 @@ function getCategories(parent) {
     }
     const result = [];
     try {
-      const collection = await firebase
+      const collection = await secondaryApp
         .firestore()
         .collection("categories")
         .where("parent", "==", parent.name)
@@ -262,6 +291,7 @@ const actionCreators = {
   getFeed,
   getBiddings,
   getCategories,
+  addCategory,
   refreshStates,
   submitBidding,
   submitBiddingImages,

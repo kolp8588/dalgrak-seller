@@ -1,26 +1,17 @@
 import { connect } from "react-redux";
 import Container from "./container";
 import { actionCreators as userActions } from "../../redux/modules/user";
-import { actionCreators as dalgrakActions } from "../../redux/modules/dalgrak";
 
 const mapStateToProps = (state, ownProps) => {
-  const {
-    dalgraks: { feed },
-  } = state;
-  return {
-    feed,
-  };
+  const { user: { notifications } } = state;
+  return { notifications };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getFeed: () => {
-      dispatch(dalgrakActions.getFeed());
-    },
-    initApp: () => {
-      dispatch(dalgrakActions.getFeed());
+    getNotifications: () => {
       dispatch(userActions.getNotifications());
-    }
+    },
   };
 };
 

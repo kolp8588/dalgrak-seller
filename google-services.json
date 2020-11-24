@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "737998911427",
+    "firebase_url": "https://dalgrak-seller.firebaseio.com",
+    "project_id": "dalgrak-seller",
+    "storage_bucket": "dalgrak-seller.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737998911427:android:8fa75f33cde0fe27fdef76",
+        "android_client_info": {
+          "package_name": "com.kolp.dalgrak_seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737998911427-8kbtchgt8dh6fan7p4o475m17lln58pp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyE55GDuH7oYF914vAU8yGweav-zCKIs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737998911427-8kbtchgt8dh6fan7p4o475m17lln58pp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

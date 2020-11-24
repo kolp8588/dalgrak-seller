@@ -19,8 +19,8 @@ class Container extends Component {
   };
 
   componentDidMount = () => {
-    const { getFeed } = this.props;
-    const res = getFeed();
+    const { initApp } = this.props;
+    initApp();
   };
 
   render() {
