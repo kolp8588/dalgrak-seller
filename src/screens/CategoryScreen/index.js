@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import Container from "./container";
 import { actionCreators as dalgrakActions } from "../../redux/modules/dalgrak";
-
+import { actionCreators as userActions } from "../../redux/modules/user";
 const mapStateToProps = (state, ownProps) => {
   const {
     dalgraks: { category },
@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getCategories: (parent) => {
       return dispatch(dalgrakActions.getCategories(parent));
     },
-    addCategory: (categoty) => {
-      return dispatch(dalgrakActions.addCategory(categoty));
+    addCategory: (category) => {
+      return dispatch(userActions.addCategory(category));
     },
   };
 };
