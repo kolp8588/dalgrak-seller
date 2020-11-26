@@ -3,30 +3,23 @@ import { View, Text, Dimensions, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { COLORS, FONTS } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
 class Notification extends Component {
   render() {
     const { navigation } = this.props;
-    console.log(this.props)
+    console.log("Presenter!")
+    console.log(this.props.created)
     return (
       <View style={styles.container}>
         <TouchableOpacity>
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <Text>
-              Test1
-            </Text>
-            <Text>
-              Test2
-            </Text>
-          </View>
-          <Text>
-              Test3
+          <Text style={{fontSize: FONTS.SIZE.TITLE}}>
+            {this.props.title}
+          </Text>
+          <Text style={{fontSize: FONTS.SIZE.CONTENTS}}>
+            {this.props.body}
           </Text>            
         </TouchableOpacity>
       </View>
@@ -37,7 +30,7 @@ class Notification extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    alignItems: "center"
+    alignItems: "flex-start"
   },
   dalgrak: {
     marginVertical: 10,
