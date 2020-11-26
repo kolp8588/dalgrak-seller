@@ -35,7 +35,9 @@ class Container extends Component {
     } else if (this.props.category !== null) {
       const result = await addCategory(this.props.category);
       if(result) {
-        this.props.navigation.navigate("Profile");
+        this.props.navigation.goBack();
+        this.props.navigation.goBack();
+        this.props.navigation.goBack();
       }
     }
   };
