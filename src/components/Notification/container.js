@@ -17,16 +17,10 @@ class Container extends Component {
     );
   }
 
-  _parseDate = (date) => {
-    const words = date.split(" ");
-    let result = "";
-    for (let i = 0; i <= 3; i++) {
-      result = result.concat(words[i]);
-      if (i != 3) {
-        result = result.concat("/");
-      }
-    }
-    return result;
+  _parseDate = (time) => {
+    const date = new Date(time.seconds * 1000);
+    
+    return date;
   };
 }
 
