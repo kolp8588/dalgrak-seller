@@ -170,6 +170,8 @@ async function getProfile(userId) {
             likesData.push(like.data())
           }  
         }
+        console.log("Get Profile Likes!!!");
+        console.log(likesData);
         item.id = profile.id;
         item.likes = likesData;
         return item
@@ -216,10 +218,50 @@ function getNotifications() {
   }; 
 }
 
-function getOwnProfile() {
-  return async (dispatch) => {
+// API Actions
+function addCategory(category) {
+  return async (dispatch, getState) => {
+    console.log("Add Category")
+    const {
+      user: { token, profile },
+    } = getState();
+    console.log(token);
     try {
-      const profile = await getProfile(response.user.uid)
+      const request = {
+        ...category,
+        userId: token,
+        token: profile.token,
+      }
+      console.log("req");
+      console.log(request);
+      await secondaryApp
+        .firestore()
+        .collection("likes")
+        .doc(token + "+" + request.id)
+        .set(request);
+      
+      
+      const profileData = await getProfile(token)
+      if (profileData != null) {
+        dispatch(setProfile(profileData));
+        return true;
+      }
+      return true;
+
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+      return false;
+    }
+  };
+}
+
+function getOwnProfile() {
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState();
+    try {
+      const profile = await getProfile(token)
       if (profile != null) {
         dispatch(setProfile(profile));
         return true;
@@ -341,6 +383,7 @@ const actionCreators = {
   signUp,
   logOut,
   getNotifications,
+  addCategory,
   getOwnProfile,
   registerForPush,
 };
