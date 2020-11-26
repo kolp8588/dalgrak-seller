@@ -12,6 +12,7 @@ import {
 } from "react-native";
 
 import ProfileNumber from "../ProfileNumber";
+import Like from "../Like";
 import { COLORS, FONTS} from "../../constants"
 
 const width = Dimensions.get("window").width;
@@ -107,13 +108,18 @@ class Profile extends Component {
           <Text>
             관심 카테고리를 등록하시면 신규 입찰 등록시 알림을 받을 수 있습니다.
           </Text>
+          <View style={{flexDirection: "row", margin: 10}}>
+            {this.props.profile.likes.map(like => (
+              <Like key={like.id} category={like.name} />
+            ))}
+          </View>
           <View
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: COLORS.MINOR,
-            marginVertical: 10,
-          }}
-        />
+            style={{
+              borderTopWidth: 1,
+              borderTopColor: COLORS.MINOR,
+              marginVertical: 10,
+            }}
+          />
           <Text style={styles.headerText}>
             상품 간편 등록
           </Text>
