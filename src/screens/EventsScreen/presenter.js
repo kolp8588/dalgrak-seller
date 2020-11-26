@@ -9,6 +9,9 @@ import {
   StyleSheet,
 } from "react-native";
 import Notification from "../../components/Notification";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { COLORS } from "../../constants";
 
 const EventsScreen = (props) => (
@@ -23,8 +26,19 @@ const EventsScreen = (props) => (
     }
   >
     <View style={styles.container}>
+      <View style={{alignItems: "flex-end"}}>
+      <TouchableOpacity
+        onPress={() => props.setEventOption()}
+      >
+        <MaterialCommunityIcons
+          name={"settings-outline"}
+          size={30}
+          style={{ margin: 15, color: COLORS.DALGRAK }}
+        />
+      </TouchableOpacity>
+    </View>
     {props.notifications.length === 0 && props.notifications.length > 1 ? (
-        <Text style={styles.notFound}>
+        <Text>
           No notifications yet! Come back soon!
         </Text>
       ) : (
@@ -39,7 +53,7 @@ const EventsScreen = (props) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignContent: "center",
+    alignContent: "flex-start",
     backgroundColor: "white",
     //marginHorizontal: 20,
   },
