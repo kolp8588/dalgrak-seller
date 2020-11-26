@@ -118,34 +118,6 @@ function getBiddings() {
   };
 }
 
-// API Actions
-function addCategory(category) {
-  return async (dispatch, getState) => {
-    const {
-      user: { token, profile },
-    } = getState();
-    try {
-      const request = {
-        ...category,
-        userId: token,
-        token: profile.token,
-      }
-      await secondaryApp
-        .firestore()
-        .collection("likes")
-        .doc(token + "+" + request.id)
-        .set(request);
-      
-      await userActions.getOwnProfile(token);
-      return true;
-
-    } catch (error) {
-      console.error("ERROR : ", error.message);
-      return false;
-    }
-  };
-}
-
 
 function getCategories(parent) {
   return async (dispatch) => {
@@ -291,7 +263,6 @@ const actionCreators = {
   getFeed,
   getBiddings,
   getCategories,
-  addCategory,
   refreshStates,
   submitBidding,
   submitBiddingImages,
