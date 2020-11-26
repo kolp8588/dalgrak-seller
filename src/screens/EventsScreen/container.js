@@ -13,8 +13,6 @@ class Container extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log("WillRecv")
-    console.log(this.props.notifications)
     if (nextProps.notifications) {
       this.setState({
         isFetching: false,
@@ -23,14 +21,17 @@ class Container extends Component {
   };
 
   componentDidMount = () => {
-    console.log("Mount")
-    console.log(this.props.notifications)
     Notifications.setBadgeCountAsync(0);
   };
 
   render() {
     return (
-      <EventsScreen {...this.props} {...this.state} refresh={this._refresh} />
+      <EventsScreen
+        {...this.props}
+        {...this.state} 
+        refresh={this._refresh} 
+        setEventOption={this._setEventOption}
+      />
     );
   }
   _refresh = () => {
@@ -39,6 +40,10 @@ class Container extends Component {
       isFetching: true,
     });
     getNotifications();
+  };
+
+  _setEventOption = () => {
+    this.props.navigation.navigate("EventOption");
   };
 }
 
