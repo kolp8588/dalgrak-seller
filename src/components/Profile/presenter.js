@@ -115,7 +115,7 @@ class Profile extends Component {
               상품 간편 등록
             </Text>
             <TouchableOpacity
-              // onPress={() => this.props.pickCategory()}
+              onPress={() => this.props.addSimpleUpload()}
               >
               <View
                 style={ styles.button}

@@ -264,7 +264,6 @@ function removeCategory(id) {
         .doc(token + "+" + id)
         .delete();      
       
-      console.log("Res : ", result)
       const profileData = await getProfile(token)
       if (profileData != null) {
         dispatch(setProfile(profileData));

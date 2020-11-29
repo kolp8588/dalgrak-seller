@@ -12,7 +12,14 @@ class Container extends Component {
   render() {
     const { user, profile, getOwnProfile } = this.props;
     return <Profile user={user} profile={profile} 
-    refresh={getOwnProfile} pickCategory={this._pickCategory} />;
+      refresh={getOwnProfile} 
+      pickCategory={this._pickCategory} 
+      addSimpleUpload={this._addSimpleUpload}
+    />;
+  }
+
+  _addSimpleUpload = () => {
+    this.props.navigation.navigate("SimpleUpload");
   }
 
   _pickCategory = async () => {
