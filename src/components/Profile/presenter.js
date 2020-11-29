@@ -13,7 +13,7 @@ import {
 
 import ProfileNumber from "../ProfileNumber";
 import Like from "../Like";
-import { COLORS, FONTS} from "../../constants"
+import { COLORS, FONTS } from "../../constants"
 
 const width = Dimensions.get("window").width;
 class Profile extends Component {
@@ -64,12 +64,7 @@ class Profile extends Component {
         <View style={styles.contents}>
           <TouchableOpacity>
             <View
-              style={[
-                styles.button,
-                { backgroundColor: "white" },
-                { borderColor: "black" },
-                { borderWidth: StyleSheet.hairlineWidth}
-              ]}
+              style={ styles.profieButton }
             >
               <Text style={[styles.text, { color: "black" }]}>
                 프로필 편집
@@ -91,13 +86,7 @@ class Profile extends Component {
               onPress={() => this.props.pickCategory()}
               >
               <View
-                style={[
-                  styles.button,
-                  { backgroundColor: "white" },
-                  { marginHorizontal: 10 },
-                  { borderColor: "black" },
-                  { borderWidth: StyleSheet.hairlineWidth}
-                ]}
+                style={ styles.button}
               >
                 <Text style={[styles.text, { color: "black" }]}>
                   등록
@@ -109,8 +98,9 @@ class Profile extends Component {
             관심 카테고리를 등록하시면 신규 입찰 등록시 알림을 받을 수 있습니다.
           </Text>
           <View style={{flexDirection: "row", margin: 10}}>
-            {this.props.profile.likes.map(like => (
-              <Like key={like.id} category={like.name} />
+            {this.props.profile.likes &&
+            this.props.profile.likes.map(like => (
+              <Like key={like.id} like={like} />
             ))}
           </View>
           <View
@@ -120,9 +110,22 @@ class Profile extends Component {
               marginVertical: 10,
             }}
           />
-          <Text style={styles.headerText}>
-            상품 간편 등록
-          </Text>
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+            <Text style={styles.headerText}>
+              상품 간편 등록
+            </Text>
+            <TouchableOpacity
+              // onPress={() => this.props.pickCategory()}
+              >
+              <View
+                style={ styles.button}
+              >
+                <Text style={[styles.text, { color: "black" }]}>
+                  등록
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
           <Text>
             간편 등록 기능을 활용하면 입찰 진행시 빠르게 상품 정보를 입력할 수 있습니다.
           </Text>
@@ -137,9 +140,6 @@ class Profile extends Component {
             구매자 리뷰
           </Text>          
         </View>
-        <TouchableOpacity onPressOut={this.props.push}>
-            <Text>Push</Text>
-          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -204,12 +204,26 @@ const styles = StyleSheet.create({
     width: width / 2,
     alignItems: "center",
   },
+  profieButton: {
+    borderRadius: 3,
+    paddingTop: 7,
+    paddingBottom: 7,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "white",
+    borderColor: "black" ,
+    borderWidth: StyleSheet.hairlineWidth
+  },
   button: {
     borderRadius: 3,
     paddingTop: 7,
     paddingBottom: 7,
     paddingLeft: 20,
     paddingRight: 20,
+    backgroundColor: "white",
+    marginHorizontal: 10,
+    borderColor: "black",
+    borderWidth: StyleSheet.hairlineWidth
   },
   text: {
     fontWeight: "600",

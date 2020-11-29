@@ -221,30 +221,53 @@ function getNotifications() {
 // API Actions
 function addCategory(category) {
   return async (dispatch, getState) => {
-    console.log("Add Category")
     const {
       user: { token, profile },
     } = getState();
-    console.log(token);
     try {
       const request = {
         ...category,
         userId: token,
         token: profile.token,
       }
-      console.log("req");
-      console.log(request);
       await secondaryApp
         .firestore()
         .collection("likes")
         .doc(token + "+" + request.id)
         .set(request);
       
-      
       const profileData = await getProfile(token)
       if (profileData != null) {
         dispatch(setProfile(profileData));
-        return true;
+      }
+      return true;
+
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+      return false;
+    }
+  };
+}
+
+// API Actions
+function removeCategory(id) {
+  return async (dispatch, getState) => {
+    console.log("Remove Category")
+    const {
+      user: { token },
+    } = getState();
+    try {
+      console.log(token + "+" + id);
+      const result = await secondaryApp
+        .firestore()
+        .collection("likes")
+        .doc(token + "+" + id)
+        .delete();      
+      
+      console.log("Res : ", result)
+      const profileData = await getProfile(token)
+      if (profileData != null) {
+        dispatch(setProfile(profileData));
       }
       return true;
 
@@ -384,6 +407,7 @@ const actionCreators = {
   logOut,
   getNotifications,
   addCategory,
+  removeCategory,
   getOwnProfile,
   registerForPush,
 };

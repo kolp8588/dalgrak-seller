@@ -23,6 +23,8 @@ const EventOptionScreen = (props) => (
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           // thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
+          onValueChange={props.onChangAlarm}
+          value={props.isAlarmStop}
         />
       </View>
       <View style={{flexDirection: "row", justifyContent: "space-between"}}>
@@ -33,6 +35,8 @@ const EventOptionScreen = (props) => (
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           // thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
+          onValueChange={props.onChangAlarmNight}
+          value={props.isAlarmStopAtNight}
         />
       </View>
       <View style={{flexDirection: "row", justifyContent: "space-between"}}>
@@ -61,8 +65,9 @@ const EventOptionScreen = (props) => (
         관심 카테고리를 등록하시면 신규 입찰 등록시 알림을 받을 수 있습니다.
       </Text>
       <View style={{flexDirection: "row", margin: 10}}>
-        {props.profile.likes.map(like => (
-          <Like key={like.id} category={like.name} />
+        {props.profile.likes &&
+        props.profile.likes.map(like => (
+          <Like key={like.id} like={like} />
         ))}
       </View>
       <Text style={styles.itemText}>

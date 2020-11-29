@@ -37,9 +37,8 @@ class Container extends Component {
       <View style={{ flex: 1, backgroundColor:"blue" }}>
         <Profile
           {...this.props}
-          {...this.state}
-          push={this._push}
-          showAS={this._showActionSheet}
+          {...this.state}          
+          showAS={this._showActionSheet}          
         />
         <ActionSheet
           ref={(actionSheet) => (this.actionSheet = actionSheet)}
@@ -61,21 +60,7 @@ class Container extends Component {
       logOut();
     }
   };
-  _push = (title, body) => {
-    let response = fetch(`https://exp.host/--/api/v2/push/send`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        to:'ExponentPushToken[iy9JdiG4gSubCuy8si6F2P]',
-        sound: 'default',
-        title: title,
-        body: body,
-      }),
-    });
-  }
+  
 }
 
 export default Container;

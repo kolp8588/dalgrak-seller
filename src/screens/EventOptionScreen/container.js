@@ -5,9 +5,13 @@ import EventOptionScreen from "./presenter";
 class Container extends Component {
   static propTypes = {
     profile: PropTypes.object,
+    isAlarmStop: PropTypes.bool,
+    isAlarmStopAtNight: PropTypes.bool,
   };
   state = {
     isFetching: false,
+    isAlarmStop: false,
+    isAlarmStopAtNight: false,
   };
 
   componentWillReceiveProps = (nextProps) => {
@@ -29,7 +33,9 @@ class Container extends Component {
       <EventOptionScreen {...this.props} {...this.state} pickCategory={this._pickCategory} />
     );
   }
-
+  _onChangAlarm = (test) => {
+    
+  }
   _pickCategory = async () => {
     const parent = {
       depth: -1,
