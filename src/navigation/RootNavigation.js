@@ -91,7 +91,12 @@ class RootNavigation extends Component {
               headerTintColor: "black",
             }}
           /> */}
-          <Stack.Screen name="Events" component={EventsRoute} options={{}} />
+          <Stack.Screen name="Events" 
+            component={EventsRoute} 
+            options={{
+              headerShown: false,
+            }} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );

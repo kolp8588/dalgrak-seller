@@ -27,6 +27,7 @@ class ProfileRoute extends Component {
           name="Category"
           component={CategoryScreen}
           options={{
+            headerTitle: "관심 카테고리",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
@@ -37,6 +38,7 @@ class ProfileRoute extends Component {
           name="SimpleUpload"
           component={SimpleUploadScreen}
           options={{
+            headerTitle: "간편등록",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
@@ -47,6 +49,7 @@ class ProfileRoute extends Component {
           name="UploadCategory"
           component={SimpleUploadCategoryScreen}
           options={{
+            headerTitle: "간편등록",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },

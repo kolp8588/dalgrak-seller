@@ -27,12 +27,12 @@ class Container extends Component {
   _pickCategory = async (parent) => {
     const { getCategories, addCategory } = this.props;
     const result = await getCategories(parent);
-
     if (result !== null) {
       this.props.navigation.push("UploadCategory", {
         categories: result,
       });
     } else if (this.props.category !== null) {
+      this.props.navigation.popToTop();
       this.props.navigation.navigate("SimpleUpload", {category: this.props.category});
     }
   };

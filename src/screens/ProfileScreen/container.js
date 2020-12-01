@@ -18,8 +18,22 @@ class Container extends Component {
     />;
   }
 
-  _addSimpleUpload = () => {
-    this.props.navigation.navigate("SimpleUpload");
+  _addSimpleUpload = async () => {
+    const parent = {
+      depth: -1,
+      name: "root",
+    };
+    const { getCategories } = this.props;
+    const result = await getCategories(parent);
+    if (result !== null) {
+      const {
+        navigation: { navigate },
+      } = this.props;
+
+      this.props.navigation.navigate("UploadCategory", {
+        categories: result,
+      });
+    };
   }
 
   _pickCategory = async () => {

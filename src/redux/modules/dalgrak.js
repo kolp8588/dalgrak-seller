@@ -137,7 +137,7 @@ function getCategories(parent) {
         for (let category of collection.docs) {
           const item = category.data();
           try {
-            item.imageUrl = await firebase
+            item.imageUrl = await secondaryApp
               .storage()
               .ref(item.imageRef)
               .getDownloadURL();

@@ -17,24 +17,29 @@ class EventsRoute extends Component {
           name="Events"
           component={EventsScreen}
           options={{
+            headerTitle: "이벤트",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
+            headerTintColor: "white",
           }}
         />
         <Stack.Screen
           name="EventOption"
           component={EventOptionScreen}
           options={{
+            headerTitle: "알림 살정",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
+            headerTintColor: "white",
           }}
         />
         <Stack.Screen
           name="Category"
           component={CategoryScreen}
           options={{
+            headerTitle: "관심 카테고리",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
