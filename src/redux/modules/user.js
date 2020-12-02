@@ -56,19 +56,45 @@ function setNotifications(notifications) {
 function login(username, password) {
   return async (dispatch) => {
     try {
-      const response = await sellerApp
+      let response = await sellerApp
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(function () {
           return sellerApp.auth().signInWithEmailAndPassword(username, password);
         });
       if (response && response.user) {
-        const profile = await getProfile(response.user.uid)
-        if (profile != null) {
-          dispatch(setLogIn(response.user.uid));
-          dispatch(setUser(response.user));
-          dispatch(setProfile(profile));
-          return true;
+        const request = {};
+        request.userId = response.user.uid;
+        if (Constants.isDevice) {
+          const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+          let finalStatus = existingStatus;
+          if (existingStatus !== 'granted') {
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+          }
+          if (finalStatus !== 'granted') {
+            alert('Failed to get push token for push notification!');
+            return;
+          }
+          const token = (await Notifications.getExpoPushTokenAsync()).data;
+          request.token = token;
+          
+        } else {
+          alert('Must use physical device for Push Notifications');
+        }
+        //ExponentPushToken[iy9JdiG4gSubCuy8si6F2P]
+        const isUpdated = await updateProfile(request);
+        if (isUpdated) {
+          console.log("Getget");
+          const profile = await getProfile(response.user.uid)
+          console.log("profile");
+          if (profile != null) {
+            console.log("notnull");
+            dispatch(setLogIn(response.user.uid));
+            dispatch(setUser(response.user));
+            dispatch(setProfile(profile));
+            return true;
+          }
         }
       }
     } catch (error) {
@@ -89,25 +115,6 @@ function signUp(request) {
         request.userId = response.user.uid;
         delete request.userInfo.password;
 
-        if (Constants.isDevice) {
-          const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-          let finalStatus = existingStatus;
-          if (existingStatus !== 'granted') {
-            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-            finalStatus = status;
-          }
-          if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
-            return;
-          }
-          const token = (await Notifications.getExpoPushTokenAsync()).data;
-          console.log(token);
-          request.token = token;
-          
-        } else {
-          alert('Must use physical device for Push Notifications');
-        }
-        
         if (addProfile(request)) {
           dispatch(setLogIn(response.user.uid));
           dispatch(setUser(response.user));
@@ -134,19 +141,30 @@ function signUp(request) {
 // API Actions
 async function addProfile(request) {
   try {
-    const response = await sellerApp
+    await sellerApp
       .firestore()
       .collection("users")
-      .add(request);
-    if (response) {
-      return true;
-    } else {
-      return false;
-    }
+      .doc(request.userId)
+      .set(request);
   } catch (error) {
     console.error("ERROR : ", error.message);
+    return false;
   }
-  return false;
+  return true;
+}
+
+async function updateProfile(request) {
+  try {
+    await sellerApp
+      .firestore()
+      .collection("users")
+      .doc(request.userId)
+      .update(request);
+  } catch (error) {
+    console.error("ERROR : ", error.message);
+    return false;
+  }
+  return true;
 }
 
 async function getProfile(userId) {
