@@ -12,6 +12,8 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FadeIn from "react-native-fade-in-image";
 import { TextInput } from "react-native-gesture-handler";
+import { TextInputMask } from "react-native-masked-text";
+
 import * as ImagePicker from "expo-image-picker";
 import { COLORS, COMMON_STYLES, MESSAGES, FONTS } from "../../constants";
 
@@ -22,6 +24,10 @@ class Container extends Component {
     super(props);
     this.state = {
       category: null,
+      info: "",
+      price: 0,
+      total: 0,
+      quantity: 0,
       images: [],
     };
   }
@@ -46,8 +52,31 @@ class Container extends Component {
     }
   };
 
+  onPriceChange = (text) => {
+    let value = text.split(",").join("");
+    this.setState({
+      price: value * 1,
+      total: value * this.state.quantity,
+    });
+  };
+
+  onQuantityChange = (text) => {
+    let value = text.split(",").join("");
+    this.setState({
+      quantity: value * 1,
+      total: value * this.state.price,
+    });
+  };
+
   render() {
-    const { category, images } = this.state;
+    const { 
+      category,
+      info, 
+      images,
+      price,
+      total,
+      quantity
+    } = this.state;
     return (
       <View style={COMMON_STYLES.CONTAINER}>
         {category && (
@@ -94,14 +123,13 @@ class Container extends Component {
             </Text>
             <TextInput
               style={styles.info}
-              value={this.props.info}
+              value={info}
               multiline={true}
               maxLength={200}
               placeholder={MESSAGES.SIMPLE_UPLOAD_INFO_PLACEHOLDER}
             />
-            <Text style={styles.title}>
-              단가
-            </Text>
+            <Text style={styles.title}>단위 단가</Text>
+
             <View
               style={{
                 marginTop: 15,
@@ -111,54 +139,77 @@ class Container extends Component {
                 flexDirection: "row",
               }}
             >
-              <TextInput
-                style={{
-                  height: 50,
-                  width: 150,
-                  borderColor: "lightgray",
-                  borderWidth: 1,
-                  paddingLeft: 5,
+              <TextInputMask
+                type={"money"}
+                options={{
+                  precision: 0,
+                  delimiter: ",",
+                  unit: "",
                 }}
-                keyboardType="numeric"
-                placeholder="입력"
+                value={price}
+                maxLength={9}
+                style={styles.textInputStyle}
+                keyboardType="number-pad"
+                onChangeText={(text) => this.onPriceChange(text)}
               />
               <Text style={{
-                fontSize: FONTS.SIZE.TITLE,
+                fontSize: FONTS.SIZE.CONTENTS,
                 textAlignVertical:"center",
-                marginLeft: 10,
+                marginLeft: 5,
+                marginRight: 10,
               }}>
-                원 / kg
+                원 x
               </Text>
-            </View>
-            <Text style={styles.title}>
-              기본 중량
-            </Text>
-            <View
-              style={{
-                marginTop: 15,
-                marginHorizontal: 20,
-                alignSelf: "stretch",
-                flex: 1,
-                flexDirection: "row",
-              }}
-            >
-              <TextInput
-                style={{
-                  height: 50,
-                  width: 150,
-                  borderColor: "lightgray",
-                  borderWidth: 1,
-                  paddingLeft: 5,
+              <TextInputMask
+                type={"money"}
+                options={{
+                  precision: 0,
+                  delimiter: ",",
+                  unit: "",
                 }}
-                keyboardType="numeric"
-                placeholder="입력"
+                value={quantity}
+                maxLength={9}
+                style={styles.textInputStyle}
+                keyboardType="number-pad"
+                onChangeText={(text) => this.onQuantityChange(text)}
               />
               <Text style={{
-                fontSize: FONTS.SIZE.TITLE,
+                fontSize: FONTS.SIZE.CONTENTS,
                 textAlignVertical:"center",
-                marginLeft: 10,
+                marginLeft: 5,
               }}>
                 kg
+              </Text>
+            </View>
+            <Text style={styles.title}>총 단가</Text>
+            <View
+              style={{
+                alignSelf: "flex-start",
+                alignContent: "center",
+                marginLeft: 20,
+                flexDirection: "row",
+              }}
+            >
+              <TextInputMask
+                type={"money"}
+                options={{
+                  precision: 0,
+                  delimiter: ",",
+                  unit: "",
+                }}
+                editable={false}
+                value={total}
+                style={styles.total}
+              />
+              <Text
+                style={{
+                  alignSelf: "center",
+                  fontSize: FONTS.SIZE.TITLE,
+                  color: COLORS.DALGRAK,
+                }}
+              >
+                {" "}
+                원
               </Text>
             </View>
             <Text style={styles.title}>상품 사진</Text>
@@ -291,6 +342,20 @@ const styles = StyleSheet.create({
     height: width / 3,
     borderColor: "white",
     borderWidth: 1,
+  },
+  textInputStyle: {
+    height: 40,
+    width: 100,
+    fontSize: FONTS.SIZE.CONTENTS,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingLeft: 10,
+  },
+  total: {
+    height: 40,
+    minWidth: 10,
+    fontSize: FONTS.SIZE.TITLE,
+    color: COLORS.DALGRAK,
   },
 });
 
