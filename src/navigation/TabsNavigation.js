@@ -25,7 +25,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
         const iconName = {
           Home: "home",
-          Call: "play-circle-outline",
+          Call: "plus-box-outline",
           Profile: "account-circle",
         };
         const isFocused = state.index === index;
@@ -39,7 +39,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
           if (!isFocused && !event.defaultPrevented) {
             if (route.name === "Call") {
-              navigation.navigate("dalgrakCall");
+              // navigation.navigate("dalgrakCall");
             } else {
               navigation.setOptions({
                 title: label,
