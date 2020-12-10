@@ -23,8 +23,8 @@ class DalgrakDetail extends Component {
   };
   render() {
     var date = new Date().getTime();
-    var endDate = new Date(this.props.date);
-    var sec = (endDate.getTime() - date) / 1000;
+    var endDate = this.props.date;
+    var sec = (endDate - date) / 1000;
 
     const { navigation } = this.props;
     return (

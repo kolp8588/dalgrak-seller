@@ -49,13 +49,7 @@ class DalgrakDetail extends Component {
               >
                 {this.props.quantity} {this.props.unit}
               </Text>
-              <Text
-                style={{
-                  fontSize: FONTS.SIZE.CONTENTS,
-                }}
-              >
-                마감일 : {this.props.parseDate(this.props.date)}
-              </Text>
+              
               <Text
                 style={{
                   fontSize: FONTS.SIZE.CONTENTS,

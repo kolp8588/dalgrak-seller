@@ -11,20 +11,9 @@ class Container extends Component {
 
   render() {
     return (
-      <Bidding parseDate={this._parseDate} {...this.props} {...this.state} />
+      <Bidding {...this.props} {...this.state} />
     );
   }
-  _parseDate = (date) => {
-    const words = date.split(" ");
-    let result = "";
-    for (let i = 0; i <= 3; i++) {
-      result = result.concat(words[i]);
-      if (i != 3) {
-        result = result.concat("/");
-      }
-    }
-    return result;
-  };
 }
 
 export default Container;
