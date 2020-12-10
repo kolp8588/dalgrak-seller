@@ -13,6 +13,7 @@ import {
 
 import ProfileNumber from "../ProfileNumber";
 import Like from "../Like";
+import SimpleUpload from "../SimpleUpload";
 import { COLORS, FONTS } from "../../constants"
 
 const width = Dimensions.get("window").width;
@@ -129,6 +130,12 @@ class Profile extends Component {
           <Text>
             간편 등록 기능을 활용하면 입찰 진행시 빠르게 상품 정보를 입력할 수 있습니다.
           </Text>
+          <View style={{flexDirection: "row", margin: 10}}>
+            {this.props.profile.simpleUploads &&
+            this.props.profile.simpleUploads.map(simpleUpload => (
+              <SimpleUpload key={simpleUpload.category.id} simpleUpload={simpleUpload} />
+            ))}
+          </View>
           <View
           style={{
             borderTopWidth: 1,

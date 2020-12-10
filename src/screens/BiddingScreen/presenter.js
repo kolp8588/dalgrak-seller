@@ -171,7 +171,7 @@ function BiddingScreen(props) {
             }}
             value={props.price}
             maxLength={9}
-            style={styles.textInputStype}
+            style={styles.textInputStyle}
             keyboardType="number-pad"
             onChangeText={(text) => props.onPriceChange(text)}
           />
@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
     fontSize: FONTS.SIZE.CONTENTS,
   },
-  textInputStype: {
+  textInputStyle: {
     height: 40,
     width: 100,
     fontSize: FONTS.SIZE.CONTENTS,

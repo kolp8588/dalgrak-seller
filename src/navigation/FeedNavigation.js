@@ -20,6 +20,13 @@ function TopTabsNavigation({ navigation, route }) {
         }}
       />
       <Tab.Screen
+        name="LikeDalgrak"
+        component={FeedScreen}
+        options={{
+          title: "관심 달그락",
+        }}
+      />
+      <Tab.Screen
         name="Dalgrak"
         component={FeedScreen}
         options={{

@@ -52,6 +52,12 @@ class Container extends Component {
     }
   };
 
+  onInfoChange = (text) => {
+    this.setState({
+      info: text,
+    });
+  };
+
   onPriceChange = (text) => {
     let value = text.split(",").join("");
     this.setState({
@@ -66,6 +72,32 @@ class Container extends Component {
       quantity: value * 1,
       total: value * this.state.price,
     });
+  };
+
+  submit = async () => {
+    const { 
+      category, 
+      info, 
+      price, 
+      total, 
+      quantity, 
+      images
+     } = this.state;
+    const { submit } = this.props;
+    
+    const request = {
+      category: category,
+      info: info,
+      price: price,
+      total: total,
+      quantity: quantity,
+      images: images,
+    };
+
+    const uploadResult = await submit(request);
+    if (uploadResult) {
+      this.props.navigation.goBack();
+    }
   };
 
   render() {
@@ -127,6 +159,7 @@ class Container extends Component {
               multiline={true}
               maxLength={200}
               placeholder={MESSAGES.SIMPLE_UPLOAD_INFO_PLACEHOLDER}
+              onChangeText={this.onInfoChange}
             />
             <Text style={styles.title}>단위 단가</Text>
 
@@ -276,6 +309,9 @@ class Container extends Component {
                 alignSelf: "stretch",
                 alignItems: "center",
                 backgroundColor: COLORS.DALGRAK,
+              }}
+              onPress={() => {
+                this.submit();
               }}
             >
               <Text

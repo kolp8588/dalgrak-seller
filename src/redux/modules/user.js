@@ -188,11 +188,23 @@ async function getProfile(userId) {
             likesData.push(like.data())
           }  
         }
-        console.log("Get Profile Likes!!!");
-        console.log(likesData);
+        const simpleUploads = await secondaryApp
+          .firestore()
+          .collection("simpleUploads")
+          .where("userId", "==", userId)
+          .get(); 
+        const simpleUploadsData = []
+        if (simpleUploads != null) {
+          for (let simpleUpload of simpleUploads.docs) {
+            simpleUploadsData.push(simpleUpload.data())
+          }  
+        }
+        console.log("simpleUploadsData")
+        console.log(simpleUploadsData)
         item.id = profile.id;
         item.likes = likesData;
-        return item
+        item.simpleUploads = simpleUploadsData;
+        return item;
       }
     } else {
       console.log("NO DATA");
@@ -237,6 +249,32 @@ function getNotifications() {
 }
 
 // API Actions
+function submitSimpleUpload(request) {
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState();
+    request.userId = token;
+
+    try {
+      const response = await secondaryApp
+      .firestore()
+      .collection("simpleUploads")
+      .doc(token + "+" + request.category.id)
+      .set(request);
+
+      const profileData = await getProfile(token)
+      if (profileData != null) {
+        dispatch(setProfile(profileData));
+      }
+      return true;
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+      return false;
+    }
+  };
+}
+
 function addCategory(category) {
   return async (dispatch, getState) => {
     const {
@@ -270,7 +308,6 @@ function addCategory(category) {
 // API Actions
 function removeCategory(id) {
   return async (dispatch, getState) => {
-    console.log("Remove Category")
     const {
       user: { token },
     } = getState();
@@ -279,6 +316,32 @@ function removeCategory(id) {
       const result = await secondaryApp
         .firestore()
         .collection("likes")
+        .doc(token + "+" + id)
+        .delete();      
+      
+      const profileData = await getProfile(token)
+      if (profileData != null) {
+        dispatch(setProfile(profileData));
+      }
+      return true;
+
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+      return false;
+    }
+  };
+}
+
+// API Actions
+function removeSimpleUpload(id) {
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState();
+    try {
+      const result = await secondaryApp
+        .firestore()
+        .collection("simpleUploads")
         .doc(token + "+" + id)
         .delete();      
       
@@ -425,8 +488,10 @@ const actionCreators = {
   getNotifications,
   addCategory,
   removeCategory,
+  removeSimpleUpload,
   getOwnProfile,
   registerForPush,
+  submitSimpleUpload,
 };
 
 export { actionCreators };

@@ -118,7 +118,6 @@ function getBiddings() {
   };
 }
 
-
 function getCategories(parent) {
   return async (dispatch) => {
     if (parent.depth === 2 && parent.name !== "") {

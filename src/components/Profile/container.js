@@ -17,6 +17,7 @@ class Container extends Component {
   state = {
     isFetching: true,
   };
+
   componentDidMount = () => {
     const { profile, user } = this.props;
     if (profile && user) {
@@ -25,13 +26,17 @@ class Container extends Component {
       });
     }
   };
+
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.profile) {
+      console.log("Profile!!")
+      console.log(nextProps.profile);
       this.setState({
         isFetching: false,
       });
     }
   };
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor:"blue" }}>
