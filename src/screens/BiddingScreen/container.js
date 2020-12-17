@@ -88,7 +88,6 @@ class Container extends Component {
       });
 
       if ((await submitImages(images)) && (await submit(bidding))) {
-        ("Bidding upload success");
         this.setState({
           isSubmitting: false,
           isModalVisible: false,
