@@ -17,7 +17,6 @@ import { TextInput } from "react-native-gesture-handler";
 import DropDownPicker from "react-native-dropdown-picker";
 import Request from "../../components/Request";
 import { COLORS, FONTS } from "../../constants";
-import { color } from "react-native-reanimated";
 
 const { height, width } = Dimensions.get("window");
 
