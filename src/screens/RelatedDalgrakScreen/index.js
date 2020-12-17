@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import Container from "./container";
+import { actionCreators as dalgrakActions } from "../../redux/modules/dalgrak";
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -12,6 +13,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    submit: (request) => {
+      return dispatch(dalgrakActions.removeBidding(request));
+    },
   };
 };
 
