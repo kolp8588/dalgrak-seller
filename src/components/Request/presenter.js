@@ -7,7 +7,6 @@ import {
   View,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Tooltip from "react-native-walkthrough-tooltip";
@@ -22,9 +21,6 @@ class Request extends Component {
     var endDate = new Date(this.props.date);
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: FONTS.SIZE.TITLE }}>
-          달그락 제목이 필요할까
-        </Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity
             style={styles.profileBox}
@@ -37,13 +33,18 @@ class Request extends Component {
             />
             <Text
               numberOfLines={1}
-              style={{ fontSize: FONTS.SIZE.INFO, width: 100 }}
+              style={{ fontSize: FONTS.SIZE.INFO, width: 200 }}
             >
-              {this.props.userId}
+              {this.props.username}
             </Text>
           </TouchableOpacity>
           <View>
             <View style={{ flexDirection: "row" }}>
+              <MaterialCommunityIcons
+                name={"heart-outline"}
+                size={22}
+                style={{ marginRight: 15, color: COLORS.DALGRAK }}
+              />
               <MaterialCommunityIcons
                 name={"emoticon-devil-outline"}
                 size={22}
@@ -73,6 +74,7 @@ class Request extends Component {
               >
                 <Text
                   style={{
+                    alignSelf: "flex-end",
                     textAlign: "center",
                     textDecorationLine: "underline",
                   }}
@@ -95,10 +97,10 @@ class Request extends Component {
         <Text style={styles.text}>
           수량 : {this.props.quantity} {this.props.unit}
         </Text>
-        <Text style={styles.text}>배송지 : </Text>
+        <Text style={styles.text}>배송지 : {this.props.address} {this.props.detailAddress}</Text>
         <Text style={styles.text}>상세 요청 내용 : </Text>
         <Text numberOfLines={5} style={styles.request}>
-          test
+          {this.props.info}
         </Text>
       </View>
     );
