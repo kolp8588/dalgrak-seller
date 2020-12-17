@@ -54,6 +54,30 @@ function getFeed() {
         for (let dalgrak of collection.docs) {
           const item = dalgrak.data();
           item.id = dalgrak.id;
+
+          const userDocs = await secondaryApp
+            .firestore()
+            .collection("users")
+            .doc(item.userId)
+            .get();
+          
+          const userData = userDocs.data();
+          item.username = userData.username;
+          const biddingCollection = await secondaryApp
+            .firestore()
+            .collection("biddings")
+            .where("dalgrakId", "==", dalgrak.id)
+            .get();
+
+          if (!biddingCollection.empty) {
+            const biddings = [];
+            for (let bidding of biddingCollection.docs) {
+              const biddingData = bidding.data();
+              biddingData.id = bidding.id;
+              biddings.push(biddingData);
+            }
+            item.biddings = biddings;
+          }
           result.push(item);
         }
       } else {
@@ -76,6 +100,30 @@ async function getDalgrak(id) {
       .get();
     if (dalgrak != null) {
       const item = dalgrak.data();
+      const userDocs = await secondaryApp
+        .firestore()
+        .collection("users")
+        .doc(item.userId)
+        .get();
+      
+      const userData = userDocs.data();
+      item.username = userData.username;
+
+      const biddingCollection = await secondaryApp
+        .firestore()
+        .collection("biddings")
+        .where("dalgrakId", "==", id)
+        .get();
+
+      if (!biddingCollection.empty) {
+        const biddings = [];
+        for (let bidding of biddingCollection.docs) {
+          const biddingData = bidding.data();
+          biddingData.id = bidding.id;
+          biddings.push(biddingData);
+        }
+        item.biddings = biddings;
+      }
       return item;
     } else {
       console.log("NO DATA");
@@ -164,16 +212,32 @@ function submitBidding(bidding) {
       user: { token },
     } = getState();
     bidding.userId = token;
+    bidding.status = "IN_PROCESS";
     const response = await secondaryApp
       .firestore()
       .collection("biddings")
       .add(bidding);
     if (response) {
       dispatch(getBiddings());
+      dispatch(getFeed());
       return true;
     } else {
       return false;
     }
+  };
+}
+
+function removeBidding(id) {
+  return async (dispatch) => {
+    await secondaryApp
+      .firestore()
+      .collection("biddings")
+      .doc(id)
+      .delete();
+    
+    dispatch(getBiddings());
+    dispatch(getFeed());
+    return true;
   };
 }
 
@@ -264,6 +328,7 @@ const actionCreators = {
   getCategories,
   refreshStates,
   submitBidding,
+  removeBidding,
   submitBiddingImages,
 };
 
