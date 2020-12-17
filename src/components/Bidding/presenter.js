@@ -14,11 +14,10 @@ class Bidding extends Component {
     const { navigation } = this.props;
     let bidding = this.props.bidding;
     let dalgrak = bidding.dalgrak;
-
     let curDate = new Date().getTime();
     let endDate = this.props.bidding.dalgrak.date;
     let sec = (endDate - curDate) / 1000;
-
+  
     return (
       <View style={styles.dalgrak}>
         <TouchableOpacity
@@ -79,8 +78,34 @@ class Bidding extends Component {
                   fontSize: FONTS.SIZE.CONTENTS,
                 }}
               >
-                참여업체 : {dalgrak.participants}
+                참여업체 : {dalgrak.biddings ? dalgrak.biddings.length : 0}
               </Text>
+                {bidding.status == "IN_PROCESS" && 
+                  <Text
+                    style={{
+                      fontSize: FONTS.SIZE.CONTENTS,
+                    }}
+                  >진행중
+                  </Text>
+                }
+                {bidding.status == "SUCCESS" && 
+                  <Text
+                    style={{
+                      color: COLORS.DALGRAK,
+                      fontSize: FONTS.SIZE.CONTENTS,
+                    }}
+                  >낙찰
+                  </Text>
+                }
+                {bidding.status == "SUCCESS" && 
+                  <Text
+                    style={{
+                      color: COLORS.WARNING,
+                      fontSize: FONTS.SIZE.CONTENTS,
+                    }}
+                  >낙찰실패
+                  </Text>
+                }                  
             </View>
           </View>
         </TouchableOpacity>
