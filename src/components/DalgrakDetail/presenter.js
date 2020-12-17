@@ -39,14 +39,15 @@ class DalgrakDetail extends Component {
             alignItems: "flex-start",
           }}
         >
-          <View style={{ alignItems: "center" }}>
-            <Text style={styles.countDown}>COUNT DOWN</Text>
+          <View style={{ alignItems: "center", marginTop: 5 }}>
             <CountDown
               until={sec}
               size={15}
               digitStyle={{ backgroundColor: COLORS.DALGRAK }}
               digitTxtStyle={{ color: "white" }}
-              timeToShow={["D", "H", "M", "S"]}
+              timeToShow={["H", "M", "S"]}
+              showSeparator={true}
+              timeLabels={{h: null, m: null, s: null}}
             />
           </View>
         </View>
