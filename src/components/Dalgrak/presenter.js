@@ -17,6 +17,7 @@ class DalgrakDetail extends Component {
     let date = new Date().getTime();
     let endDate = this.props.date;
     let sec = (endDate - date) / 1000;
+
     return (
       <View style={styles.dalgrak}>
         <TouchableOpacity
@@ -77,7 +78,7 @@ class DalgrakDetail extends Component {
                   fontSize: FONTS.SIZE.CONTENTS,
                 }}
               >
-                참여업체 : {this.props.participants}
+                참여업체 : {this.props.biddings ? this.props.biddings.length : 0}
               </Text>
             </View>
           </View>
