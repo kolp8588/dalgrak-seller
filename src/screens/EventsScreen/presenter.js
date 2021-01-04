@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  StatusBar,
   View,
   Text,
   ScrollView,
@@ -26,18 +25,7 @@ const EventsScreen = (props) => (
     }
   >
     <View style={styles.container}>
-      <View style={{alignItems: "flex-end"}}>
-      <TouchableOpacity
-        onPress={() => props.setEventOption()}
-      >
-        <MaterialCommunityIcons
-          name={"settings-outline"}
-          size={30}
-          style={{ margin: 15, color: COLORS.DALGRAK }}
-        />
-      </TouchableOpacity>
-    </View>
-    {props.notifications.length === 0 && props.notifications.length > 1 ? (
+      {props.notifications.length === 0 && props.notifications.length > 1 ? (
         <Text>
           No notifications yet! Come back soon!
         </Text>

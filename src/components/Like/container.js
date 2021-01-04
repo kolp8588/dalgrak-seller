@@ -19,7 +19,6 @@ class Container extends Component {
   }
 
   _onPressOut = async () => {
-    console.log("Remove : ", this.props.like)
     const { removeCategory } = this.props;
     await removeCategory(this.props.like.id);
   }

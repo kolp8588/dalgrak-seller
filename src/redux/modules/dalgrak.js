@@ -212,7 +212,7 @@ function submitBidding(bidding) {
       user: { token },
     } = getState();
     bidding.userId = token;
-    bidding.status = "IN_PROCESS";
+    bidding.status = "IN_PROGRESS";
     const response = await secondaryApp
       .firestore()
       .collection("biddings")
@@ -238,6 +238,28 @@ function removeBidding(id) {
     dispatch(getBiddings());
     dispatch(getFeed());
     return true;
+  };
+}
+
+function updateBidding(id) {
+  return async (dispatch) => {
+    try {
+      let request = {status: "ON_SHIPPING"};
+      console.log("ID :")
+      console.log(id)
+      await secondaryApp
+        .firestore()
+        .collection("biddings")
+        .doc(id)
+        .update(request);
+      dispatch(getBiddings());
+      dispatch(getFeed());
+    } catch (error) {
+      console.error("ERROR : ", error.message);
+      return false;
+    }
+    return true;
+   
   };
 }
 
@@ -329,6 +351,7 @@ const actionCreators = {
   refreshStates,
   submitBidding,
   removeBidding,
+  updateBidding,
   submitBiddingImages,
 };
 

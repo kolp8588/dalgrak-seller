@@ -9,6 +9,7 @@ import EventsRoute from "../routes/EventsRoute";
 import DalgrakScreen from "../screens/DalgrakScreen";
 import RelatedDalgrakScreen from "../screens/RelatedDalgrakScreen";
 import BiddingScreen from "../screens/BiddingScreen";
+import SuccessfulBiddingScreen from "../screens/SuccessfulBiddingScreen";
 import CallScreen from "../screens/CallScreen";
 import CallSettingsScreen from "../screens/CallSettingsScreen";
 import { COLORS } from "../constants";
@@ -18,7 +19,10 @@ class RootNavigation extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator mode="modal">
+        <Stack.Navigator mode="modal"
+        screenOptions={{
+          headerHideShadow: true,
+        }}>
           <Stack.Screen
             name="Tabs"
             component={TabsNavigation}
@@ -38,6 +42,15 @@ class RootNavigation extends Component {
           <Stack.Screen
             name="related"
             component={RelatedDalgrakScreen}
+            options={{
+              headerTitle: false,
+              headerBackTitleVisible: false,
+              headerTintColor: "black",
+            }}
+          />
+          <Stack.Screen
+            name="successful"
+            component={SuccessfulBiddingScreen}
             options={{
               headerTitle: false,
               headerBackTitleVisible: false,

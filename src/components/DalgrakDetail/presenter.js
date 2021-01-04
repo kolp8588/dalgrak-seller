@@ -39,6 +39,7 @@ class DalgrakDetail extends Component {
             alignItems: "flex-start",
           }}
         >
+          { this.props.status == "IN_PROGRESS" &&
           <View style={{ alignItems: "center", marginTop: 5 }}>
             <CountDown
               until={sec}
@@ -50,6 +51,7 @@ class DalgrakDetail extends Component {
               timeLabels={{h: null, m: null, s: null}}
             />
           </View>
+          }
         </View>
         <Request {...this.props} />
       </View>

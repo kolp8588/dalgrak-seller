@@ -47,11 +47,13 @@ function BiddingScreen(props) {
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalTitleText}>배송지</Text>
-              <Text style={styles.modalContentsText}>None</Text>
+              <Text style={styles.modalContentsText}>
+                {dalgrak.address} {dalgrak.detailAddress}
+              </Text>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalTitleText}>요청사항</Text>
-              <Text style={styles.modalContentsText}>{dalgrak.request}</Text>
+              <Text style={styles.modalContentsText}>{dalgrak.info}</Text>
             </View>
             <View
               style={{
@@ -184,6 +186,37 @@ function BiddingScreen(props) {
             원 / {dalgrak.unit}
           </Text>
         </View>
+        <Text style={styles.title}>배송비</Text>
+        <View
+          style={{
+            alignContent: "center",
+            marginLeft: 10,
+            flexDirection: "row",
+          }}
+        >
+          <TextInputMask
+            type={"money"}
+            options={{
+              precision: 0,
+              delimiter: ",",
+              unit: "",
+            }}
+            value={props.shippingFee}
+            maxLength={9}
+            style={styles.textInputStyle}
+            keyboardType="number-pad"
+            onChangeText={(text) => props.onShippingFeeChange(text)}
+          />
+          <Text
+            style={{
+              marginHorizontal: 10,
+              alignSelf: "center",
+              fontSize: FONTS.SIZE.CONTENTS,
+            }}
+          >
+            원
+          </Text>
+        </View>
         <Text style={styles.title}>총 입찰 금액</Text>
         <View
           style={{
@@ -214,6 +247,7 @@ function BiddingScreen(props) {
             원
           </Text>
         </View>
+        
         <Text style={styles.title}>코멘트</Text>
         <DropDownPicker
           style={{ marginLeft: 10, width: width * 0.8 }}

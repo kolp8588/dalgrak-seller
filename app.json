@@ -4,7 +4,7 @@
     "slug": "dalgrak-seller",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/farmer.png",
+    "icon": "./assets/images/dalgrak_logo.png",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -12,8 +12,8 @@
       "**/*"
     ],
     "androidStatusBar": {
-      "backgroundColor": "#23344E",
-      "barStyle": "light-content",
+      "backgroundColor": "white",
+      "barStyle": "dark-content",
       "translucent": false
     },
     "ios": {

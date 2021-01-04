@@ -29,8 +29,6 @@ class Container extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.profile) {
-      console.log("Profile!!")
-      console.log(nextProps.profile);
       this.setState({
         isFetching: false,
       });

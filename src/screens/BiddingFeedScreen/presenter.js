@@ -22,13 +22,6 @@ const BiddingFeedScreen = (props) => (
       />
     }
   >
-    <StatusBar
-      translucent
-      animated={false}
-      hidden={false}
-      backgroundColor={COLORS.DALGRAK} //Android
-      barStyle="light-content" // IOS
-    />
     <View style={styles.container}>
       {props.biddings &&
         props.biddings.map((bidding, index) => {
@@ -44,7 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     backgroundColor: "white",
-    //marginHorizontal: 20,
+    paddingTop: 10,
   },
 });
 

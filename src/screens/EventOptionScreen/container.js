@@ -28,7 +28,6 @@ class Container extends Component {
   };
 
   render() {
-    console.log(this.props.likes)
     return (
       <EventOptionScreen {...this.props} {...this.state} pickCategory={this._pickCategory} />
     );

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  StatusBar,
   View,
   Text,
   ScrollView,
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     backgroundColor: "white",
-    //marginHorizontal: 20,
+    paddingTop: 10,
   },
 });
 

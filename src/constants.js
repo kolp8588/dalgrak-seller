@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 
 export const COLORS = {
-  DALGRAK: "#23344E",
+  DALGRAK: "#4BBFAE",
+  SUCCESS: "#27AE60",
   MINOR: "#bbb",
   WARNING: "#EB5757",
   INPUT: "#F2F2F2",

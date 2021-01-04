@@ -31,7 +31,7 @@ class Bidding extends Component {
             <FadeIn>
               <Image
                 source={{ uri: dalgrak.imageUrl }}
-                style={{ width: 100, height: 100, borderRadius: 100 }}
+                style={{ width: (width - 10) * 0.25, height: (width - 10) * 0.25, borderRadius: 20 }}
               />
             </FadeIn>
             <View
@@ -44,25 +44,28 @@ class Bidding extends Component {
                 <Text
                   style={{
                     fontSize: FONTS.SIZE.TITLE,
-                    color: COLORS.DALGRAK,
+                    fontWeight: "600",
                   }}
                 >
                   {dalgrak.category}
                 </Text>
-                <CountDown
-                  style={{marginLeft: 5}}
-                  until={sec}
-                  size={12}
-                  digitTxtStyle={{ color: COLORS.DALGRAK }}
-                  digitStyle={{ 
-                    borderWidth: 2,
-                    borderColor: COLORS.DALGRAK,
-                    backgroundColor: "white" 
-                  }}
-                  timeToShow={['H', 'M', 'S']}
-                  showSeparator={true}
-                  timeLabels={{h: null, m: null, s: null}}
-                />
+                {
+                  sec > 0 && bidding.status == "IN_PROGRESS" &&
+                  <CountDown
+                    style={{marginLeft: 5}}
+                    until={sec}
+                    size={12}
+                    digitTxtStyle={{ color: COLORS.DALGRAK }}
+                    digitStyle={{ 
+                      borderWidth: 2,
+                      borderColor: COLORS.DALGRAK,
+                      backgroundColor: "white" 
+                    }}
+                    timeToShow={['H', 'M', 'S']}
+                    showSeparator={true}
+                    timeLabels={{h: null, m: null, s: null}}
+                  />
+                }
               </View>
 
               <Text
@@ -80,7 +83,7 @@ class Bidding extends Component {
               >
                 참여업체 : {dalgrak.biddings ? dalgrak.biddings.length : 0}
               </Text>
-                {bidding.status == "IN_PROCESS" && 
+                {bidding.status == "IN_PROGRESS" && 
                   <Text
                     style={{
                       fontSize: FONTS.SIZE.CONTENTS,
@@ -88,16 +91,16 @@ class Bidding extends Component {
                   >진행중
                   </Text>
                 }
-                {bidding.status == "SUCCESS" && 
+                {bidding.status == "WAITING_FOR_PAYMENT" && 
                   <Text
                     style={{
-                      color: COLORS.DALGRAK,
+                      color: COLORS.SUCCESS,
                       fontSize: FONTS.SIZE.CONTENTS,
                     }}
                   >낙찰
                   </Text>
                 }
-                {bidding.status == "SUCCESS" && 
+                {bidding.status == "FAIL" && 
                   <Text
                     style={{
                       color: COLORS.WARNING,
@@ -105,10 +108,25 @@ class Bidding extends Component {
                     }}
                   >낙찰실패
                   </Text>
-                }                  
+                }
+                {bidding.status == "ON_SHIPPING" && 
+                  <Text
+                    style={{
+                      color: COLORS.SUCCESS,
+                      fontSize: FONTS.SIZE.CONTENTS,
+                    }}
+                  >배송완료
+                  </Text>
+                }
             </View>
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            borderTopWidth: 0.5,
+            borderTopColor: COLORS.MINOR,
+            marginVertical: 10,
+          }} />
       </View>
     );
   }
@@ -116,7 +134,6 @@ class Bidding extends Component {
 
 const styles = StyleSheet.create({
   dalgrak: {
-    marginVertical: 10,
     marginHorizontal: 30,
   },
 });

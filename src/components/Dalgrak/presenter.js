@@ -4,9 +4,11 @@ import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FadeIn from "react-native-fade-in-image";
 import CountDown from "react-native-countdown-component";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { COLORS, FONTS } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
+import { color } from "react-native-reanimated";
 
 const { width, height } = Dimensions.get("window");
 
@@ -31,38 +33,59 @@ class DalgrakDetail extends Component {
             <FadeIn>
               <Image
                 source={{ uri: this.props.imageUrl }}
-                style={{ width: 100, height: 100, borderRadius: 100 }}
+                style={{ width: (width - 10) * 0.25, height: (width - 10) * 0.25, borderRadius: 20 }}
               />
             </FadeIn>
             <View
               style={{
+                flex: 1,
                 marginLeft: 20,
                 marginVertical: 2,
               }}
             >
-              <View style={{flexDirection:"row"}}>
+              <View style={{
+                  flexDirection:"row", 
+                  justifyContent: "space-between",
+                  alignContent: "space-between"
+                }}>
                 <Text
-                  style={{
+                  style={{                    
                     fontSize: FONTS.SIZE.TITLE,
-                    color: COLORS.DALGRAK,
+                    textAlignVertical: "center"
                   }}
                 >
                   {this.props.category}
                 </Text>
-                <CountDown
-                  style={{marginLeft: 5}}
-                  until={sec}
-                  size={12}
-                  digitTxtStyle={{ color: COLORS.DALGRAK }}
-                  digitStyle={{ 
-                    borderWidth: 2,
-                    borderColor: COLORS.DALGRAK,
-                    backgroundColor: "white" 
-                  }}
-                  timeToShow={['H', 'M', 'S']}
-                  showSeparator={true}
-                  timeLabels={{h: null, m: null, s: null}}
-                />
+                {
+                  sec > 0 &&                
+                  <View style={{flexDirection: "row"}}>
+                    <MaterialCommunityIcons
+                      style={{alignSelf: "center"}}
+                      name={"timer"}
+                      size={22}
+                    />
+                    <CountDown
+                      until={sec}
+                      size={FONTS.SIZE.CONTENTS}
+                      digitStyle={{ 
+                        width: 25
+                      }}
+                      timeToShow={['H', 'M', 'S']}
+                      showSeparator={true}
+                      timeLabels={{h: null, m: null, s: null}}
+                    />
+                  </View>
+                }
+                {
+                  sec < 0 && 
+                  <Text
+                    style={{                    
+                      fontSize: FONTS.SIZE.TITLE,
+                      color: COLORS.MINOR,
+                      textAlignVertical: "center"
+                    }}
+                  >종료</Text>
+                }
               </View>
               <Text
                 style={{
@@ -70,7 +93,7 @@ class DalgrakDetail extends Component {
                   fontSize: FONTS.SIZE.CONTENTS,
                 }}
               >
-                {this.props.quantity} {this.props.unit}
+                수량 : {this.props.quantity} {this.props.unit}
               </Text>
               
               <Text
@@ -79,10 +102,16 @@ class DalgrakDetail extends Component {
                 }}
               >
                 참여업체 : {this.props.biddings ? this.props.biddings.length : 0}
-              </Text>
+              </Text>              
             </View>
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            borderTopWidth: 0.5,
+            borderTopColor: COLORS.MINOR,
+            marginVertical: 10,
+          }} />
       </View>
     );
   }
@@ -90,8 +119,7 @@ class DalgrakDetail extends Component {
 
 const styles = StyleSheet.create({
   dalgrak: {
-    marginVertical: 10,
-    marginHorizontal: 30,
+    marginHorizontal: 20,
   },
 });
 

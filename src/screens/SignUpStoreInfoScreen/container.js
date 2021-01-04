@@ -111,7 +111,6 @@ class Container extends Component {
           this.setState({ isSubmitting: false });
         } else {
           Alert.alert("달그락 입점을 축하드립니다!");
-          console.log("달그락 입점을 축하드립니다!");
           this.props.navigation.navigate("LogIn");
         }
       } 

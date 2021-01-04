@@ -18,7 +18,7 @@ class LoggedOutNavigation extends Component {
             name="LogIn"
             component={LogInScreen}
             options={{
-              headerTitle: true,
+              headerShown: false,
             }}
           />
           <Stack.Screen

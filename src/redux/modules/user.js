@@ -82,14 +82,11 @@ function login(username, password) {
         } else {
           alert('Must use physical device for Push Notifications');
         }
-        //ExponentPushToken[iy9JdiG4gSubCuy8si6F2P]
+
         const isUpdated = await updateProfile(request);
         if (isUpdated) {
-          console.log("Getget");
           const profile = await getProfile(response.user.uid)
-          console.log("profile");
           if (profile != null) {
-            console.log("notnull");
             dispatch(setLogIn(response.user.uid));
             dispatch(setUser(response.user));
             dispatch(setProfile(profile));
@@ -141,9 +138,9 @@ function signUp(request) {
 // API Actions
 async function addProfile(request) {
   try {
-    await sellerApp
+    await secondaryApp
       .firestore()
-      .collection("users")
+      .collection("sellers")
       .doc(request.userId)
       .set(request);
   } catch (error) {
@@ -155,9 +152,9 @@ async function addProfile(request) {
 
 async function updateProfile(request) {
   try {
-    await sellerApp
+    await secondaryApp
       .firestore()
-      .collection("users")
+      .collection("sellers")
       .doc(request.userId)
       .update(request);
   } catch (error) {
@@ -169,9 +166,9 @@ async function updateProfile(request) {
 
 async function getProfile(userId) {
   try {
-    const collection = await sellerApp
+    const collection = await secondaryApp
       .firestore()
-      .collection("users")
+      .collection("sellers")
       .where("userId", "==", userId)
       .get();
     if (collection != null) {
@@ -199,8 +196,6 @@ async function getProfile(userId) {
             simpleUploadsData.push(simpleUpload.data())
           }  
         }
-        console.log("simpleUploadsData")
-        console.log(simpleUploadsData)
         item.id = profile.id;
         item.likes = likesData;
         item.simpleUploads = simpleUploadsData;
@@ -312,7 +307,6 @@ function removeCategory(id) {
       user: { token },
     } = getState();
     try {
-      console.log(token + "+" + id);
       const result = await secondaryApp
         .firestore()
         .collection("likes")
@@ -376,39 +370,6 @@ function getOwnProfile() {
   };
 }
 
-function registerForPush() {
-  return async (dispatch, getState) => {
-    const {
-      user: { token },
-    } = getState();
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-
-    if (existingStatus !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    if (finalStatus === "denied") {
-      return;
-    }
-
-    let pushToken = await Notifications.getExpoPushTokenAsync();
-
-    return fetch(`${API_URL}/users/push/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `JWT ${token}`,
-      },
-      body: JSON.stringify({
-        token: pushToken,
-      }),
-    });
-  };
-}
 
 // Initial State
 
@@ -490,7 +451,6 @@ const actionCreators = {
   removeCategory,
   removeSimpleUpload,
   getOwnProfile,
-  registerForPush,
   submitSimpleUpload,
 };
 

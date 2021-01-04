@@ -97,7 +97,16 @@ class Request extends Component {
         <Text style={styles.text}>
           수량 : {this.props.quantity} {this.props.unit}
         </Text>
-        <Text style={styles.text}>배송지 : {this.props.address} {this.props.detailAddress}</Text>
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.text}>
+            배송지 : {this.props.address} {" "}
+            {
+              this.props.status=="WAITING_FOR_PAYMENT" &&
+              this.props.detailAddress
+            } 
+          </Text>          
+        </View>
+        
         <Text style={styles.text}>상세 요청 내용 : </Text>
         <Text numberOfLines={5} style={styles.request}>
           {this.props.info}

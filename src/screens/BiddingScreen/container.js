@@ -6,6 +6,7 @@ class Container extends Component {
   state = {
     images: [],
     price: 0,
+    shippingFee: 0,
     total: 0,
     comment: "최저가 자신있습니다.",
     info: "",
@@ -24,6 +25,7 @@ class Container extends Component {
         onInfoChange={this._onInfoChange}
         onCommentChange={this._onCommentChange}
         onPressSubmit={this._onPressSubmit}
+        onShippingFeeChange={this._onShippingFeeChange}
       />
     );
   }
@@ -42,10 +44,20 @@ class Container extends Component {
   };
 
   _onPriceChange = (text) => {
+    const { shippingFee } = this.state;
     var value = text.split(",").join("");
     this.setState({
       price: value * 1,
-      total: value * this.props.route.params.dalgrak.quantity,
+      total: value * this.props.route.params.dalgrak.quantity + (shippingFee * 1),
+    });
+  };
+
+  _onShippingFeeChange = (text) => {
+    const { price } = this.state;
+    var value = text.split(",").join("");
+    this.setState({
+      shippingFee: value * 1,
+      total: price * this.props.route.params.dalgrak.quantity + (value * 1),
     });
   };
 

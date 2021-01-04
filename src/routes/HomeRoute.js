@@ -3,10 +3,12 @@ import { TouchableWithoutFeedback, Image, View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import FeedNavigation from "../navigation/FeedNavigation";
+import {LinearGradient} from 'expo-linear-gradient';
 
 import { COLORS } from "../constants";
 
 const Stack = createStackNavigator();
+
 class HomeRoute extends Component {
   render() {
     const { navigation } = this.props;
@@ -14,6 +16,7 @@ class HomeRoute extends Component {
       <Stack.Navigator
         screenOptions={{
           headerTintColor: "white",
+          headerHideShadow: true,
         }}
       >
         <Stack.Screen
@@ -21,19 +24,27 @@ class HomeRoute extends Component {
           component={FeedNavigation}
           options={{
             headerStyle: {
-              backgroundColor: COLORS.DALGRAK,
+              elevation: 0,
+              backgroundColor: COLORS.DALGRAK
             },
+            headerBackground: () =>
+              <LinearGradient
+                colors={['#44C0B0', '#007677']}
+                style={{ flex: 1 }}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+              />,
             headerLeft: () => <View />,
-            headerTitle: (props) => <LogoTitle {...props} />,
+            headerTitle: () => <LogoTitle />,
             headerRight: () => (
               <TouchableWithoutFeedback
                 style={{ marginRight: 20 }}
                 onPress={() => navigation.navigate("Events")}
               >
                 <MaterialCommunityIcons
-                  name={"bell"}
-                  size={22}
-                  style={{ marginRight: 15, color: "white" }}
+                  name={"bell-outline"}
+                  size={25}
+                  style={{ marginRight: 15, color: 'white' }}
                 />
               </TouchableWithoutFeedback>
             ),
@@ -52,8 +63,8 @@ function LogoTitle() {
       }}
     >
       <Image
-        style={{ width: 70, resizeMode: "contain" }}
-        source={require("../../assets/images/logo.png")}
+        style={{ width: 40, height: 40, resizeMode: "contain"}}
+        source={require("../../assets/images/dalgrak_white.png")}
       />
     </View>
   );

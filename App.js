@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Dimensions, View, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, StyleSheet, StatusBar } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
@@ -22,6 +22,13 @@ YellowBox.ignoreWarnings([
   "Animated: `useNativeDriver`",
 ]);
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export default class App extends React.Component {
   state = {
@@ -30,15 +37,23 @@ export default class App extends React.Component {
 
   componentDidMount() {
     SplashScreen.preventAutoHideAsync();
-    // this._registerForPushNotificationsAsync();
+    Notifications.addNotificationReceivedListener(this._handleNotification);
+    Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
   }
+  _handleNotification = notification => {
+    console.log(notification);
+  };
+
+  _handleNotificationResponse = response => {
+    console.log(response);
+  };
 
   render() {
     if (!this.state.isReady) {
       return (
-        <View style={{ flex: 1, alignItems:"center", justifyContent: "center", backgroundColor: COLORS.DALGRAK }}>
+        <View style={styles.container}>
           <Image
-            source={require('./assets/images/Logo.gif')}
+            source={require('./assets/images/dalgrak_full.png')}
             onLoad={this._cacheResourcesAsync}
             resizeMode="stretch"
             style={styles.logo}
@@ -55,36 +70,6 @@ export default class App extends React.Component {
       </Provider>
     );
   }
-  // _registerForPushNotificationsAsync = async () => {
-  //   if (Constants.isDevice) {
-  //     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  //     let finalStatus = existingStatus;
-  //     if (existingStatus !== 'granted') {
-  //       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-  //       finalStatus = status;
-  //     }
-  //     if (finalStatus !== 'granted') {
-  //       alert('Failed to get push token for push notification!');
-  //       return;
-  //     }
-  //     const token = (await Notifications.getExpoPushTokenAsync()).data;
-      
-  //     console.log(token);
-  //     this.setState({ expoPushToken: token });
-  //   } else {
-  //     alert('Must use physical device for Push Notifications');
-  //   }
-  
-  //   if (Platform.OS === 'android') {
-  //     Notifications.setNotificationChannelAsync('default', {
-  //       name: 'default',
-  //       importance: Notifications.AndroidImportance.MAX,
-  //       vibrationPattern: [0, 250, 250, 250],
-  //       lightColor: '#FF231F7C',
-  //     });
-  //   }
-  // };
-  
 
   _cacheSplashResourcesAsync = async () => {
     const gif = require('./assets/images/Logo.gif');
@@ -97,7 +82,8 @@ export default class App extends React.Component {
     try {
       const images = [
         require('./assets/images/farmer.png'),
-        require('./assets/images/loading.png'),
+        require('./assets/images/dalgrak_white.png'),
+        require('./assets/images/dalgrak_full.png'),
       ];
 
       const cacheImages = images.map(image => {
@@ -109,13 +95,19 @@ export default class App extends React.Component {
       console.warn(e);
     } finally {
       // this.setState({ isReady: true });
-      setTimeout(() => {this.setState({isReady: true})},2500);
+      setTimeout(() => {this.setState({isReady: true})}, 1000);
     }
   };
 }
 const styles = StyleSheet.create({
-logo: {
-    width: width,
+  container:{
+    flex: 1, 
+    alignItems:"center", 
+    justifyContent: "center", 
+    paddingBottom: 150,
+  },
+  logo: {
+    width: width * 0.7,
     resizeMode: "contain",
   },
 })

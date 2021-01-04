@@ -1,5 +1,9 @@
 import React from "react";
 import { Component } from "react";
+import { TouchableWithoutFeedback} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {LinearGradient} from 'expo-linear-gradient';
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { COLORS } from "../constants"
 import EventsScreen from "../screens/EventsScreen";
@@ -12,12 +16,33 @@ class EventsRoute extends Component {
     const { navigation } = this.props;
 
     return (
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerBackground: () =>
+              <LinearGradient
+                colors={['#44C0B0', '#007677']}
+                style={{ flex: 1 }}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+              />
+        }}
+      >
         <Stack.Screen
           name="Events"
           component={EventsScreen}
           options={{
             headerTitle: "이벤트",
+            headerRight: () => (
+              <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("EventOption")}
+              >
+                <MaterialCommunityIcons
+                  name={"settings-outline"}
+                  size={30}
+                  style={{ marginRight: 15, color: "white" }}
+                />
+              </TouchableWithoutFeedback>
+            ),
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
@@ -28,7 +53,7 @@ class EventsRoute extends Component {
           name="EventOption"
           component={EventOptionScreen}
           options={{
-            headerTitle: "알림 살정",
+            headerTitle: "알림 설정",
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },

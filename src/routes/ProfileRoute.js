@@ -5,6 +5,8 @@ import CategoryScreen from "../screens/CategoryScreen";
 import SimpleUploadCategoryScreen from "../screens/SimpleUploadCategoryScreen";
 import SimpleUploadScreen from "../screens/SimpleUploadScreen";
 import { Component } from "react";
+import {LinearGradient} from 'expo-linear-gradient';
+
 import { COLORS } from "../constants";
 const Stack = createStackNavigator();
 
@@ -12,7 +14,17 @@ class ProfileRoute extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerBackground: () =>
+              <LinearGradient
+                colors={['#44C0B0', '#007677']}
+                style={{ flex: 1 }}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+              />
+        }}
+        >
         <Stack.Screen
           name="Profile"
           component={ProfileScreen}
@@ -20,7 +32,8 @@ class ProfileRoute extends Component {
             headerStyle: {
               backgroundColor: COLORS.DALGRAK,
             },
-            headerTintColor: "white",
+            headerTitle: "나의 달그락",
+            headerTintColor: "white",            
           }}
         />
         <Stack.Screen

@@ -54,6 +54,7 @@ const SignUpScreen = (props) => (
           placeholder="비밀번호"
           style={styles.textInput}
           autoCapitalize={"none"}
+          textContentType={'oneTimeCode'}
           secureTextEntry={true}
           value={props.password}
           onChangeText={props.changePassword}
@@ -71,6 +72,7 @@ const SignUpScreen = (props) => (
           placeholder="비밀번호 확인"
           style={styles.textInput}
           autoCapitalize={"none"}
+          textContentType={'oneTimeCode'}
           secureTextEntry={true}
           value={props.passwordCheck}
           onChangeText={props.changePasswordCheck}

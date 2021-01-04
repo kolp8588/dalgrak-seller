@@ -4,12 +4,13 @@ import {
   Modal,
   View,
   Text,
+  TextInput,
   Dimensions,
   ScrollView,
   StyleSheet,
-  Image,
   TouchableHighlight,
   TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import FadeIn from "react-native-fade-in-image";
 import { AntDesign } from '@expo/vector-icons';
@@ -19,12 +20,70 @@ import { COLORS, COMMON_STYLES, FONTS } from "../../constants";
 
 const { height, width } = Dimensions.get("window");
 
-const RelatedDalgrakScreen = (props) => {
+const SuccessfulBiddingScreen = (props) => {
   var bidding = props.route.params.bidding;
   var dalgrak = bidding.dalgrak;
   
   return (
     <ScrollView style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={props.isCancelModalVisible}
+        onRequestClose={() => {
+          props.onPressSubmit(false);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text
+              style={{
+                fontSize: FONTS.SIZE.TITLE,
+                fontWeight: "bold",
+                marginTop: 10,
+                marginBottom: 20,
+                alignSelf: "center",
+              }}
+            >
+              낙찰을 취소하시겠습니까?
+            </Text>
+            <View style={{flexDirection: "row", alignSelf: "center"}}>
+              <AntDesign name="exclamationcircle" size={18} color={COLORS.WARNING} />
+              <Text style={{
+                  color: COLORS.WARNING, 
+                  marginLeft: 5,
+                  marginBottom: 20,
+                }}>
+                낙찰을 취소할 경우 달그락 점수에 영향을 줄 수 있습니다!
+              </Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableHighlight
+                style={{ flex: 1, height: 50, justifyContent: "center" }}
+                onPress={() => {
+                  props.onPressCancel(false);
+                }}
+              >
+                <Text style={styles.modalButtonText}>취소</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={{ flex: 1, height: 50, justifyContent: "center" }}
+                onPress={() => {
+                  props.cancel();
+                }}
+              >
+                {props.isSubmitting ? (
+                  <ActivityIndicator size="large" color={COLORS.DALGRAK} />
+                ) : (
+                  <Text style={[styles.modalButtonText, {color: COLORS.WARNING}]}>확인</Text>
+                )}
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Modal
         animationType="fade"
         transparent={true}
@@ -44,16 +103,16 @@ const RelatedDalgrakScreen = (props) => {
                 alignSelf: "center",
               }}
             >
-              입찰을 취소하시겠습니까?
+              배송을 완료하셨습니까?
             </Text>
             <View style={{flexDirection: "row", alignSelf: "center"}}>
-              <AntDesign name="exclamationcircle" size={18} color={COLORS.WARNING} />
+              <AntDesign name="exclamationcircle" size={18} color={COLORS.DALGRAK} />
               <Text style={{
-                  color: COLORS.WARNING, 
+                  color: COLORS.DALGRAK, 
                   marginLeft: 5,
                   marginBottom: 20,
                 }}>
-                진행중인 입찰을 취소할 경우 달그락 점수에 영향을 줄 수 있습니다!
+                구매자에게 송장번호가 공개됩니다!
               </Text>
             </View>
             <View
@@ -76,163 +135,16 @@ const RelatedDalgrakScreen = (props) => {
                 {props.isSubmitting ? (
                   <ActivityIndicator size="large" color={COLORS.DALGRAK} />
                 ) : (
-                  <Text style={[styles.modalButtonText, {color: COLORS.WARNING}]}>확인</Text>
+                  <Text style={[styles.modalButtonText, {color: COLORS.DALGRAK}]}>확인</Text>
                 )}
               </TouchableHighlight>
             </View>
           </View>
         </View>
       </Modal>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={props.isSuccess}
-        onRequestClose={() => {
-          props.goBack();
-        }}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View style={styles.backgroundView}>
-          <View style={{alignItems: "center", marginHorizontal: 20}}>
-            <FadeIn>
-              <Image
-                source={require("../../../assets/images/success.png")}
-                style={{
-                  resizeMode: "contain",
-                  width: width * 0.9,
-                  height: height * 0.4,
-                }}
-              />
-            </FadeIn>
-            <Text style={{
-                color: COLORS.WARNING,
-                fontSize: FONTS.SIZE.TITLE,
-                textAlign: "center",
-                marginBottom: 150,
-                fontWeight: "bold"
-              }}>
-              낙찰을 축하드립니다!!
-            </Text>
-            <View
-              style={{ 
-                flexDirection: "row", 
-                justifyContent: "space-between" 
-              }}
-            >
-              <TouchableHighlight
-                style={{ 
-                  flex: 1, 
-                  height: 50, 
-                  marginHorizontal: 10,
-                  justifyContent: "center", 
-                  backgroundColor: COLORS.DALGRAK, 
-                  borderRadius: 5
-                }}
-                onPress={() => {
-                  props.goBack();
-                }}
-              >
-                <Text style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: FONTS.SIZE.CONTENTS
-                  }}>
-                    달그락 목록
-                  </Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={{ 
-                  flex: 1, 
-                  height: 50,
-                  marginHorizontal: 10,
-                  justifyContent: "center", 
-                  backgroundColor: COLORS.DALGRAK, 
-                  borderRadius: 5
-                }}
-                onPress={() => {
-                  props.moveSuccess();
-                }}
-              >
-                {props.isSubmitting ? (
-                  <ActivityIndicator size="large" color={COLORS.DALGRAK} />
-                ) : (
-                  <Text style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: FONTS.SIZE.CONTENTS
-                  }}>
-                    낙찰 상세보기
-                  </Text>
-                )}
-              </TouchableHighlight>
-            </View> 
-          </View>
-        </View>
-      </Modal>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={props.isFail}
-        onRequestClose={() => {
-          props.goBack();
-        }}
-      >
-        <View style={styles.backgroundView}>
-          <View style={{alignItems: "center", marginHorizontal: 20}}>
-            <FadeIn>
-              <Image
-                source={require("../../../assets/images/fail.png")}
-                style={{
-                  resizeMode: "contain",
-                  width: width * 0.5,
-                  height: height * 0.4,
-                }}
-              />
-            </FadeIn>
-            <Text style={{
-                color: COLORS.WARNING,
-                fontSize: FONTS.SIZE.TITLE,
-                textAlign: "center",
-                marginBottom: 10,
-                fontWeight: "bold"
-              }}>
-              아쉽지만 다음 기회에..
-            </Text>
-            <Text style={{
-                fontSize: FONTS.SIZE.CONTENTS,
-                textAlign: "center",
-                marginBottom: 140,
-                fontWeight: "bold"
-              }}>
-              입찰에 참여해 주셔서 진심으로 감사드립니다
-            </Text>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <TouchableHighlight
-                style={{ 
-                  flex: 1, 
-                  height: 50, 
-                  marginHorizontal: 10,
-                  justifyContent: "center", 
-                  backgroundColor: COLORS.DALGRAK, 
-                  borderRadius: 5
-                }}
-                onPress={() => {
-                  props.goBack();
-                }}
-              >
-                <Text style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: FONTS.SIZE.CONTENTS
-                  }}>
-                    달그락 목록
-                  </Text>
-              </TouchableHighlight>
-            </View> 
-          </View>
-        </View>
-      </Modal>
       <DalgrakDetail {...dalgrak} />
       <View style={{marginHorizontal: 15}}>
       <View
@@ -263,32 +175,46 @@ const RelatedDalgrakScreen = (props) => {
             borderTopColor: COLORS.MINOR,
             marginVertical: 10,
           }}
-        />
-        <Text style={{fontSize: FONTS.SIZE.H1, color: COLORS.DALGRAK, marginBottom: 10}}>
-          참여 업체
-        </Text>
-        <Text style={styles.contents}>
-          {dalgrak.biddings ? dalgrak.biddings.length : 0} 개
-        </Text>
+        />        
       </View>
       <View
-        style={{
-          height: 50,
-          flexDirection: "row",
+        style={{          
           marginVertical: 10,
         }}
       >
-        {bidding.status == "IN_PROGRESS" &&
+        <View style={{
+            flexDirection: "row",
+            alignItems: "center"
+        }}>
+          <TextInput
+            placeholder="송장번호를 입력하세요"
+            style={styles.textInput}
+            autoCapitalize={"none"}
+            autoCorrect={false}
+            value={props.shippingNumber}
+            onChangeText={props.changeShippingNumber}
+            maxLength={13}
+            keyboardType='numeric'
+          />
           <TouchableOpacity
-            style={[styles.button, { flex: 1, backgroundColor: COLORS.WARNING }]}
-            onPress={() => {
-              props.onPressSubmit(true);
-            }}
-          >
-            <Text style={styles.buttonText}>입찰 취소</Text>
-          </TouchableOpacity>
-        }        
+          style={styles.button}
+          onPress={() => {
+            props.onPressSubmit(true);
+          }}
+        >
+          <Text style={styles.buttonText}>배송 출발</Text>
+        </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: COLORS.WARNING }]}
+          onPress={() => {
+            props.onPressCancel(true);
+          }}
+        >
+          <Text style={styles.buttonText}>낙찰 취소</Text>
+        </TouchableOpacity>
       </View>
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 };
@@ -337,6 +263,10 @@ const styles = StyleSheet.create({
     fontSize: FONTS.SIZE.CONTENTS
   },
   button: {
+    flex: 1, 
+    height: 50,
+    marginVertical: 5,
+    backgroundColor: COLORS.DALGRAK,
     borderRadius: 5,
     marginHorizontal: 10,
     alignContent: "center",
@@ -347,8 +277,17 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: FONTS.SIZE.CONTENTS,
   },
+  textInput: {
+    height: 50,
+    width: width * 0.6,
+    textAlign: "center",
+    marginHorizontal: 10,
+    fontSize: FONTS.SIZE.CONTENTS,
+    borderColor: "lightgray",
+    borderWidth: 1,
+  },
 });
 
-RelatedDalgrakScreen.propTypes = {};
+SuccessfulBiddingScreen.propTypes = {};
 
-export default RelatedDalgrakScreen;
+export default SuccessfulBiddingScreen;

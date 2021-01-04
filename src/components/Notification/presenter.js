@@ -10,8 +10,6 @@ const { width, height } = Dimensions.get("window");
 class Notification extends Component {
   render() {
     const { navigation } = this.props;
-    console.log("Presenter!")
-    console.log(this.props.created)
     return (
       <View style={styles.container}>
         <TouchableOpacity>

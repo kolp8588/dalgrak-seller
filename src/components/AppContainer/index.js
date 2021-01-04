@@ -17,7 +17,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(dalgrakActions.refreshStates());
       // dispatch(userActions.getNotifications());
       // dispatch(userActions.getOwnProfile());
-      // dispatch(userActions.registerForPush());
     },
   };
 };

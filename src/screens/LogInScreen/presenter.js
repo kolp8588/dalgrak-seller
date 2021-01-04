@@ -8,8 +8,8 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
-  StatusBar,
   ActivityIndicator,
+  StatusBar
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../constants";
@@ -17,9 +17,10 @@ const { width, height } = Dimensions.get("window");
 
 const LogInScreen = (props) => (  
   <View style={styles.container}>
+    <StatusBar barStyle="dark-content" />
     <View style={styles.header}>
       <Image
-        source={require("../../../assets/images/logo_login.png")}
+        source={require("../../../assets/images/dalgrak_full.png")}
         resizeMode="stretch"
         style={styles.logo}
       />
@@ -76,38 +77,20 @@ LogInScreen.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    backgroundColor: "white"
   },
   header: {
-    flex: 2,
-    backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center",
-    width,
   },
   logo: {
-    width: 250,
+    height: 150,
     resizeMode: "contain",
-    marginTop: 50,
   },
   content: {
-    flex: 4,
     backgroundColor: "white",
     paddingTop: 50,
     alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  fbContainer: {
-    marginTop: 30,
-  },
-  fbView: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  fbText: {
-    color: "gray",
-    marginLeft: 10,
-    fontWeight: "600",
-    fontSize: 14,
   },
   textInput: {
     height: 50,
@@ -124,10 +107,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#3E99EE",
     width: width - 80,
-    marginTop: 25,
+    marginTop: 15,
   },
   button: {
-    paddingHorizontal: 7,
+    borderRadius: 5,
     backgroundColor: COLORS.DALGRAK,
     height: 50,
     justifyContent: "center",
