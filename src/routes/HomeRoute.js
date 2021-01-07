@@ -29,7 +29,7 @@ class HomeRoute extends Component {
             },
             headerBackground: () =>
               <LinearGradient
-                colors={['#44C0B0', '#007677']}
+                colors={[COLORS.DALGRAK, COLORS.DALGRAK_MEDIUM, COLORS.DALGRAK_DARK]}
                 style={{ flex: 1 }}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}

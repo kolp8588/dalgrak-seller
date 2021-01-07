@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import {LinearGradient} from 'expo-linear-gradient';
 import TabsNavigation from "./TabsNavigation";
 import EventsRoute from "../routes/EventsRoute";
 import DalgrakScreen from "../screens/DalgrakScreen";
@@ -21,8 +21,16 @@ class RootNavigation extends Component {
       <NavigationContainer>
         <Stack.Navigator mode="modal"
         screenOptions={{
-          headerHideShadow: true,
-        }}>
+          headerBackground: () =>
+              <LinearGradient
+                colors={[COLORS.DALGRAK, COLORS.DALGRAK_MEDIUM, COLORS.DALGRAK_DARK]}
+                style={{ flex: 1 }}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+              />,
+          headerTintColor: "white",
+        }}
+        >
           <Stack.Screen
             name="Tabs"
             component={TabsNavigation}
@@ -34,18 +42,14 @@ class RootNavigation extends Component {
             name="dalgrak"
             component={DalgrakScreen}
             options={{
-              headerTitle: false,
-              headerBackTitleVisible: false,
-              headerTintColor: "black",
+              headerTitle: "주문서",
             }}
           />
           <Stack.Screen
             name="related"
             component={RelatedDalgrakScreen}
             options={{
-              headerTitle: false,
-              headerBackTitleVisible: false,
-              headerTintColor: "black",
+              headerTitle: "나의 입찰서",
             }}
           />
           <Stack.Screen
@@ -61,9 +65,7 @@ class RootNavigation extends Component {
             name="bidding"
             component={BiddingScreen}
             options={{
-              headerTitle: false,
-              headerBackTitleVisible: false,
-              headerTintColor: "black",
+              headerTitle: "입찰하기",
             }}
           />
           <Stack.Screen

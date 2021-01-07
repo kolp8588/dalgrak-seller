@@ -5,14 +5,16 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  Dimensions,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import Tooltip from "react-native-walkthrough-tooltip";
+import Moment from 'moment';
 
 import { COLORS, FONTS } from "../../constants";
 
+const { width, height } = Dimensions.get("window");
 class Request extends Component {
   state = {
     toolTipVisible: false,
@@ -21,6 +23,9 @@ class Request extends Component {
     var endDate = new Date(this.props.date);
     return (
       <View style={styles.container}>
+        <Text style={{ fontSize: FONTS.SIZE.TITLE, fontWeight: "bold", marginBottom: 10 }}>
+          주문서
+        </Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity
             style={styles.profileBox}
@@ -39,12 +44,7 @@ class Request extends Component {
             </Text>
           </TouchableOpacity>
           <View>
-            <View style={{ flexDirection: "row" }}>
-              <MaterialCommunityIcons
-                name={"heart-outline"}
-                size={22}
-                style={{ marginRight: 15, color: COLORS.DALGRAK }}
-              />
+            <View style={{ flexDirection: "row" }}>              
               <MaterialCommunityIcons
                 name={"emoticon-devil-outline"}
                 size={22}
@@ -92,14 +92,42 @@ class Request extends Component {
             marginVertical: 10,
           }}
         />
-        <Text style={styles.text}>납기 : {endDate.toLocaleString()}</Text>
-        <Text style={styles.text}>제품 : {this.props.category}</Text>
-        <Text style={styles.text}>
-          수량 : {this.props.quantity} {this.props.unit}
-        </Text>
         <View style={{flexDirection: "row"}}>
+          <View style={styles.titleArea}>
+            <Text style={styles.titleText}>납</Text>
+            <Text style={styles.titleText}>기</Text>
+            <Text style={styles.titleText}>일</Text>
+          </View>
+          
+          <Text style={styles.text}>{Moment(endDate).format('YYYY년 MM월 DD일 HH시 mm분')}</Text>
+        </View>
+
+        <View style={{flexDirection: "row"}}>
+          <View style={styles.titleArea}>
+            <Text style={styles.titleText}>제</Text>
+            <Text style={styles.titleText}>품</Text>
+          </View>
+          <Text style={styles.text}>{this.props.category}</Text>
+        </View>
+        
+        <View style={{flexDirection: "row"}}>
+          <View style={styles.titleArea}>
+            <Text style={styles.titleText}>수</Text>
+            <Text style={styles.titleText}>량</Text>
+          </View>
           <Text style={styles.text}>
-            배송지 : {this.props.address} {" "}
+            {this.props.quantity} {this.props.unit}
+          </Text>
+        </View>
+        
+        <View style={{flexDirection: "row"}}>
+          <View style={styles.titleArea}>
+            <Text style={styles.titleText}>배</Text>
+            <Text style={styles.titleText}>송</Text>
+            <Text style={styles.titleText}>지</Text>
+          </View>
+          <Text style={styles.text}>
+            {this.props.address} {" "}
             {
               this.props.status=="WAITING_FOR_PAYMENT" &&
               this.props.detailAddress
@@ -107,10 +135,22 @@ class Request extends Component {
           </Text>          
         </View>
         
-        <Text style={styles.text}>상세 요청 내용 : </Text>
+        <Text style={styles.titleText}>상세 요청</Text>
         <Text numberOfLines={5} style={styles.request}>
           {this.props.info}
         </Text>
+        <View style={{ flexDirection: "row", marginTop: 10, alignItems: "center" }}>
+          <MaterialCommunityIcons
+            name={"heart-outline"}
+            size={22}
+            style={{ marginRight: 3, color: COLORS.DALGRAK }}
+          />
+          <Text
+            style={{ fontSize: FONTS.SIZE.CONTENTS, textAlignVertical: "center" }}
+          >
+            관심 달그락
+          </Text>
+        </View>
       </View>
     );
   }
@@ -133,16 +173,30 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginRight: 10,
   },
+  titleArea: {
+    flexDirection: "row",
+    width: width * 0.13, 
+    justifyContent: "space-between"
+  },
+  titleText: {
+    fontSize: FONTS.SIZE.H1,
+    textAlignVertical: "center",
+    fontWeight: "900",
+    marginVertical: 5,
+  },
   text: {
     fontSize: FONTS.SIZE.CONTENTS,
+    textAlignVertical: "center",
     marginVertical: 5,
+    marginLeft: 20,
   },
   request: {
     marginVertical: 5,
-    backgroundColor: COLORS.DISABLED,
+    backgroundColor: COLORS.INPUT,
     fontSize: FONTS.SIZE.CONTENTS,
     padding: 5,
-    height: 120,
+    height: height * 0.18,
+    borderRadius: 5,
   },
 });
 

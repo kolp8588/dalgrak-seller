@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { SafeAreaView, View, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet, StatusBar } from "react-native";
 import LoggedOutNavigation from "../../navigation/LoggedOutNavigation";
 import RootNavigation from "../../navigation/RootNavigation";
-import {LinearGradient} from 'expo-linear-gradient';
 
 import { COLORS } from "../../constants";
 class AppContainer extends Component {

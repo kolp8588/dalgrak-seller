@@ -41,7 +41,7 @@ class DalgrakDetail extends Component {
         >
           { this.props.status == "IN_PROGRESS" &&
           <View style={{ alignItems: "center", marginTop: 5 }}>
-            <CountDown
+            {/* <CountDown
               until={sec}
               size={15}
               digitStyle={{ backgroundColor: COLORS.DALGRAK }}
@@ -49,7 +49,7 @@ class DalgrakDetail extends Component {
               timeToShow={["H", "M", "S"]}
               showSeparator={true}
               timeLabels={{h: null, m: null, s: null}}
-            />
+            /> */}
           </View>
           }
         </View>

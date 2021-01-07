@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import { TouchableWithoutFeedback} from "react-native";
+import { Text, TouchableWithoutFeedback, View} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -20,11 +20,12 @@ class EventsRoute extends Component {
         screenOptions={{
           headerBackground: () =>
               <LinearGradient
-                colors={['#44C0B0', '#007677']}
+                colors={[COLORS.DALGRAK, COLORS.DALGRAK_MEDIUM, COLORS.DALGRAK_DARK]}
                 style={{ flex: 1 }}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
-              />
+              />,
+          headerTintColor: "white",
         }}
       >
         <Stack.Screen
@@ -42,22 +43,14 @@ class EventsRoute extends Component {
                   style={{ marginRight: 15, color: "white" }}
                 />
               </TouchableWithoutFeedback>
-            ),
-            headerStyle: {
-              backgroundColor: COLORS.DALGRAK,
-            },
-            headerTintColor: "white",
+            ),                        
           }}
         />
         <Stack.Screen
           name="EventOption"
           component={EventOptionScreen}
           options={{
-            headerTitle: "알림 설정",
-            headerStyle: {
-              backgroundColor: COLORS.DALGRAK,
-            },
-            headerTintColor: "white",
+            headerTitle: "알림 설정",            
           }}
         />
         <Stack.Screen

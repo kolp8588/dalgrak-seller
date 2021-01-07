@@ -16,7 +16,7 @@ import { TextInputMask } from "react-native-masked-text";
 import { TextInput } from "react-native-gesture-handler";
 import DropDownPicker from "react-native-dropdown-picker";
 import Request from "../../components/Request";
-import { COLORS, FONTS } from "../../constants";
+import { COLORS, FONTS, MESSAGES } from "../../constants";
 
 const { height, width } = Dimensions.get("window");
 
@@ -144,25 +144,30 @@ function BiddingScreen(props) {
           </View>
         </View>
       </Modal>
+
       <Request {...dalgrak} />
       <View
         style={{
           borderTopColor: "lightgray",
+          borderBottomColor: COLORS.INPUT,
           borderTopWidth: 1,
-          marginHorizontal: 10,
-          marginBottom: 20,
+          borderBottomWidth: 5,
+          marginBottom: 10,
         }}
       />
-      <View style={{ marginHorizontal: 10 }}>
-        <Text style={{ fontSize: FONTS.SIZE.TITLE }}>입찰 정보</Text>
-        <Text style={styles.title}>단가</Text>
+      <View style={{ marginHorizontal: 15 }}>
+        <Text style={{ fontSize: FONTS.SIZE.TITLE, fontWeight: "bold" }}>
+          나의 입찰서
+        </Text>
         <View
           style={{
-            alignContent: "center",
-            marginLeft: 10,
-            flexDirection: "row",
+            borderTopColor: "lightgray",
+            borderTopWidth: 1,
+            marginTop: 10,
           }}
-        >
+        />
+        <View style={{flexDirection: "row", alignItems: "center", marginTop: 20}}>
+          <Text style={styles.title}>단가</Text>          
           <TextInputMask
             type={"money"}
             options={{
@@ -185,15 +190,10 @@ function BiddingScreen(props) {
           >
             원 / {dalgrak.unit}
           </Text>
+          
         </View>
-        <Text style={styles.title}>배송비</Text>
-        <View
-          style={{
-            alignContent: "center",
-            marginLeft: 10,
-            flexDirection: "row",
-          }}
-        >
+        <View style={{flexDirection: "row", alignItems: "center", marginTop: 20}}>
+          <Text style={styles.title}>배송비</Text>
           <TextInputMask
             type={"money"}
             options={{
@@ -217,40 +217,41 @@ function BiddingScreen(props) {
             원
           </Text>
         </View>
-        <Text style={styles.title}>총 입찰 금액</Text>
-        <View
-          style={{
-            alignContent: "center",
-            marginLeft: 10,
-            flexDirection: "row",
-          }}
-        >
-          <TextInputMask
-            type={"money"}
-            options={{
-              precision: 0,
-              delimiter: ",",
-              unit: "",
-            }}
-            editable={false}
-            value={props.total}
-            style={styles.total}
-          />
-          <Text
-            style={{
-              alignSelf: "center",
-              fontSize: FONTS.SIZE.TITLE,
-              color: COLORS.DALGRAK,
-            }}
-          >
-            {" "}
-            원
-          </Text>
+        
+        <View style={{flexDirection: "row", alignItems: "center", marginVertical: 20}}>
+          <Text style={styles.title}>총 입찰 금액</Text>
+          <View style={{
+              flex: 1, 
+              flexDirection: "row", 
+              justifyContent: "flex-end",
+            }}>
+            <TextInputMask
+              type={"money"}
+              options={{
+                precision: 0,
+                delimiter: ",",
+                unit: "",
+              }}
+              editable={false}
+              value={props.total}
+              style={styles.total}
+            />
+            <Text
+              style={{
+                textAlignVertical: "center",
+                fontSize: FONTS.SIZE.TITLE,
+                color: COLORS.DALGRAK,
+              }}
+            >
+              {" "}
+              원
+            </Text>
+          </View>
         </View>
         
         <Text style={styles.title}>코멘트</Text>
         <DropDownPicker
-          style={{ marginLeft: 10, width: width * 0.8 }}
+          style={{ marginTop: 10, marginBottom: 20 }}
           dropDownStyle={{ marginLeft: 10, marginTop: 2 }}
           items={[
             { label: "최저가 자신있습니다.", value: 1, selected: true },
@@ -264,16 +265,23 @@ function BiddingScreen(props) {
           }}
           zIndex={100000}
         />
-        <Text style={styles.title}>상품 정보</Text>
+        <Text style={styles.title}>정보</Text>
         <TextInput
           style={styles.info}
           value={props.info}
           multiline={true}
           maxLength={200}
-          onChangeText={(text) => props.onInfoChange(text)}
+          placeholder={MESSAGES.SIMPLE_UPLOAD_INFO_PLACEHOLDER}
+          onChangeText={props.onInfoChange}
         />
 
-        <Text style={styles.title}>상품 사진</Text>
+        <Text style={styles.title}>사진</Text>
+        <Text style={{
+          fontSize: FONTS.SIZE.INFO,
+          marginVertical: 5,
+        }}>
+          {MESSAGES.SIMPLE_UPLOAD_PICKER_INFO}
+        </Text>
       </View>
       <TouchableOpacity
         style={{
@@ -417,9 +425,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONTS.SIZE.H1,
-    marginLeft: 5,
-    marginTop: 15,
-    marginBottom: 10,
+    fontWeight: "900",
+    width: width * 0.3
   },
   textInput: {
     height: 40,
@@ -434,10 +441,11 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     height: 40,
-    width: 100,
+    width: width * 0.3,
     fontSize: FONTS.SIZE.CONTENTS,
     borderColor: "gray",
     borderWidth: 1,
+    borderRadius: 5,
     paddingLeft: 10,
   },
   total: {
@@ -445,13 +453,15 @@ const styles = StyleSheet.create({
     minWidth: 10,
     fontSize: FONTS.SIZE.TITLE,
     color: COLORS.DALGRAK,
-    marginLeft: 10,
   },
   info: {
-    marginHorizontal: 10,
     padding: 5,
-    backgroundColor: COLORS.INPUT,
     fontSize: FONTS.SIZE.CONTENTS,
+    marginTop: 10,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "lightgray"
   },
   images: {
     flexDirection: "row",

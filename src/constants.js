@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 
 export const COLORS = {
   DALGRAK: "#4BBFAE",
+  DALGRAK_MEDIUM: "#009E91",
+  DALGRAK_DARK: "#007970",
   SUCCESS: "#27AE60",
   MINOR: "#bbb",
   WARNING: "#EB5757",
@@ -25,8 +27,8 @@ export const MESSAGES = {
   PASSWORD_CHECK_ERROR: "비밀번호가 일치하지 않습니다.",
   BUSINESS_ID_ERROR: "사업자번호 형식이 올바르지 않습니다.",
   PHONE_NUMBER_ERROR: "핸드폰번호를 확인해주세요.",
-  SIMPLE_UPLOAD_INFO_PLACEHOLDER: "등록하실 상품을 소개하는 정보를 입력해주세요.",
-  SIMPLE_UPLOAD_PICKER_INFO: "구매자에게 제공할 상품 사진을 등록하세요(최대 5개)"
+  SIMPLE_UPLOAD_INFO_PLACEHOLDER: "등록하실 상품을 소개하는 내용을 입력해주세요.",
+  SIMPLE_UPLOAD_PICKER_INFO: "구매자에게 제공할 상품 사진을 등록하세요.(최대 5개)"
 }
 
 export const COMMON_STYLES = StyleSheet.create({

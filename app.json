@@ -12,7 +12,6 @@
       "**/*"
     ],
     "androidStatusBar": {
-      "backgroundColor": "white",
       "barStyle": "dark-content",
       "translucent": false
     },
