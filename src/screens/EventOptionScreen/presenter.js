@@ -9,12 +9,13 @@ import {
   StyleSheet,
 } from "react-native";
 import Like from "../../components/Like";
+import Add from "../../components/Add";
 import { COLORS, FONTS } from "../../constants";
 
 const EventOptionScreen = (props) => (
   <View style={styles.container}>
     <View style={styles.contents}>
-      <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+      <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 20}}>
         <Text style={styles.itemText}>
           모두 일시 중단
         </Text>
@@ -26,7 +27,7 @@ const EventOptionScreen = (props) => (
           value={props.isAlarmStop}
         />
       </View>
-      <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+      <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 20}}>
         <Text style={styles.itemText}>
           자정 이후 중단
         </Text>
@@ -38,36 +39,18 @@ const EventOptionScreen = (props) => (
           value={props.isAlarmStopAtNight}
         />
       </View>
-      <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-        <Text style={styles.itemText}>
-          관심 카테고리
-        </Text>
-        <TouchableOpacity
-          onPress={() => props.pickCategory()}
-          >
-          <View
-            style={[
-              styles.button,
-              { backgroundColor: "white" },
-              { marginHorizontal: 10 },
-              { borderColor: "black" },
-              { borderWidth: StyleSheet.hairlineWidth}
-            ]}
-          >
-            <Text style={[styles.text, { color: "black" }]}>
-              등록
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.itemText}>
+        관심 카테고리
+      </Text>
       <Text>
         관심 카테고리를 등록하시면 신규 입찰 등록시 알림을 받을 수 있습니다.
       </Text>
-      <View style={{flexDirection: "row", margin: 10}}>
+      <View style={{flexDirection: "row", flexWrap: "wrap", marginVertical: 10}}>
         {props.profile.likes &&
         props.profile.likes.map(like => (
           <Like key={like.id} like={like} />
         ))}
+        <Add onAddPress={props.pickCategory}/>
       </View>
       <Text style={styles.itemText}>
         달그락 점수
@@ -84,12 +67,10 @@ const styles = StyleSheet.create({
   },
   contents: {
     flex: 1,
-    margin: 20,
+    margin: 10,
   },
   itemText: {
-    fontSize: FONTS.SIZE.CONTENTS,
-    fontWeight: "400",
-    marginBottom: 20,
+    fontSize: FONTS.SIZE.H1,
   },
   button: {
     borderRadius: 3,
@@ -100,6 +81,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "600",
+    fontSize: FONTS.SIZE.CONTENTS,
     textAlign: "center",
   },
 });

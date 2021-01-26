@@ -24,13 +24,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   number: {
-    fontSize: FONTS.SIZE.CONTENTS,
-    fontWeight: "400",
-    marginBottom: 5,
+    fontSize: FONTS.SIZE.H1,
+    color: COLORS.DALGRAK,
+    fontWeight: "bold",
   },
   text: {
     fontSize: FONTS.SIZE.CONTENTS,
-    color: "#999"
   }
 });
 

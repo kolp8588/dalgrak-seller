@@ -10,7 +10,7 @@ import {
   Button,
 } from "react-native";
 import PropTypes from "prop-types";
-import { COMMON_STYLES, FONTS } from "../../constants";
+import { COLORS, COMMON_STYLES, FONTS } from "../../constants";
 
 const { height, width } = Dimensions.get("window");
 
@@ -52,16 +52,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   item: {
-    height: 100,
-    marginVertical: 10,
+    height: 80,
+    marginVertical: 20,
     marginHorizontal: 85,
-    borderColor: "#366671",
-    borderWidth: 3,
+    borderColor: COLORS.MINOR,
+    borderWidth: 1,
     borderRadius: 4,
-    backgroundColor: "white",
+    backgroundColor: COLORS.DISABLED,
     alignItems: "center",
     justifyContent: "center",
   },
+  title: {
+    fontWeight: "bold",
+    fontSize: FONTS.SIZE.TITLE
+  }
 });
 
 export default CategoryScreen;

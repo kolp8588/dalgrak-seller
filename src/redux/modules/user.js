@@ -300,6 +300,7 @@ function addCategory(category) {
   };
 }
 
+
 // API Actions
 function removeCategory(id) {
   return async (dispatch, getState) => {

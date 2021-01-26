@@ -60,6 +60,7 @@ function LogoTitle() {
     <View
       style={{
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Image

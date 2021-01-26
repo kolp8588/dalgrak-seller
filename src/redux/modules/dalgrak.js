@@ -227,6 +227,27 @@ function submitBidding(bidding) {
   };
 }
 
+function submitIntrest(interest) {
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState();
+    interest.userId = token;
+
+    const response = await secondaryApp
+      .firestore()
+      .collection("interests")
+      .add(interest);
+
+      if (response) {
+        dispatch(getFeed());
+        return true;
+      } else {
+        return false;
+      }
+  };
+}
+
 function removeBidding(id) {
   return async (dispatch) => {
     await secondaryApp
@@ -350,9 +371,10 @@ const actionCreators = {
   getCategories,
   refreshStates,
   submitBidding,
+  submitBiddingImages,
   removeBidding,
   updateBidding,
-  submitBiddingImages,
+  submitIntrest,
 };
 
 export { actionCreators };

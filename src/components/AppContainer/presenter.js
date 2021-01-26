@@ -18,7 +18,7 @@ class AppContainer extends Component {
     const { isLoggedIn, user } = this.props;
     return (
       <Fragment>
-        <StatusBar translucent={true} backgroundColor={'transparent'} />
+        <StatusBar translucent={true} barStyle={'light-content'} backgroundColor={'transparent'} />
         <View style={styles.container}>
           {isLoggedIn && user ? (
             <RootNavigation screenProps={{ username: user.username }} />

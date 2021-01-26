@@ -7,35 +7,39 @@ import { COLORS } from "../../constants";
 
 const { height, width } = Dimensions.get("window");
 
-const Like = ({ onPressOut, like }) => (
-  <View style={styles.container}>
-    <Text>
-      {like.name}
-    </Text>
-    <TouchableOpacity onPressOut={onPressOut}>
-      <AntDesign name="close" size={18} color={COLORS.DALGRAK} />
+const Add = ({onAddPress}) => (
+  <View>    
+    <TouchableOpacity 
+      style={styles.container}
+      onPressOut={onAddPress}
+      >
+      <Text style={{color: "white"}}>
+        등록
+      </Text>
+      <AntDesign name="plus" size={18} color="white" />
     </TouchableOpacity>
   </View>
 );
 
-Like.propTypes = {
-  category: PropTypes.string,
+Add.propTypes = {
 };
 
 const styles = StyleSheet.create({
   container: {        
     flexDirection: "row",
-    width: (width - 60) / 4,
+    width: (width - 50) / 4,
     height: 40,
     borderRadius: 5,
     borderWidth: 1,
-    marginHorizontal: 5,
     padding: 5,
-    borderColor: COLORS.MINOR,
+    marginHorizontal: 5,
+    backgroundColor: COLORS.DALGRAK,
+    borderColor: COLORS.DALGRAK,
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
   },
+  
 });
 
-export default Like;
+export default Add;

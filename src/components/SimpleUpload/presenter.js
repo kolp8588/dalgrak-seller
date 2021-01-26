@@ -1,6 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
+
+import { COLORS } from "../../constants";
+
+const { height, width } = Dimensions.get("window");
 
 const SimpleUpload = ({ onPressOut, simpleUpload }) => (
   <View style={styles.container}>
@@ -8,29 +12,25 @@ const SimpleUpload = ({ onPressOut, simpleUpload }) => (
       {simpleUpload.category.name}
     </Text>
     <TouchableOpacity onPressOut={onPressOut}>
-      <View style={styles.item}>
-        <Text>X</Text>
-      </View>
+     <AntDesign name="close" size={18} color={COLORS.DALGRAK} />
     </TouchableOpacity>
   </View>
 );
 
-SimpleUpload.propTypes = {
-};
 
 const styles = StyleSheet.create({
-  container: {
+  container: {        
     flexDirection: "row",
-    width: 70,
-    borderRadius: 3,
+    width: (width - 60) / 4,
+    height: 40,
+    borderRadius: 5,
     borderWidth: 1,
-    padding: 5,
-    justifyContent: "space-between",
-    marginRight: 10,
-  },
-  item: {
-    alignItems: "center",
     marginHorizontal: 5,
+    padding: 5,
+    borderColor: COLORS.MINOR,
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
   },
 });
 

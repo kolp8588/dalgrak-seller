@@ -17,7 +17,7 @@ const { width, height } = Dimensions.get("window");
 
 const LogInScreen = (props) => (  
   <View style={styles.container}>
-    <StatusBar barStyle="dark-content" />
+    <StatusBar translucent={true} barStyle={'light-content'} backgroundColor={'transparent'} />
     <View style={styles.header}>
       <Image
         source={require("../../../assets/images/dalgrak_full.png")}

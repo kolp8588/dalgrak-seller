@@ -9,12 +9,15 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 
 import ProfileNumber from "../ProfileNumber";
 import Like from "../Like";
+import Add from "../Add";
 import SimpleUpload from "../SimpleUpload";
 import { COLORS, FONTS } from "../../constants"
+import { TextInput } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width;
 class Profile extends Component {
@@ -32,18 +35,18 @@ class Profile extends Component {
       }
     >
         <View style={styles.header}>
-          <View >
           <TouchableOpacity onPressOut={this.props.showAS}>
-            <Image
+            <ImageBackground
               source={require("../../../assets/images/noPhoto.jpg")}
               style={styles.avatar}
+              imageStyle={{borderRadius: 50}}
               defaultSource={require("../../../assets/images/noPhoto.jpg")}
-            />
+            >
+            </ImageBackground>
           </TouchableOpacity>
-          <Text>
+          <Text style={{fontSize: FONTS.SIZE.H1, fontWeight: "bold", marginBottom: 10}}>
             {this.props.profile.userInfo.username}
           </Text>
-          </View>
           <View style={styles.headerColumn}>
             <View style={styles.profileNumbers}>
               <ProfileNumber
@@ -63,46 +66,26 @@ class Profile extends Component {
           </View>
         </View>
         <View style={styles.contents}>
-          <TouchableOpacity>
-            <View
-              style={ styles.profieButton }
-            >
-              <Text style={[styles.text, { color: "black" }]}>
-                프로필 편집
-              </Text>
-            </View>
-          </TouchableOpacity>
           <View
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: COLORS.MINOR,
-            marginVertical: 10,
-          }}
-        />
-          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-            <Text style={styles.headerText}>
-              관심 카테고리
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.props.pickCategory()}
-              >
-              <View
-                style={ styles.button}
-              >
-                <Text style={[styles.text, { color: "black" }]}>
-                  등록
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+            style={{
+              borderTopWidth: 1,
+              borderTopColor: COLORS.MINOR,
+              marginVertical: 10,
+            }}
+          />
+          <Text style={styles.headerText}>
+            관심 카테고리
+          </Text>
+            
           <Text>
             관심 카테고리를 등록하시면 신규 입찰 등록시 알림을 받을 수 있습니다.
           </Text>
-          <View style={{flexDirection: "row", margin: 10}}>
+          <View style={{flexDirection: "row", flexWrap:'wrap', marginVertical: 10,}}>
             {this.props.profile.likes &&
             this.props.profile.likes.map(like => (
               <Like key={like.id} like={like} />
             ))}
+            <Add onAddPress={this.props.pickCategory}/>
           </View>
           <View
             style={{
@@ -111,30 +94,18 @@ class Profile extends Component {
               marginVertical: 10,
             }}
           />
-          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-            <Text style={styles.headerText}>
-              상품 간편 등록
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.props.addSimpleUpload()}
-              >
-              <View
-                style={ styles.button}
-              >
-                <Text style={[styles.text, { color: "black" }]}>
-                  등록
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.headerText}>
+            상품 간편 등록
+          </Text>
           <Text>
             간편 등록 기능을 활용하면 입찰 진행시 빠르게 상품 정보를 입력할 수 있습니다.
           </Text>
-          <View style={{flexDirection: "row", margin: 10}}>
+          <View style={{flexDirection: "row", flexWrap:'wrap', marginVertical: 10,}}>
             {this.props.profile.simpleUploads &&
             this.props.profile.simpleUploads.map(simpleUpload => (
               <SimpleUpload key={simpleUpload.category.id} simpleUpload={simpleUpload} />
             ))}
+            <Add onAddPress={this.props.addSimpleUpload}/>
           </View>
           <View
           style={{
@@ -158,22 +129,20 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },
   header: {
     flex: 1,
-    flexDirection: "row",
-    marginVertical: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
-    justifyContent: "space-between",
+    marginTop: 15,
+    justifyContent: "center",
+    alignItems: "center"
   },
   avatar: {
     width: 60,
     height: 60,
     borderRadius: 50,
-    marginBottom: 10,
+    justifyContent: "flex-end"
+    
   },
   headerColumn: {
     justifyContent: "center",
-    width: width * 0.6,
-    paddingRight: 30
+    width: width * 0.5,
   },
   profileNumbers: {
     flexDirection: "row",

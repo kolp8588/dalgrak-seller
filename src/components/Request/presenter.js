@@ -175,8 +175,8 @@ const styles = StyleSheet.create({
   },
   titleArea: {
     flexDirection: "row",
-    width: width * 0.13, 
-    justifyContent: "space-between"
+    width: width * 0.16, 
+    justifyContent: "space-between",
   },
   titleText: {
     fontSize: FONTS.SIZE.H1,

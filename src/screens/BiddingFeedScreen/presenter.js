@@ -1,15 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  StatusBar,
+  Dimensions,
   View,
   Text,
   ScrollView,
   RefreshControl,
   StyleSheet,
+  Image
 } from "react-native";
 import Bidding from "../../components/Bidding";
-import { COLORS } from "../../constants";
+import { COLORS, FONTS } from "../../constants";
+
+const { height, width } = Dimensions.get("window");
 
 const BiddingFeedScreen = (props) => (
   <ScrollView
@@ -23,11 +26,24 @@ const BiddingFeedScreen = (props) => (
     }
   >
     <View style={styles.container}>
-      {props.biddings &&
+      {props.biddings && props.biddings.length > 0 ? (
         props.biddings.map((bidding, index) => {
           bidding.idx = index;
           return <Bidding bidding={bidding} key={bidding.id} />;
-        })}
+        })) : (
+          <View style={{flex: 1, height: height * 0.6, alignItems: "center", justifyContent: "center"}}>
+            <Image 
+              style={{ width: 50, height: 50, resizeMode: "stretch"}}
+              source={require("../../../assets/images/dalgrak_logo.png")}
+            />
+            <Text
+              style={{ marginTop: 40, fontSize: FONTS.SIZE.TITLE, color: COLORS.MINOR, fontWeight: "bold"}}
+            >
+              참여중인 달그락이 없습니다.
+            </Text>
+          </View>
+        )
+      }
     </View>
   </ScrollView>
 );
