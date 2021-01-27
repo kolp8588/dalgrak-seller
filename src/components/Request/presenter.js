@@ -3,7 +3,6 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
   View,
   Dimensions,
 } from "react-native";
@@ -20,6 +19,7 @@ class Request extends Component {
     toolTipVisible: false,
   };
   render() {
+    console.log(this.props)
     var endDate = new Date(this.props.date);
     return (
       <View style={styles.container}>
@@ -31,17 +31,19 @@ class Request extends Component {
             style={styles.profileBox}
             onPressOut={this.props.showAS}
           >
-            <Image
-              source={require("../../../assets/images/noPhoto.jpg")}
-              style={styles.avatar}
-              defaultSource={require("../../../assets/images/noPhoto.jpg")}
-            />
-            <Text
-              numberOfLines={1}
-              style={{ fontSize: FONTS.SIZE.INFO, width: 200 }}
-            >
-              {this.props.username}
-            </Text>
+            <View>            
+              <Image
+                source={require("../../../assets/images/noPhoto.jpg")}
+                style={styles.avatar}
+                defaultSource={require("../../../assets/images/noPhoto.jpg")}
+              />
+              <Text
+                numberOfLines={1}
+                style={{ fontSize: FONTS.SIZE.INFO, width: 200 }}
+              >
+                {this.props.username}
+              </Text>
+            </View>
           </TouchableOpacity>
           <View>
             <View style={{ flexDirection: "row" }}>              
@@ -69,19 +71,21 @@ class Request extends Component {
               placement="bottom"
               onClose={() => this.setState({ toolTipVisible: false })}
             >
-              <TouchableWithoutFeedback
+              <TouchableOpacity
                 onPress={() => this.setState({ toolTipVisible: true })}
               >
-                <Text
-                  style={{
-                    alignSelf: "flex-end",
-                    textAlign: "center",
-                    textDecorationLine: "underline",
-                  }}
-                >
-                  달그락점수
-                </Text>
-              </TouchableWithoutFeedback>
+                <View>
+                  <Text
+                    style={{
+                      alignSelf: "flex-end",
+                      textAlign: "center",
+                      textDecorationLine: "underline",
+                    }}
+                  >
+                    달그락점수
+                  </Text>
+                 </View>
+              </TouchableOpacity>
             </Tooltip>
           </View>
         </View>
@@ -139,18 +143,26 @@ class Request extends Component {
         <Text numberOfLines={5} style={styles.request}>
           {this.props.info}
         </Text>
-        <View style={{ flexDirection: "row", marginTop: 10, alignItems: "center" }}>
-          <MaterialCommunityIcons
-            name={"heart-outline"}
-            size={22}
-            style={{ marginRight: 3, color: COLORS.DALGRAK }}
-          />
-          <Text
-            style={{ fontSize: FONTS.SIZE.CONTENTS, textAlignVertical: "center" }}
-          >
-            관심 달그락
-          </Text>
-        </View>
+        {
+          this.props.isBidding==undefined && (
+            <TouchableOpacity 
+              style={{ flexDirection: "row", marginTop: 10, alignItems: "center" }}
+              onPressOut={this.props.submit}>
+              <MaterialCommunityIcons            
+                name={ this.props.isInterest ? "heart" : "heart-outline"}
+                size={22}
+                style={{ marginRight: 3, color: COLORS.DALGRAK }}
+              />
+              <Text
+                style={{ fontSize: FONTS.SIZE.CONTENTS, textAlignVertical: "center" }}
+              >
+                관심 달그락
+              </Text>
+            </TouchableOpacity>
+
+          )
+        }
+        
       </View>
     );
   }
