@@ -19,11 +19,12 @@ class DalgrakDetail extends Component {
     let date = new Date().getTime();
     let endDate = this.props.date;
     let sec = (endDate - date) / 1000;
-
     return (
       <View style={styles.dalgrak}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("dalgrak", { id: this.props.idx })}
+          onPress={() => {
+            navigation.navigate("dalgrak", { id: this.props.id })}
+          }
         >
           <View
             style={{
