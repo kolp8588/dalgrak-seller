@@ -18,7 +18,12 @@ import { COLORS, COMMON_STYLES, FONTS } from "../../constants";
 const { height, width } = Dimensions.get("window");
 
 const DargrakScreen = (props) => {
-  var dalgrak = props.feed[props.route.params.id];
+  let dalgrak;
+  for (let item of props.feed) {
+    if ( props.route.params.id == item.id) {
+      dalgrak = item;
+    }
+  }
 
   return (
     <View style={styles.container}>
