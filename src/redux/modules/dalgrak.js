@@ -9,6 +9,7 @@ const SET_CATEGORY = "SET_CATEGORY";
 const REFRESH_STATES = "REFRESH_STATES";
 const SET_FEED = "SET_FEED";
 const SET_BIDDINGS = "SET_BIDDINGS";
+const SET_INTERESTS = "SET_INTERESTS";
 
 // Action Creators
 
@@ -31,6 +32,13 @@ function setFeed(feed) {
   };
 }
 
+function setInterests(interests) {
+  return {
+    type: SET_INTERESTS,
+    interests,
+  };
+}
+
 function setBiddings(biddings) {
   return {
     type: SET_BIDDINGS,
@@ -45,7 +53,9 @@ function getFeed() {
       user: { token },
     } = getState();
     try {
+      const interests = await getInterests(token);
       const result = [];
+      const interestsFeed = [];
       const collection = await secondaryApp
         .firestore()
         .collection("dalgraks")
@@ -78,12 +88,17 @@ function getFeed() {
             }
             item.biddings = biddings;
           }
+          if (interests[dalgrak.id] != undefined) {
+            item.interestId = interests[dalgrak.id];
+            interestsFeed.push(item)
+          }
           result.push(item);
         }
       } else {
         console.log("NO DATA");
       }
       dispatch(setFeed(result));
+      dispatch(setInterests(interestsFeed));
     } catch (error) {
       console.error("ERROR : ", error.message);
     }
@@ -92,7 +107,7 @@ function getFeed() {
 
 // API Actions
 async function getDalgrak(id) {
-  try {
+  try {    
     const dalgrak = await secondaryApp
       .firestore()
       .collection("dalgraks")
@@ -227,7 +242,7 @@ function submitBidding(bidding) {
   };
 }
 
-function submitIntrest(interest) {
+function submitInterest(interest) {
   return async (dispatch, getState) => {
     const {
       user: { token },
@@ -236,17 +251,53 @@ function submitIntrest(interest) {
 
     const response = await secondaryApp
       .firestore()
-      .collection("interests")
+      .collection("interests")      
       .add(interest);
 
       if (response) {
         dispatch(getFeed());
-        return true;
+        return response.id;
       } else {
-        return false;
+        return null;
       }
   };
 }
+async function getInterests(userId) {
+  try {
+    const result = {};
+    const collection = await secondaryApp
+      .firestore()
+      .collection("interests")
+      .where("userId", "==", userId)
+      .get();
+    if (!collection.empty) {
+      for (let interest of collection.docs) {
+        let item = interest.data();
+        result[item.dalgrakId] = interest.id;
+      }
+    } else {
+      console.log("No Interests");
+    }
+    return result;
+  } catch (error) {
+    console.error("ERROR : ", error.message);
+    return null;
+  }
+}
+
+function removeInterest(id) {
+  return async (dispatch) => {
+    await secondaryApp
+      .firestore()
+      .collection("interests")
+      .doc(id)
+      .delete();
+    
+    dispatch(getFeed());
+    return true;
+  };
+}
+
 
 function removeBidding(id) {
   return async (dispatch) => {
@@ -266,8 +317,6 @@ function updateBidding(id) {
   return async (dispatch) => {
     try {
       let request = {status: "ON_SHIPPING"};
-      console.log("ID :")
-      console.log(id)
       await secondaryApp
         .firestore()
         .collection("biddings")
@@ -327,6 +376,8 @@ function reducer(state = initialState, action) {
       return applySetCategory(state, action);
     case REFRESH_STATES:
       return applyRefreshStates(state);
+    case SET_INTERESTS:
+      return applySetInterests(state, action);
     default:
       return state;
   }
@@ -363,6 +414,14 @@ function applyRefreshStates(state) {
   };
 }
 
+function applySetInterests(state, action) {
+  const { interests } = action;
+  return {
+    ...state,
+    interests,
+  };
+}
+
 // Exports
 
 const actionCreators = {
@@ -373,8 +432,9 @@ const actionCreators = {
   submitBidding,
   submitBiddingImages,
   removeBidding,
+  removeInterest,
   updateBidding,
-  submitIntrest,
+  submitInterest,
 };
 
 export { actionCreators };
