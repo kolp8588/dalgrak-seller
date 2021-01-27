@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS, FONTS } from "../constants";
 import FeedScreen from "../screens/FeedScreen";
 import BiddingFeedScreen from "../screens/BiddingFeedScreen";
+import InterestsFeedScreen from "../screens/InterestsFeedScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,13 +30,14 @@ function TopTabsNavigation({ navigation, route }) {
       />
       <Tab.Screen
         name="LikeDalgrak"
-        component={FeedScreen}
+        component={InterestsFeedScreen}
+        test={{a:1,b:2}}
         options={{
           title: "관심 달그락",
         }}
       />
       <Tab.Screen
-        name="Dalgrak"
+        name="Dalgrak"        
         component={FeedScreen}
         options={{
           title: "전체 달그락",
