@@ -112,6 +112,24 @@ function signUp(request) {
         request.userId = response.user.uid;
         delete request.userInfo.password;
 
+        if (Constants.isDevice) {
+          const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+          let finalStatus = existingStatus;
+          if (existingStatus !== 'granted') {
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+          }
+          if (finalStatus !== 'granted') {
+            alert('Failed to get push token for push notification!');
+            return;
+          }
+          const token = (await Notifications.getExpoPushTokenAsync()).data;
+          request.token = token;
+          
+        } else {
+          alert('Must use physical device for Push Notifications');
+        }
+
         if (addProfile(request)) {
           dispatch(setLogIn(response.user.uid));
           dispatch(setUser(response.user));
@@ -250,7 +268,6 @@ function submitSimpleUpload(request) {
       user: { token },
     } = getState();
     request.userId = token;
-
     try {
       const response = await secondaryApp
       .firestore()
@@ -281,6 +298,7 @@ function addCategory(category) {
         userId: token,
         token: profile.token,
       }
+      console.log(request)
       await secondaryApp
         .firestore()
         .collection("likes")
