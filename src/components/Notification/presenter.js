@@ -16,10 +16,18 @@ class Notification extends Component {
           <Text style={{fontSize: FONTS.SIZE.TITLE}}>
             {this.props.title}
           </Text>
-          <Text style={{fontSize: FONTS.SIZE.CONTENTS}}>
+          <Text style={{fontSize: FONTS.SIZE.CONTENTS, color: COLORS.GRAY_LINE}}>
             {this.props.body}
           </Text>            
         </TouchableOpacity>
+        <View
+          style={{
+            borderTopColor: "lightgray",
+            borderTopWidth: 1,
+            marginTop: 25,
+            width: width - 30,
+          }}
+        />
       </View>
     );
   }
@@ -27,12 +35,8 @@ class Notification extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     alignItems: "flex-start"
-  },
-  dalgrak: {
-    marginVertical: 10,
-    marginHorizontal: 30,
   },
 });
 
