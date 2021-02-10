@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "../screens/ProfileScreen";
+import ProfileEditScreen from "../screens/ProfileEditScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import SimpleUploadCategoryScreen from "../screens/SimpleUploadCategoryScreen";
 import SimpleUploadScreen from "../screens/SimpleUploadScreen";
@@ -34,6 +35,24 @@ class ProfileRoute extends Component {
             },
             headerTitle: "나의 달그락",
             headerTintColor: "white",            
+          }}
+        />
+        <Stack.Screen
+          name="ProfileEdit"
+          component={ProfileEditScreen}
+          options={{
+            headerTitle: "프로필 편집",
+            headerTintColor: "white",     
+            // headerRight: () => (
+            //   <TouchableOpacity
+            //     style={{ marginRight: 20 }}
+            //     // onPress={() => navigation.navigate("Events")}
+            //   >
+            //     <Text style={{
+            //       color:"white",
+            //     }}>저장</Text>
+            //   </TouchableOpacity>
+            // ),
           }}
         />
         <Stack.Screen
