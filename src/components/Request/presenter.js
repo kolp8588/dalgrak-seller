@@ -22,29 +22,25 @@ class Request extends Component {
     console.log(this.props)
     var endDate = new Date(this.props.date);
     return (
-      <View style={styles.container}>
-        <Text style={{ fontSize: FONTS.SIZE.TITLE, fontWeight: "bold", marginBottom: 10 }}>
-          주문서
-        </Text>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <TouchableOpacity
-            style={styles.profileBox}
-            onPressOut={this.props.showAS}
-          >
-            <View>            
-              <Image
-                source={require("../../../assets/images/noPhoto.jpg")}
-                style={styles.avatar}
-                defaultSource={require("../../../assets/images/noPhoto.jpg")}
-              />
-              <Text
-                numberOfLines={1}
-                style={{ fontSize: FONTS.SIZE.INFO, width: 200 }}
-              >
-                {this.props.username}
-              </Text>
-            </View>
-          </TouchableOpacity>
+      <View style={styles.container}>        
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+          <View style={{ flexDirection: "row", alignItems: "center"}}>
+            <TouchableOpacity
+              style={styles.profileBox}
+              onPressOut={this.props.showAS}
+            >
+              <View>            
+                <Image
+                  source={require("../../../assets/images/noPhoto.jpg")}
+                  style={styles.avatar}
+                  defaultSource={require("../../../assets/images/noPhoto.jpg")}
+                />             
+              </View>
+            </TouchableOpacity>
+            <Text style={{ fontSize: FONTS.SIZE.TITLE, fontWeight: "bold", textAlignVertical: "center"}}>
+              {this.props.username} 님의 주문서
+            </Text>
+          </View>          
           <View>
             <View style={{ flexDirection: "row" }}>              
               <MaterialCommunityIcons
@@ -130,13 +126,20 @@ class Request extends Component {
             <Text style={styles.titleText}>송</Text>
             <Text style={styles.titleText}>지</Text>
           </View>
-          <Text style={styles.text}>
-            {this.props.address} {" "}
+          <View>
+            <Text style={styles.text}>
+              {this.props.address} {" "}
+              {
+                this.props.status=="WAITING_FOR_PAYMENT" &&
+                this.props.detailAddress
+              } 
+            </Text>
             {
-              this.props.status=="WAITING_FOR_PAYMENT" &&
-              this.props.detailAddress
+              this.props.status!="WAITING_FOR_PAYMENT" &&
+              <Text style={styles.addressInfoText}>* 상세주소는 입찰 성공 시 표시됩니다.</Text>
             } 
-          </Text>          
+          </View>
+          
         </View>
         
         <Text style={styles.titleText}>상세 요청</Text>
@@ -200,6 +203,12 @@ const styles = StyleSheet.create({
     fontSize: FONTS.SIZE.CONTENTS,
     textAlignVertical: "center",
     marginVertical: 5,
+    marginLeft: 20,
+  },
+  addressInfoText: {
+    fontSize: FONTS.SIZE.INFO,
+    color: COLORS.DALGRAK,
+    textAlignVertical: "center",
     marginLeft: 20,
   },
   request: {
