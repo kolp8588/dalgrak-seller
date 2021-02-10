@@ -8,14 +8,22 @@ import {
   TextInput,
 } from "react-native";
 import PropTypes from "prop-types";
-import { ProgressBar } from 'react-native-paper';
 
 import { COLORS, FONTS } from "../../constants";
 const { width, height } = Dimensions.get("window");
 
 const SignUpBusinessInfoScreen = (props) => (
   <View style={styles.container}>
-    <ProgressBar progress={0.66} style={{height: 8}} color={COLORS.DALGRAK} />
+    <View style={{alignItems: "center",}}>
+      <View style={{flexDirection: "row", marginTop: 50, justifyContent: "center"}}>
+        <View style={styles.progressDisabled}/>
+        <View style={styles.progress}/>
+        <View style={styles.progressDisabled}/>
+      </View>
+      <Text style={{color: COLORS.GRAY_LINE, marginTop: 10}}>
+        다음이 마지막 단계입니다!
+      </Text>
+    </View>
     <View style={styles.content}>
       <View style={[styles.inputBox, {
             borderColor: props.businessIdErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
@@ -85,6 +93,25 @@ SignUpBusinessInfoScreen.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white"
+  },
+  progress: {
+    width: 15,
+    height: 15,
+    borderRadius: 20,
+    backgroundColor: COLORS.DALGRAK,
+    borderColor: COLORS.DALGRAK,
+    borderWidth: 5,
+    marginHorizontal: 10,
+  },
+  progressDisabled: {
+    width: 15,
+    height: 15,
+    borderRadius: 20,
+    backgroundColor: COLORS.GRAY_LINE,
+    borderColor: COLORS.GRAY_LINE,
+    borderWidth: 5,
+    marginHorizontal: 10,
   },
   header: {
     flex: 2,
@@ -120,7 +147,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     marginBottom: 15,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   errorText: {
     paddingHorizontal: 10,
@@ -145,6 +172,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     backgroundColor: COLORS.DALGRAK,
     height: 50,
+    borderRadius: 5,
     justifyContent: "center",
   },
   btnText: {
