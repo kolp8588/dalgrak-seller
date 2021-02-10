@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import {
   View,
   Text,
@@ -7,7 +6,6 @@ import {
   RefreshControl,
   StyleSheet,
   Dimensions,
-  Image,
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
@@ -16,8 +14,9 @@ import ProfileNumber from "../ProfileNumber";
 import Like from "../Like";
 import Add from "../Add";
 import SimpleUpload from "../SimpleUpload";
+import { useNavigation } from "@react-navigation/native";
+
 import { COLORS, FONTS } from "../../constants"
-import { TextInput } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width;
 class Profile extends Component {
@@ -35,7 +34,7 @@ class Profile extends Component {
       }
     >
         <View style={styles.header}>
-          <TouchableOpacity onPressOut={this.props.showAS}>
+          <TouchableOpacity onPressOut={() => this.props.navigation.navigate("ProfileEdit")}>
             <ImageBackground
               source={require("../../../assets/images/noPhoto.jpg")}
               style={styles.avatar}
@@ -108,16 +107,91 @@ class Profile extends Component {
             <Add onAddPress={this.props.addSimpleUpload}/>
           </View>
           <View
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: COLORS.MINOR,
-            marginVertical: 10,
-          }}
-        />
-          <Text style={styles.headerText}>
-            구매자 리뷰
-          </Text>          
-        </View>
+            style={{
+              borderTopWidth: 1,
+              borderTopColor: COLORS.MINOR,
+              marginVertical: 10,
+            }}
+          />
+            <TouchableOpacity
+              // onPressOut={() => this.props.navigation.navigate("Notification")}
+              >
+              <View>
+                <Text style={styles.headerText}>
+                  공지사항
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: COLORS.MINOR,
+                marginVertical: 10,
+              }}
+            />
+            <TouchableOpacity
+              // onPressOut={() => this.props.navigation.navigate("FAQ")}
+              >
+              <View>
+                <Text style={styles.headerText}>
+                  고객센터
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: COLORS.MINOR,
+                marginVertical: 10,
+              }}
+            />
+            <TouchableOpacity
+              // onPressOut={() => this.props.navigation.navigate("Delivery")}
+              >
+              <View>
+              <Text style={styles.headerText}>
+                  배송관리
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: COLORS.MINOR,
+                marginVertical: 10,
+              }}
+            />
+            <TouchableOpacity
+              // onPressOut={() => this.props.navigation.navigate("Events")}
+              >
+              <View>
+                <Text style={styles.headerText}>
+                  이벤트
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: COLORS.MINOR,
+                marginVertical: 10,
+              }}
+            />
+            <TouchableOpacity onPressOut={this.props.showAS}>
+              <View>
+                <Text style={styles.headerText}>
+                  로그아웃
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: COLORS.MINOR,
+                marginVertical: 10,
+              }}
+            />
+          </View>
         </ScrollView>
       </View>
     );
@@ -152,9 +226,8 @@ const styles = StyleSheet.create({
   contents: {
     marginHorizontal: 10,
   },
-  headerText: {
+  headerText: {    
     fontSize: FONTS.SIZE.H1,
-    marginBottom: 10,
   },
   name: {
     fontWeight: "600",
@@ -211,4 +284,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default function (props) {
+  const navigation = useNavigation();
+  return <Profile {...props} navigation={navigation} />;
+}
