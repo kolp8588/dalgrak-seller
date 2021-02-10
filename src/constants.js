@@ -10,6 +10,8 @@ export const COLORS = {
   INPUT: "#F2F2F2",
   LIGHT_BLACK: "#4F4F4F",
   DISABLED: "#E0E0E0",
+  GRAY_BACKGROUND: "#F5F5F6",
+  GRAY_LINE: "#BBBDC0"
 };
 
 export const FONTS = {
