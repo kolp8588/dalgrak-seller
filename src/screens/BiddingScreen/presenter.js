@@ -48,7 +48,7 @@ function BiddingScreen(props) {
             <View style={styles.modalRow}>
               <Text style={styles.modalTitleText}>배송지</Text>
               <Text style={styles.modalContentsText}>
-                {dalgrak.address} {dalgrak.detailAddress}
+                {dalgrak.address}
               </Text>
             </View>
             <View style={styles.modalRow}>
@@ -287,26 +287,34 @@ function BiddingScreen(props) {
         style={{
           marginLeft: 20,
           alignItems: "flex-start",
+          alignSelf: "flex-start"
+          
         }}
+        disabled={props.images.length == 5}
         onPress={props.pickImage}
       >
         <View
           style={{
-            height: 50,
-            width: 50,
-            borderRadius: 100,
-            borderWidth: 2,
-            borderColor: COLORS.DALGRAK,
+            height: 60,
+            width: 60,
+            marginTop: 5,
+            borderRadius: 5,
+            borderWidth:1,
+            borderColor: COLORS.GRAY_LINE,
+            backgroundColor: COLORS.GRAY_BACKGROUND,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <MaterialCommunityIcons
-            name="plus"
-            size={30}
-            color={COLORS.DALGRAK}
+            name="camera-outline"
+            size={25}
+            color={props.images.length <= 5 ? COLORS.LIGHT_BLACK : COLORS.GRAY_LINE}
             style={{}}
           />
+          <Text>
+            {props.images.length}/5
+          </Text>
         </View>
       </TouchableOpacity>
       <View
