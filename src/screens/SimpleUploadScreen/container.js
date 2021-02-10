@@ -120,13 +120,8 @@ class Container extends Component {
             }}
             contentContainerStyle={{ alignItems: "center" }}
           >
-            <Text style={[styles.title, {marginTop: 20}]}>
-              카테고리
-            </Text>
             <View style={{
-              flexDirection: "row",
-              alignSelf: "flex-start",
-              marginLeft: 20,
+              alignItems: "center",
             }}>
               <FadeIn>
                 <Image
@@ -135,15 +130,17 @@ class Container extends Component {
                     width: 80,
                     height: 80,
                     marginTop: 10,
-                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: COLORS.GRAY_LINE,
+                    borderRadius: 5,
                   }}
                 />
               </FadeIn>
               <Text
                 style={{
-                  marginLeft: 20,
+                  marginTop: 10,
                   fontSize: FONTS.SIZE.TITLE,
-                  textAlignVertical: "center"
+                  textAlignVertical: "center",
                 }}
               >
                 {category.name}
@@ -151,7 +148,7 @@ class Container extends Component {
             </View>
             
             <Text style={styles.title}>
-              정보
+              상품 정보
             </Text>
             <TextInput
               style={styles.info}
@@ -170,6 +167,7 @@ class Container extends Component {
                 alignSelf: "stretch",
                 flex: 1,
                 flexDirection: "row",
+                alignItems: "center",
               }}
             >
               <TextInputMask
@@ -191,7 +189,7 @@ class Container extends Component {
                 marginLeft: 5,
                 marginRight: 10,
               }}>
-                원 x
+                원 X
               </Text>
               <TextInputMask
                 type={"money"}
@@ -217,10 +215,9 @@ class Container extends Component {
             <Text style={styles.title}>총 단가</Text>
             <View
               style={{
-                alignSelf: "flex-start",
-                alignContent: "center",
-                marginLeft: 20,
                 flexDirection: "row",
+                marginRight: 20,
+                alignSelf: "flex-end"
               }}
             >
               <TextInputMask
@@ -232,11 +229,10 @@ class Container extends Component {
                 }}
                 editable={false}
                 value={total}
-                style={styles.total}
+                style={[styles.total]}
               />
               <Text
                 style={{
-                  alignSelf: "center",
                   fontSize: FONTS.SIZE.TITLE,
                   color: COLORS.DALGRAK,
                 }}
@@ -248,8 +244,9 @@ class Container extends Component {
             <Text style={styles.title}>상품 사진</Text>
             <Text style={{
               alignSelf: "flex-start",
+              color: COLORS.GRAY_LINE,
               fontSize: FONTS.SIZE.INFO,
-              marginLeft: 25,
+              marginLeft: 20,
               marginVertical: 5,
             }}>
               {MESSAGES.SIMPLE_UPLOAD_PICKER_INFO}
@@ -266,21 +263,26 @@ class Container extends Component {
             >
               <View
                 style={{
-                  height: 50,
-                  width: 50,
-                  borderRadius: 100,
-                  borderWidth: 2,
-                  borderColor: images.length <= 5 ? COLORS.DALGRAK : "gray",
+                  height: 60,
+                  width: 60,
+                  marginTop: 5,
+                  borderRadius: 5,
+                  borderWidth:1,
+                  borderColor: COLORS.GRAY_LINE,
+                  backgroundColor: COLORS.GRAY_BACKGROUND,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
                 <MaterialCommunityIcons
-                  name="plus"
-                  size={30}
-                  color={images.length <= 5 ? COLORS.DALGRAK : "gray"}
+                  name="camera-outline"
+                  size={25}
+                  color={images.length <= 5 ? COLORS.LIGHT_BLACK : COLORS.GRAY_LINE}
                   style={{}}
                 />
+                <Text>
+                  {images.length}/5
+                </Text>
               </View>
             </TouchableOpacity>
             <View
@@ -361,6 +363,10 @@ const styles = StyleSheet.create({
     fontSize: FONTS.SIZE.TITLE,
   },
   info: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: COLORS.GRAY_LINE,
+    backgroundColor: COLORS.GRAY_BACKGROUND,
     alignSelf: "flex-start",
     marginHorizontal: 20,
     marginTop: 10,
@@ -380,16 +386,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   textInputStyle: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: COLORS.GRAY_LINE,
+    backgroundColor: COLORS.GRAY_BACKGROUND,
     height: 40,
     width: 100,
     fontSize: FONTS.SIZE.CONTENTS,
-    borderColor: "gray",
-    borderWidth: 1,
     paddingLeft: 10,
   },
   total: {
     height: 40,
-    minWidth: 10,
     fontSize: FONTS.SIZE.TITLE,
     color: COLORS.DALGRAK,
   },
