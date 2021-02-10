@@ -25,7 +25,7 @@ class LoggedOutNavigation extends Component {
             name="SignUp"
             component={SignUpScreen}
             options={{
-              headerTitle: false,
+              headerShown: false,
               headerLeft: () => <View />,
             }}
           />
@@ -33,7 +33,7 @@ class LoggedOutNavigation extends Component {
             name="BusinessInfo"
             component={SignUpBusinessInfoScreen}
             options={{
-              headerTitle: false,
+              headerShown: false,
               headerLeft: () => <View />,
             }}
           />
@@ -41,7 +41,7 @@ class LoggedOutNavigation extends Component {
             name="StoreInfo"
             component={SignUpStoreInfoScreen}
             options={{
-              headerTitle: false,
+              headerShown: false,
               headerLeft: () => <View />,
             }}
           />
@@ -49,7 +49,7 @@ class LoggedOutNavigation extends Component {
             name="Listener"
             component={SignUpStoreInfoScreen}
             options={{
-              headerTitle: false,
+              headerShown: false,
               headerLeft: () => <View />,
             }}
           />
