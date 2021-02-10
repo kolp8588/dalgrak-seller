@@ -45,11 +45,11 @@ const LogInScreen = (props) => (
         onSubmitEditing={props.submit}
       />
       <TouchableOpacity style={styles.touchable} onPressOut={props.submit}>
-        <View style={styles.button}>
+        <View style={styles.loginButton}>
           {props.isSubmitting ? (
             <ActivityIndicator size="small" color="white" />
           ) : (
-            <Text style={styles.btnText}>Log In</Text>
+            <Text style={[styles.btnText, {color: "white"}]}>로그인</Text>
           )}
         </View>
       </TouchableOpacity>
@@ -57,8 +57,8 @@ const LogInScreen = (props) => (
         style={styles.touchable}
         onPress={() => props.navigation.navigate("SignUp")}
       >
-        <View style={styles.button}>
-          <Text style={styles.btnText}>Sign Up</Text>
+        <View style={styles.signUpButton}>
+          <Text style={[styles.btnText, {color: COLORS.LIGHT_BLACK}]}>회원가입</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -107,16 +107,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#3E99EE",
     width: width - 80,
-    marginTop: 15,
   },
-  button: {
+  loginButton: {
     borderRadius: 5,
     backgroundColor: COLORS.DALGRAK,
     height: 50,
     justifyContent: "center",
   },
+  signUpButton: {
+    borderRadius: 5,
+    backgroundColor: "white",
+    height: 50,
+    justifyContent: "center",
+  },
   btnText: {
-    color: "white",
     fontWeight: "600",
     textAlign: "center",
     fontSize: 14,
