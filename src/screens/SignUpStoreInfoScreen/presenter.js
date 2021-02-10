@@ -42,6 +42,16 @@ const SignUpStoreInfoScreen = (props) => (
       </View>
     </Modal>
     <ProgressBar progress={1} style={{height: 8}} color={COLORS.DALGRAK} />
+    <View style={{alignItems: "center",}}>
+      <View style={{flexDirection: "row", marginTop: 50, justifyContent: "center"}}>
+        <View style={styles.progressDisabled}/>
+        <View style={styles.progressDisabled}/>
+        <View style={styles.progress}/>
+      </View>
+      <Text style={{color: COLORS.GRAY_LINE, marginTop: 10}}>
+        달그락 입점을 축하드려요!
+      </Text>
+    </View>
     <View style={styles.content}>
       <View style={[styles.inputBox, {
             borderColor: props.storeNameErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
@@ -80,19 +90,17 @@ const SignUpStoreInfoScreen = (props) => (
         <View style={{flexDirection: "row"}}>
           <TextInput
               placeholder="주소"
-              style={[styles.textInput, {width : width - 80, paddingLeft: 15}]}
+              style={[styles.textInput, {width : width - 140, paddingLeft: 15}]}
               value={props.address}
               editable={false}
             />
-          <TouchableOpacity style={{width: 40, justifyContent: "center", alignItems: "center"}} 
+          <TouchableOpacity style={{width: 100, justifyContent: "center", alignItems: "center"}} 
             onPress={() => {
                 props.onChangeModalVisibility(true);
             }}>
-              <MaterialCommunityIcons
-                  name={"map-search-outline"}
-                  size={30}
-                  style={{ color: COLORS.DALGRAK }}
-                />
+              <View style={styles.searchButton}>
+                <Text style={styles.searchButtonText}>검색</Text>
+            </View>
           </TouchableOpacity>
         </View>
         {props.addressErrorMsg != "" && 
@@ -178,6 +186,25 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: "white"
+  },
+  progress: {
+    width: 15,
+    height: 15,
+    borderRadius: 20,
+    backgroundColor: COLORS.DALGRAK,
+    borderColor: COLORS.DALGRAK,
+    borderWidth: 5,
+    marginHorizontal: 10,
+  },
+  progressDisabled: {
+    width: 15,
+    height: 15,
+    borderRadius: 20,
+    backgroundColor: COLORS.GRAY_LINE,
+    borderColor: COLORS.GRAY_LINE,
+    borderWidth: 5,
+    marginHorizontal: 10,
   },
   header: {
     flex: 2,
@@ -213,7 +240,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     marginBottom: 15,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   errorText: {
     paddingHorizontal: 10,
@@ -234,11 +261,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 25,
   },
+  searchButton: {
+    paddingHorizontal: 7,
+    backgroundColor: COLORS.GRAY_LINE,
+    height: 50,
+    width: 100,
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  searchButtonText: {
+    color: "white",
+    fontWeight: "600",
+    textAlign: "center",
+    fontSize: 12,
+  },
   button: {
     paddingHorizontal: 7,
     backgroundColor: COLORS.DALGRAK,
     height: 50,
     justifyContent: "center",
+    borderRadius: 5,
   },
   btnText: {
     color: "white",
