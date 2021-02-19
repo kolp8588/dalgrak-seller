@@ -53,7 +53,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           <Image
-            source={require('./assets/images/dalgrak_full.png')}
+            source={require('./assets/images/dalgrak-gif.gif')}
             onLoad={this._cacheResourcesAsync}
             resizeMode="stretch"
             style={styles.logo}
@@ -72,7 +72,7 @@ export default class App extends React.Component {
   }
 
   _cacheSplashResourcesAsync = async () => {
-    const gif = require('./assets/images/Logo.gif');
+    const gif = require('./assets/images/dalgrak-gif.gif');
     return Asset.fromModule(gif).downloadAsync();
   };
 
@@ -95,7 +95,7 @@ export default class App extends React.Component {
       console.warn(e);
     } finally {
       // this.setState({ isReady: true });
-      setTimeout(() => {this.setState({isReady: true})}, 1000);
+      setTimeout(() => {this.setState({isReady: true})}, 1500);
     }
   };
 }
