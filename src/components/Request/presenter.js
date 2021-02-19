@@ -20,8 +20,6 @@ class Request extends Component {
     toolTipVisible: false,
   };
   render() {
-    console.log("profile")
-    console.log(this.props)
     var endDate = new Date(this.props.date);
     return (
       <View style={styles.container}>        
