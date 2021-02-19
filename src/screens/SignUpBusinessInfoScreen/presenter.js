@@ -38,9 +38,9 @@ const SignUpBusinessInfoScreen = (props) => (
         value={props.businessId}
         onChangeText={props.changeBusinessId}
       />
+      </View>
       {props.businessIdErrorMsg != "" && 
         (<Text style={styles.errorText}>{props.businessIdErrorMsg}</Text>)}
-      </View>
       <View style={[styles.inputBox, {
             borderColor: props.phoneNumberErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
@@ -53,9 +53,9 @@ const SignUpBusinessInfoScreen = (props) => (
         value={props.phoneNumber}
         onChangeText={props.changePhoneNumber}
       />
+      </View>
       {props.phoneNumberErrorMsg != "" && 
         (<Text style={styles.errorText}>{props.phoneNumberErrorMsg}</Text>)}
-      </View>
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity style={styles.touchable} onPressOut={props.goBack}>
           <View style={styles.button}>
@@ -154,6 +154,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: COLORS.WARNING,
     fontSize: FONTS.SIZE.INFO,
+    alignSelf: "flex-start",
+    marginLeft: 20,
   },
   textInput: {
     height: 50,
