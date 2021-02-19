@@ -63,9 +63,9 @@ const SignUpStoreInfoScreen = (props) => (
           value={props.storeName}
           onChangeText={props.changeStoreName}
         />
-        {props.storeNameErrorMsg != "" && 
-          (<Text style={styles.errorText}>{props.storeNameErrorMsg}</Text>)}
       </View>
+      {props.storeNameErrorMsg != "" && 
+        (<Text style={styles.errorText}>{props.storeNameErrorMsg}</Text>)}
       <View style={[styles.inputBox, {
             borderColor: props.phoneNumberErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
@@ -79,9 +79,9 @@ const SignUpStoreInfoScreen = (props) => (
           maxLength={11}
           onChangeText={props.changePhoneNumber}
         />
-        {props.phoneNumberErrorMsg != "" && 
-            (<Text style={styles.errorText}>{props.phoneNumberErrorMsg}</Text>)}
       </View>
+      {props.phoneNumberErrorMsg != "" && 
+          (<Text style={styles.errorText}>{props.phoneNumberErrorMsg}</Text>)}
       
       <View style={[styles.inputBox, {
         borderColor: props.addressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR,
@@ -102,9 +102,9 @@ const SignUpStoreInfoScreen = (props) => (
             </View>
           </TouchableOpacity>
         </View>
-        {props.addressErrorMsg != "" && 
-          (<Text style={styles.errorText}>{props.addressErrorMsg}</Text>)}
       </View>
+      {props.addressErrorMsg != "" && 
+        (<Text style={styles.errorText}>{props.addressErrorMsg}</Text>)}
       <View style={[styles.inputBox, {
               borderColor: props.detailAddressErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
           }]}>
@@ -114,9 +114,9 @@ const SignUpStoreInfoScreen = (props) => (
               value={props.detailAddress}
               onChangeText={props.changeDetailAddress}
             />
-          {props.detailAddressErrorMsg != "" && 
-            (<Text style={styles.errorText}>{props.detailAddressErrorMsg}</Text>)}
-        </View>
+      </View>
+      {props.detailAddressErrorMsg != "" && 
+        (<Text style={styles.errorText}>{props.detailAddressErrorMsg}</Text>)}
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity style={styles.touchable} onPressOut={props.goBack}>
           <View style={styles.button}>
@@ -246,6 +246,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: COLORS.WARNING,
     fontSize: FONTS.SIZE.INFO,
+    alignSelf: "flex-start",
+    marginLeft: 20,
   },
   textInput: {
     height: 50,
