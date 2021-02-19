@@ -95,10 +95,10 @@ const RelatedDalgrakScreen = (props) => {
           <View style={{alignItems: "center", marginHorizontal: 20}}>
             <FadeIn>
               <Image
-                source={require("../../../assets/images/success.png")}
+                source={require("../../../assets/images/dalgrak-character1.png")}
                 style={{
                   resizeMode: "contain",
-                  width: width * 0.9,
+                  width: width * 0.4,
                   height: height * 0.4,
                 }}
               />
@@ -180,10 +180,10 @@ const RelatedDalgrakScreen = (props) => {
           <View style={{alignItems: "center", marginHorizontal: 20}}>
             <FadeIn>
               <Image
-                source={require("../../../assets/images/fail.png")}
+                source={require("../../../assets/images/dalgrak-character2.png")}
                 style={{
                   resizeMode: "contain",
-                  width: width * 0.5,
+                  width: width * 0.4,
                   height: height * 0.4,
                 }}
               />
