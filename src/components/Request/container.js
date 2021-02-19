@@ -13,8 +13,6 @@ class Container extends Component {
   static propTypes = {};
 
   componentDidMount() {
-    console.log("CHECK :")
-    console.log(this.props)
     if (this.props.interestId != undefined) {
       this.setState({
         interestId: this.props.interestId,

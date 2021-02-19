@@ -1,18 +1,17 @@
 import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, SafeAreaView } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { COLORS, FONTS } from "../constants";
 import HomeRoute from "../routes/HomeRoute";
 import ProfileRoute from "../routes/ProfileRoute";
-import { TextInput } from "react-native-gesture-handler";
 
 const Tab = createBottomTabNavigator();
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
-    <View
+    <SafeAreaView
       style={{
         flexDirection: "row",
         backgroundColor: "white",
@@ -88,7 +87,7 @@ function MyTabBar({ state, descriptors, navigation }) {
           </TouchableOpacity>
         );
       })}
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Tooltip from "react-native-walkthrough-tooltip";
@@ -19,6 +20,7 @@ class Request extends Component {
     toolTipVisible: false,
   };
   render() {
+    console.log("profile")
     console.log(this.props)
     var endDate = new Date(this.props.date);
     return (
@@ -27,7 +29,7 @@ class Request extends Component {
           <View style={{ flexDirection: "row", alignItems: "center"}}>
             <TouchableOpacity
               style={styles.profileBox}
-              onPressOut={this.props.showAS}
+              onPressOut={() => this.props.navigation.navigate("profile")}
             >
               <View>            
                 <Image
@@ -221,4 +223,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Request;
+export default function (props) {
+  const navigation = useNavigation();
+  return <Request {...props} navigation={navigation} />;
+}

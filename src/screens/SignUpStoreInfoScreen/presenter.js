@@ -41,7 +41,6 @@ const SignUpStoreInfoScreen = (props) => (
         </View>
       </View>
     </Modal>
-    <ProgressBar progress={1} style={{height: 8}} color={COLORS.DALGRAK} />
     <View style={{alignItems: "center",}}>
       <View style={{flexDirection: "row", marginTop: 50, justifyContent: "center"}}>
         <View style={styles.progressDisabled}/>

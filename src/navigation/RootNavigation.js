@@ -13,6 +13,7 @@ import SuccessfulBiddingScreen from "../screens/SuccessfulBiddingScreen";
 import CallScreen from "../screens/CallScreen";
 import CallSettingsScreen from "../screens/CallSettingsScreen";
 import { COLORS } from "../constants";
+import CustomerProfileScreen from "../screens/CustomerProfileScreen";
 const Stack = createStackNavigator();
 
 class RootNavigation extends Component {
@@ -66,6 +67,13 @@ class RootNavigation extends Component {
             component={BiddingScreen}
             options={{
               headerTitle: "입찰하기",
+            }}
+          />
+          <Stack.Screen
+            name="profile"
+            component={CustomerProfileScreen}
+            options={{
+              headerTitle: "구매자 프로필",
             }}
           />
           <Stack.Screen
