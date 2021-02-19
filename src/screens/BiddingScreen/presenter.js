@@ -15,6 +15,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextInputMask } from "react-native-masked-text";
 import { TextInput } from "react-native-gesture-handler";
 import DropDownPicker from "react-native-dropdown-picker";
+import Moment from 'moment';
+
 import Request from "../../components/Request";
 import { COLORS, FONTS, MESSAGES } from "../../constants";
 
@@ -37,7 +39,7 @@ function BiddingScreen(props) {
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalTitleText}>마감</Text>
-              <Text style={styles.modalContentsText}>{dalgrak.date}</Text>
+              <Text style={styles.modalContentsText}>{Moment(dalgrak.date).format('YYYY년 MM월 DD일 HH시 mm분')}</Text>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalTitleText}>수량</Text>
