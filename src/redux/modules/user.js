@@ -65,23 +65,23 @@ function login(username, password) {
       if (response && response.user) {
         const request = {};
         request.userId = response.user.uid;
-        if (Constants.isDevice) {
-          const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-          let finalStatus = existingStatus;
-          if (existingStatus !== 'granted') {
-            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-            finalStatus = status;
-          }
-          if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
-            return;
-          }
-          const token = (await Notifications.getExpoPushTokenAsync()).data;
-          request.token = token;
+        // if (Constants.isDevice) {
+        //   const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        //   let finalStatus = existingStatus;
+        //   if (existingStatus !== 'granted') {
+        //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        //     finalStatus = status;
+        //   }
+        //   if (finalStatus !== 'granted') {
+        //     alert('Failed to get push token for push notification!');
+        //     return;
+        //   }
+        //   const token = (await Notifications.getExpoPushTokenAsync()).data;
+        //   request.token = token;
           
-        } else {
-          alert('Must use physical device for Push Notifications');
-        }
+        // } else {
+        //   alert('Must use physical device for Push Notifications');
+        // }
 
         const isUpdated = await updateProfile(request);
         if (isUpdated) {
@@ -189,7 +189,7 @@ async function getProfile(userId) {
       .collection("sellers")
       .where("userId", "==", userId)
       .get();
-    if (collection != null) {
+    if (!collection.empty) {
       for (let profile of collection.docs) {     
         const item = profile.data();
         const likes = await secondaryApp
@@ -227,9 +227,6 @@ async function getProfile(userId) {
     console.error("ERROR : ", error.message);
   }
   return null;
-}
-
-function checkDup(username, password) {
 }
 
 function getNotifications() {
@@ -389,6 +386,44 @@ function getOwnProfile() {
   };
 }
 
+function emailDupCheck(email) {
+  return async (dispatch, getState) => {
+    try {
+      const collection = await secondaryApp
+      .firestore()
+      .collection("sellers")
+      .where("userInfo.email", "==", email)
+      .get();
+      if (collection.empty) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log(error)
+    }
+    return false;
+  };
+}
+
+function usernameDupCheck(username) {
+  return async (dispatch, getState) => {
+    try {
+      const collection = await secondaryApp
+      .firestore()
+      .collection("sellers")
+      .where("userInfo.username", "==", username)
+      .get();
+      if (collection.empty) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log(error)
+    }
+    return false;
+  };
+}
+
 
 // Initial State
 
@@ -471,6 +506,8 @@ const actionCreators = {
   removeSimpleUpload,
   getOwnProfile,
   submitSimpleUpload,
+  emailDupCheck,
+  usernameDupCheck,
 };
 
 export { actionCreators };
