@@ -13,6 +13,8 @@ class Container extends Component {
     passwordErrorMsg: "",
     passwordCheck: "",
     passwordCheckErrorMsg: "",
+    isValidEmail: false,
+    isValidUsername: false,
     isComplete: false,
   };
 
@@ -22,6 +24,8 @@ class Container extends Component {
     return (
       <SignUpScreen
         {...this.state}
+        emailDupCheck={this._emailDupCheck}
+        usernameDupCheck={this._usernameDupCheck}
         changeUsername={this._changeUsername}
         changeEmail={this._changeEmail}
         changePassword={this._changePassword}
@@ -41,13 +45,16 @@ class Container extends Component {
       passwordErrorMsg,
       passwordCheck,
       passwordCheckErrorMsg,
+      isValidEmail,
+      isValidUsername,
       isComplete,
     } = this.state;
 
     let newStatus = false
     if (username && email && password && passwordCheck
-      && usernameErrorMsg == "" && emailErrorMsg == ""
-      && passwordErrorMsg == "" && passwordCheckErrorMsg == "") {
+      && usernameErrorMsg == MESSAGES.USERNAME_NOT_DUP && emailErrorMsg == MESSAGES.EMAIL_NOT_DUP
+      && passwordErrorMsg == "" && passwordCheckErrorMsg == ""
+      && isValidUsername && isValidEmail) {
       newStatus = true
     }
     if (isComplete != newStatus) {
@@ -55,7 +62,12 @@ class Container extends Component {
     }
   }
   _changeUsername = (text) => {
-    this.setState({ username: text });
+    let regex = /^[가-힣0-9a-zA-Z]{2,10}$/;
+    let usernameError = ""
+    if (!regex.test(text)) {
+      usernameError = MESSAGES.USERNAME_ERROR
+    }
+    this.setState({ username: text, isValidUsername: false, usernameErrorMsg: usernameError });
   };
   _changeEmail = (text) => {
     let regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -63,7 +75,7 @@ class Container extends Component {
     if (!regex.test(text)) {
       emailError = MESSAGES.EMAIL_ERROR
     }
-    this.setState({ email: text, emailErrorMsg: emailError});
+    this.setState({ email: text, isValidEmail: false, emailErrorMsg: emailError});
   };
   _changePassword = (text) => {
     let regex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z`~!@#$%^&*()-_+=]{8,16}$/; 
@@ -92,6 +104,25 @@ class Container extends Component {
         password: password,
       }
       this.props.navigation.navigate("BusinessInfo", {userInfo: userInfo})
+    }
+  };
+  _emailDupCheck = async () => {
+    const { emailDupCheck } = this.props;
+    const { email } = this.state;
+    if (await emailDupCheck(email)) {
+      this.setState({ isValidEmail: true, emailErrorMsg: MESSAGES.EMAIL_NOT_DUP});
+    } else {
+      this.setState({ isValidEmail: false, emailErrorMsg: MESSAGES.EMAIL_DUP_ERROR});
+    }
+  };
+
+  _usernameDupCheck = async () => {
+    const { usernameDupCheck } = this.props;
+    const { username } = this.state;
+    if (await usernameDupCheck(username)) {
+      this.setState({ isValidUsername: true, usernameErrorMsg: MESSAGES.USERNAME_NOT_DUP });
+    } else {
+      this.setState({ isValidUsername: false, usernameErrorMsg: MESSAGES.USERNAME_DUP_ERROR});
     }
   };
 }
