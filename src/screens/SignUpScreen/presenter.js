@@ -26,33 +26,59 @@ const SignUpScreen = (props) => (
     </View>
     <View style={styles.content}>
     <View style={[styles.inputBox, {
-          borderColor: props.usernameErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+          borderColor: props.isValidUsername == false && props.usernameErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
-        <TextInput
-          placeholder="닉네임"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          autoCorrect={false}
-          value={props.username}
-          onChangeText={props.changeUsername}
-          maxLength={20}
-        />
+        <View style={{flexDirection: "row"}}>
+          <TextInput
+            placeholder="닉네임"
+            style={[styles.textInput, {width : width - 140, paddingLeft: 15}]}
+            autoCapitalize={"none"}
+            autoCorrect={false}
+            value={props.username}
+            onChangeText={props.changeUsername}
+            maxLength={10}
+          />
+          <TouchableOpacity style={{width: 100, justifyContent: "center", alignItems: "center"}} 
+            onPress={() => {
+                props.usernameDupCheck();
+            }}>
+              <View style={styles.searchButton}>
+                <Text style={styles.searchButtonText}>중복확인</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
+      {props.usernameErrorMsg != "" && 
+      (<Text style={[styles.errorText, {color: props.isValidUsername ? 
+        COLORS.DALGRAK : COLORS.WARNING}]}>
+          {props.usernameErrorMsg}</Text>)}
       <View style={[styles.inputBox, {
-          borderColor: props.emailErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
+          borderColor: props.isValidEmail == false && props.emailErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
-        <TextInput
-          placeholder="이메일"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          autoCorrect={false}
-          value={props.email}
-          onChangeText={props.changeEmail}
-          maxLength={30}
-        />
-        {props.emailErrorMsg != "" && 
-        (<Text style={styles.errorText}>{props.emailErrorMsg}</Text>)}
+          <View style={{flexDirection: "row"}}>
+            <TextInput
+              placeholder="이메일"
+              style={[styles.textInput, {width : width - 140, paddingLeft: 15}]}
+              autoCapitalize={"none"}
+              autoCorrect={false}
+              value={props.email}
+              onChangeText={props.changeEmail}
+              maxLength={30}
+            />
+            <TouchableOpacity style={{width: 100, justifyContent: "center", alignItems: "center"}} 
+                onPress={() => {
+                    props.emailDupCheck();
+                }}>
+                  <View style={styles.searchButton}>
+                    <Text style={styles.searchButtonText}>중복확인</Text>
+                </View>
+            </TouchableOpacity>
+          </View>
       </View>
+      {props.emailErrorMsg != "" && 
+      (<Text style={[styles.errorText, {color: props.isValidEmail ? 
+        COLORS.DALGRAK : COLORS.WARNING}]}>
+          {props.emailErrorMsg}</Text>)}
       <View style={[styles.inputBox, {
           borderColor: props.passwordErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
@@ -68,9 +94,9 @@ const SignUpScreen = (props) => (
           onSubmitEditing={props.submit}
           maxLength={16}
         />
-        {props.passwordErrorMsg != "" && 
-        (<Text style={styles.errorText}>{props.passwordErrorMsg}</Text>)}
       </View>
+      {props.passwordErrorMsg != "" && 
+      (<Text style={styles.errorText}>{props.passwordErrorMsg}</Text>)}
       <View style={[styles.inputBox, {
           borderColor: props.passwordCheckErrorMsg != "" ? COLORS.WARNING : COLORS.MINOR
         }]}>
@@ -86,9 +112,9 @@ const SignUpScreen = (props) => (
           onSubmitEditing={props.submit}
           maxLength={16}
         />
-        {props.passwordCheckErrorMsg != "" && 
-          (<Text style={styles.errorText}>{props.passwordCheckErrorMsg}</Text>)}
       </View>
+      {props.passwordCheckErrorMsg != "" && 
+        (<Text style={styles.errorText}>{props.passwordCheckErrorMsg}</Text>)}
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity style={styles.touchable} onPressOut={props.goBack}>
           <View style={styles.button}>
@@ -186,10 +212,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   errorText: {
-    paddingHorizontal: 10,
     marginBottom: 10,
     color: COLORS.WARNING,
     fontSize: FONTS.SIZE.INFO,
+    alignSelf: "flex-start",
+    marginLeft: 20,
   },
   textInput: {
     height: 50,
@@ -203,6 +230,20 @@ const styles = StyleSheet.create({
     width: width / 2 - 40,
     marginHorizontal: 10,
     marginTop: 25,
+  },
+  searchButton: {
+    paddingHorizontal: 7,
+    backgroundColor: COLORS.GRAY_LINE,
+    height: 50,
+    width: 100,
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  searchButtonText: {
+    color: "white",
+    fontWeight: "600",
+    textAlign: "center",
+    fontSize: 12,
   },
   button: {
     paddingHorizontal: 7,
