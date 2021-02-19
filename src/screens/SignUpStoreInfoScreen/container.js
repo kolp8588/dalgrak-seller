@@ -58,7 +58,12 @@ class Container extends Component {
     );
   }
   _changeStoreName = (text) => {
-    this.setState({ storeName: text });
+    let regex = /^[가-힣0-9a-zA-Z]{1,20}$/;
+    let storeNameError = ""
+    if (!regex.test(text)) {
+      storeNameError = MESSAGES.STORENAME_ERROR
+    }
+    this.setState({ storeName: text, storeNameErrorMsg: storeNameError });
   };
   _changePhoneNumber = (text) => {
     let error = ""
