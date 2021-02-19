@@ -59,6 +59,7 @@ function getFeed() {
       const collection = await secondaryApp
         .firestore()
         .collection("dalgraks")
+        .where("date", ">=", new Date().getTime())
         .get();
       if (!collection.empty) {
         for (let dalgrak of collection.docs) {
