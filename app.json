@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "달그락 for 판매자",
+    "name": "dalgrak-seller",
     "slug": "dalgrak-seller",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,7 +21,7 @@
     },
     "android": {
       "useNextNotificationsApi": true,
-      "package": "com.kolp.dalgrak_seller",
+      "package": "com.kolp.dalgrak-seller",
       "googleServicesFile": "./google-services.json"
     },
     "notification": {
