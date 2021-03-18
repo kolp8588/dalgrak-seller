@@ -21,7 +21,7 @@
     },
     "android": {
       "useNextNotificationsApi": true,
-      "package": "com.kolp.dalgrak-seller",
+      "package": "com.kolp.dalgrak_seller",
       "googleServicesFile": "./google-services.json"
     },
     "notification": {
